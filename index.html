@@ -366,6 +366,12 @@
   .ai-head-title{display:flex; align-items:center; gap:9px; font-size:13.5px; font-weight:600;}
   .ai-head-title .dot{width:8px;height:8px;border-radius:50%;background:#5fd08a;}
   .ai-head button{background:none;border:none;color:#c9d3da;font-size:16px;cursor:pointer;}
+  .ai-toolbar{ padding:8px 12px; border-bottom:1px solid var(--line); background:#fff; }
+  .ai-mode-btn{
+    width:100%; background:var(--bronze-soft); color:var(--bronze); border:1px dashed var(--bronze);
+    border-radius:9px; padding:8px 10px; font-size:12px; font-weight:700; cursor:pointer;
+  }
+  .ai-mode-btn:hover{ background:var(--bronze); color:#fff; }
   .ai-body{flex:1; overflow-y:auto; padding:14px 14px 6px; display:flex; flex-direction:column; gap:12px; background:var(--paper);}
   .ai-msg{max-width:88%; font-size:13px; line-height:1.5; padding:10px 13px; border-radius:12px;}
   .ai-msg.bot{background:#fff; border:1px solid var(--line); align-self:flex-start; border-top-left-radius:3px;}
@@ -514,6 +520,17 @@
   .plan-lock-actions{ display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:14px; }
   .plan-lock-actions .nb-btn{ width:100%; padding:11px; border-radius:10px; }
   .plan-lock-dismiss{ background:none; border:none; color:var(--text-muted); font-size:11.5px; text-decoration:underline; cursor:pointer; }
+
+  /* ---------- ESTADO DE VIGENCIA DE NORMAS ---------- */
+  .estado-badge{
+    display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; padding:4px 10px;
+    border-radius:16px; white-space:nowrap; flex-shrink:0;
+  }
+  .estado-badge.sm{ font-size:10px; padding:2px 8px; }
+  .estado-badge.estado-vigente{ background:var(--seal-green-soft); color:var(--seal-green); }
+  .estado-badge.estado-derogada{ background:#f5e3e0; color:var(--danger); }
+  .estado-badge.estado-modificada{ background:var(--slate-blue-soft); color:var(--slate-blue); }
+  .vinculos-list{ display:flex; flex-wrap:wrap; gap:8px; }
   @keyframes nbSaveSpin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
   @media(max-width:880px){ .nb-expand-btn{display:none;} }
 
@@ -762,7 +779,7 @@
     <div class="plan-lock-head">
       <div class="plan-lock-icon">🔒</div>
       <h3>Esta sección está bloqueada</h3>
-      <p id="planLockIntro">Estás en <b>Plan Municipio propio</b>.</p>
+      <p id="planLockIntro">Estás en <b>Plan Municipio Propio</b>.</p>
     </div>
     <div class="plan-lock-body">
       <div class="plan-lock-fomo">
@@ -815,7 +832,7 @@
     <input type="password" id="loginPass" class="login-input" placeholder="••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()">
     <div class="login-error" id="loginError"></div>
     <button class="login-btn" onclick="attemptLogin()">Ingresar</button>
-    <div class="login-hint">Demo de diseño — usuarios de prueba: <b>admin / 1234</b> (Centenario, Neuquén · todo el digesto) · <b>admin1 / 1234</b> (Bahía Blanca, Buenos Aires · solo su municipio)<br>Para probar "Compartir" en el Anotador, ya están cargadas <b>María González</b> y <b>Juan Pérez</b>.</div>
+    <div class="login-hint">Demo de diseño — usuarios de prueba: <b>admin / 1234</b> (Centenario, Neuquén · todo el digesto) · <b>admin1 / 1234</b> (Bahía Blanca, Buenos Aires · solo su municipio) · <b>admin2 / 1234</b> (Villa La Angostura · digesto aún no cargado)<br>Para probar "Compartir" en el Anotador, ya están cargadas <b>María González</b> y <b>Juan Pérez</b>.</div>
   </div>
 </div>
 
@@ -825,7 +842,7 @@
       <div class="brand-mark">MU</div>
       <div class="brand-name">Modernización <span>Urbana</span></div>
     </div>
-    <span class="plan-badge" id="headerPlanBadge" onclick="showPage('planes'); renderPlanesPage();" style="cursor:pointer;" title="Ver planes y prestaciones">Plan Municipio propio</span>
+    <span class="plan-badge" id="headerPlanBadge" onclick="showPage('planes'); renderPlanesPage();" style="cursor:pointer;" title="Ver planes y prestaciones">Plan Municipio Propio</span>
   </div>
   <nav class="tabs" id="tabs">
     <button data-page="digesto" class="active" data-i18n="nav_digesto">Mi Digesto</button>
@@ -892,6 +909,24 @@
       <p data-i18n="edu_card_desc">Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.</p>
       <div class="btn-row"><button class="btn-primary" data-i18n="btn_ir_curso">Ir al Curso</button><button class="btn-secondary" data-i18n="btn_acerca_curso">Acerca del Curso</button></div>
     </div>
+    <div class="service-card">
+      <div class="icon-box">⚖️</div>
+      <h3>Técnica Legislativa Municipal</h3>
+      <p>Cómo estructurar un VISTO, un CONSIDERANDO y un articulado sólido; errores frecuentes que invalidan una ordenanza; y buenas prácticas de redacción normativa a nivel municipal.</p>
+      <div class="btn-row"><button class="btn-primary">Ir al Curso</button><button class="btn-secondary">Acerca del Curso</button></div>
+    </div>
+    <div class="service-card">
+      <div class="icon-box">📊</div>
+      <h3>Análisis de Impacto Normativo</h3>
+      <p>Metodología para evaluar el impacto económico, social y urbanístico de una norma antes de sancionarla, y cómo presentar esos hallazgos al Concejo Deliberante.</p>
+      <div class="btn-row"><button class="btn-primary">Ir al Curso</button><button class="btn-secondary">Acerca del Curso</button></div>
+    </div>
+    <div class="service-card">
+      <div class="icon-box">🧭</div>
+      <h3>Estrategia y Gestión Legislativa</h3>
+      <p>Cómo priorizar una agenda legislativa, construir consensos entre bloques, y planificar la implementación de una norma una vez sancionada.</p>
+      <div class="btn-row"><button class="btn-primary">Ir al Curso</button><button class="btn-secondary">Acerca del Curso</button></div>
+    </div>
   </section>
 
   <!-- ================= NOSOTROS ================= -->
@@ -953,12 +988,14 @@
     <input id="apTitulo" class="login-input" placeholder="Título del anteproyecto o proyecto">
     <label class="login-label">Rubro</label>
     <select id="apRubro" class="nb-reason-select" style="margin-bottom:10px;"></select>
-    <label class="login-label">Municipio / origen (opcional)</label>
-    <input id="apMunicipio" class="login-input" placeholder="Ej: Centenario, Neuquén">
+    <label class="login-label">Municipio de origen (opcional — dejalo en blanco para "modelo general", visible a cualquier plan)</label>
+    <select id="apMunicipioSel" class="nb-reason-select" style="margin-bottom:10px;"></select>
     <label class="login-label">Resumen breve</label>
     <textarea id="apResumen" class="nb-textarea" style="min-height:70px;" placeholder="2 o 3 líneas que expliquen de qué se trata..."></textarea>
     <label class="login-label">Análisis / contenido completo</label>
     <textarea id="apCuerpo" class="nb-textarea" style="min-height:170px;" placeholder="Pegá acá el análisis o el texto completo..."></textarea>
+    <label class="login-label">Link al PDF original (opcional)</label>
+    <input id="apPdfUrl" class="login-input" placeholder="https://...">
     <div class="filter-actions">
       <button class="clear" onclick="closeApForm()">Cancelar</button>
       <button class="apply" onclick="submitAnteproyecto()">Guardar</button>
@@ -1006,6 +1043,9 @@
   <div class="ai-head">
     <div class="ai-head-title"><span class="dot"></span> <span data-i18n="ai_head">Asistente del Digesto</span></div>
     <button onclick="toggleAI()">✕</button>
+  </div>
+  <div class="ai-toolbar">
+    <button class="ai-mode-btn" onclick="aiStartDraft()">📝 Armar un anteproyecto</button>
   </div>
   <div class="ai-body" id="aiBody"></div>
   <div class="ai-foot">
@@ -1056,14 +1096,15 @@ const MUNICIPIOS = {
   centenario: {
     nombre: "Centenario", provincia: "Neuquén", pais: "Argentina", plan: "Municipio propio",
     normas: [
-      {nro:"9996", anio:2024, tipoNorma:"Ordenanza", tema:"Modificación del esquema de financiamiento de la contribución por mejoras para obra de pavimento y obras complementarias en Barrio 173 Viviendas y reapertura del registro de oposición", rama:"Tributario", subtema:"Contribuciones", impacto:"Económico", complejidad:"Medio", fechaSancion:"27 de septiembre de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Pavimento urbano y obras complementarias Barrio 173 Viviendas: nuevo plan de financiamiento de la contribución por mejora", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ordenanza N° 9972/2024", relacionadas:"Ordenanza N° 4774/05, Ordenanza N° 9972/2024", detalle:"Aprueba un nuevo plan de financiamiento para el pago de la contribución por mejora del proyecto \"Pavimento Urbano y Obras Complementarias Barrio 173 Viviendas\" (aprobado por Ordenanza N° 9972/2024), disponiendo quita de interés por financiación y habilitando el pago contado con descuento o en 6, 9, 12, 18, 24, 36 o 48 cuotas sin interés. Autoriza la reapertura del Registro de Oposición por 15 días corridos a partir de la promulgación, por excepción al Art. 10 inc. 2 de la Ordenanza N° 4774/05, y comunica al Poder Ejecutivo Municipal.", keywords:["ordenanza 9996","contribución por mejoras","financiación","quita de interés","cuotas sin interés","descuento pago contado","registro de oposición","reapertura","ordenanza 4774/05","pavimento urbano","barrio 173 viviendas","centenario","neuquén"]},
+      {nro:"9996", anio:2024, tipoNorma:"Ordenanza", tema:"Modificación del esquema de financiamiento de la contribución por mejoras para obra de pavimento y obras complementarias en Barrio 173 Viviendas y reapertura del registro de oposición", rama:"Tributario", subtema:"Contribuciones", impacto:"Económico", complejidad:"Medio", fechaSancion:"27 de septiembre de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Pavimento urbano y obras complementarias Barrio 173 Viviendas: nuevo plan de financiamiento de la contribución por mejora", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ordenanza N° 9972/2024", relacionadas:"Ordenanza N° 4774/05, Ordenanza N° 9972/2024", detalle:"Aprueba un nuevo plan de financiamiento para el pago de la contribución por mejora del proyecto \"Pavimento Urbano y Obras Complementarias Barrio 173 Viviendas\" (aprobado por Ordenanza N° 9972/2024), disponiendo quita de interés por financiación y habilitando el pago contado con descuento o en 6, 9, 12, 18, 24, 36 o 48 cuotas sin interés. Autoriza la reapertura del Registro de Oposición por 15 días corridos a partir de la promulgación, por excepción al Art. 10 inc. 2 de la Ordenanza N° 4774/05, y comunica al Poder Ejecutivo Municipal.", keywords:["ordenanza 9996","contribución por mejoras","financiación","quita de interés","cuotas sin interés","descuento pago contado","registro de oposición","reapertura","ordenanza 4774/05","pavimento urbano","barrio 173 viviendas","centenario","neuquén"], estado:"Vigente", vinculos:[{muniKey:"centenario",nro:"9972",anio:2024,relacion:"Reglamenta a"}]},
       {nro:"9994", anio:2024, tipoNorma:"Ordenanza", tema:"Autorización de préstamo provincial y afectación de recursos en garantía", rama:"Administrativo", subtema:"Actos Administrativos", impacto:"Económico", complejidad:"Medio", fechaSancion:"20 de septiembre de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Autorización de préstamo provincial con afectación de recursos en garantía", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Autoriza al Departamento Ejecutivo Municipal a gestionar un préstamo ante la Provincia de Neuquén, afectando recursos de coparticipación como garantía del repago de la obligación asumida.", keywords:["ordenanza 9994","préstamo provincial","garantía","coparticipación","centenario"]},
-      {nro:"9972", anio:2024, tipoNorma:"Ordenanza", tema:"Aprobación de anteproyecto de pavimento y obras complementarias con registro de oposición", rama:"Planeamiento Territorial", subtema:"Infraestructura Pública", impacto:"Urbanístico", complejidad:"Medio", fechaSancion:"6 de septiembre de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Anteproyecto Pavimento Urbano y Obras Complementarias Barrio 173 Viviendas", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ordenanza N° 9996/2024", relacionadas:"Ordenanza N° 4774/05, Ordenanza N° 9996/2024", detalle:"Aprueba el anteproyecto de Pavimento Urbano y Obras Complementarias para el Barrio 173 Viviendas, declara la obra de utilidad pública y pago obligatorio, y abre el Registro de Oposición por el término de 10 días corridos conforme la Ordenanza N° 4774/05.", keywords:["ordenanza 9972","anteproyecto","pavimento","obras complementarias","registro de oposición","utilidad pública","barrio 173 viviendas"]},
+      {nro:"9972", anio:2024, tipoNorma:"Ordenanza", tema:"Aprobación de anteproyecto de pavimento y obras complementarias con registro de oposición", rama:"Planeamiento Territorial", subtema:"Infraestructura Pública", impacto:"Urbanístico", complejidad:"Medio", fechaSancion:"6 de septiembre de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Anteproyecto Pavimento Urbano y Obras Complementarias Barrio 173 Viviendas", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ordenanza N° 9996/2024", relacionadas:"Ordenanza N° 4774/05, Ordenanza N° 9996/2024", detalle:"Aprueba el anteproyecto de Pavimento Urbano y Obras Complementarias para el Barrio 173 Viviendas, declara la obra de utilidad pública y pago obligatorio, y abre el Registro de Oposición por el término de 10 días corridos conforme la Ordenanza N° 4774/05.", keywords:["ordenanza 9972","anteproyecto","pavimento","obras complementarias","registro de oposición","utilidad pública","barrio 173 viviendas"], estado:"Modificada", vinculos:[{muniKey:"centenario",nro:"9996",anio:2024,relacion:"Modificada por"}]},
       {nro:"6365", anio:2013, tipoNorma:"Ordenanza", tema:"Promoción industrial municipal: establece un régimen para fomentar instalación y desarrollo de industrias en el Parque Industrial de Centenario", rama:"Desarrollo Económico", subtema:"Promoción Industrial", impacto:"Económico", complejidad:"Alto", fechaSancion:"14 de noviembre de 2013", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Régimen de Promoción Industrial - Parque Industrial de Centenario", anexos:"Anexo I: cuadro de beneficios fiscales", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Crea un régimen de promoción para la instalación y el desarrollo de industrias dentro del Parque Industrial de Centenario, con beneficios fiscales escalonados según nivel de inversión y generación de empleo local.", keywords:["ordenanza 6365","promoción industrial","parque industrial","beneficios fiscales","empleo","centenario"]},
       {nro:"6271", anio:2012, tipoNorma:"Ordenanza", tema:"Creación de nueva zona urbana: define un Área de Servicios Turísticos, Comerciales y Urbanísticos, con carácter, usos admitidos y delimitación territorial", rama:"Urbanístico", subtema:"Zonificación", impacto:"Urbanístico", complejidad:"Alto", fechaSancion:"9 de agosto de 2012", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Área de Servicios Turísticos, Comerciales y Urbanísticos (ASTCU)", anexos:"Plano de delimitación territorial", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Define una nueva zona urbana denominada Área de Servicios Turísticos, Comerciales y Urbanísticos, estableciendo su carácter, los usos del suelo admitidos y su delimitación territorial dentro del ejido municipal.", keywords:["ordenanza 6271","zonificación","área de servicios","turístico","comercial","urbanístico","centenario"]},
       {nro:"5449", anio:2009, tipoNorma:"Ordenanza", tema:"Ordenamiento vehicular: sentidos de circulación y prohibiciones de estacionamiento/ingreso de pesados en calles de barrio; medidas de señalización y difusión", rama:"Administrativo", subtema:"Tránsito", impacto:"Social", complejidad:"Bajo", fechaSancion:"3 de junio de 2009", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Ordenamiento de Sentidos de Circulación y Restricción de Vehículos Pesados", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Establece nuevos sentidos de circulación en calles de barrio, prohíbe el estacionamiento y el ingreso de vehículos de carga pesada en las mismas, y dispone la señalización y difusión correspondientes.", keywords:["ordenanza 5449","tránsito","sentidos de circulación","vehículos pesados","señalización","centenario"]},
       {nro:"5248", anio:2008, tipoNorma:"Ordenanza", tema:"Adhiere a la Ley Provincial 2189 y su modificatoria 2370 que establece régimen especial de descuentos automáticos de cuotas de viviendas del IPVUN para beneficiarios agentes públicos municipales y provinciales, con el fin de reducir morosidad", rama:"Administrativo", subtema:"Actos Administrativos", impacto:"Económico", complejidad:"Bajo", fechaSancion:"12 de mayo de 2008", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Adhesión al Régimen de Descuento Automático de Cuotas IPVUN", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ley Provincial 2189 y 2370", relacionadas:"No consta", detalle:"Adhiere al régimen previsto por la Ley Provincial 2189 y su modificatoria 2370, habilitando el descuento automático de haberes para el pago de cuotas de viviendas del IPVUN a agentes públicos municipales y provinciales, con el objeto de reducir la morosidad.", keywords:["ordenanza 5248","ipvun","descuento automático","morosidad","vivienda","centenario"]},
-      {nro:"9", anio:1984, tipoNorma:"Ordenanza", tema:"Establece un régimen para adjudicación, ocupación, conservación, inspección y restitución de casas municipales", rama:"Administrativo", subtema:"Vivienda", impacto:"Social", complejidad:"Medio", fechaSancion:"2 de marzo de 1984", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Régimen de Casas Municipales", anexos:"No consta", historial:"Modificada parcialmente por ordenanzas posteriores", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Fija el régimen aplicable a la adjudicación, ocupación, conservación, inspección y eventual restitución de las casas de propiedad municipal destinadas a agentes y familias del municipio.", keywords:["ordenanza 9","casas municipales","adjudicación","vivienda","centenario"]},
+      {nro:"9", anio:1984, tipoNorma:"Ordenanza", tema:"Establece un régimen para adjudicación, ocupación, conservación, inspección y restitución de casas municipales", rama:"Administrativo", subtema:"Vivienda", impacto:"Social", complejidad:"Medio", fechaSancion:"2 de marzo de 1984", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Régimen de Casas Municipales", anexos:"No consta", historial:"Modificada parcialmente por ordenanzas posteriores", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Fija el régimen aplicable a la adjudicación, ocupación, conservación, inspección y eventual restitución de las casas de propiedad municipal destinadas a agentes y familias del municipio.", keywords:["ordenanza 9","casas municipales","adjudicación","vivienda","centenario"], estado:"Derogada", vinculos:[{muniKey:"centenario",nro:"8214",anio:2019,relacion:"Derogada por"}]},
+      {nro:"8214", anio:2019, tipoNorma:"Ordenanza", tema:"Nuevo Régimen de Viviendas Municipales, deroga la Ordenanza N° 9/1984", rama:"Administrativo", subtema:"Vivienda", impacto:"Social", complejidad:"Medio", fechaSancion:"14 de agosto de 2019", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Nuevo Régimen de Viviendas Municipales", anexos:"No consta", historial:"No consta", modifica:"Deroga a la Ordenanza N° 9/1984", reglamentaciones:"No consta", relacionadas:"Ordenanza N° 9/1984", detalle:"Deroga en su totalidad la Ordenanza N° 9/1984 y establece un nuevo régimen de adjudicación, uso y restitución de viviendas municipales, actualizado a los criterios sociales y de accesibilidad vigentes.", keywords:["ordenanza 8214","régimen de viviendas","deroga ordenanza 9","vivienda municipal","centenario"], estado:"Vigente", vinculos:[{muniKey:"centenario",nro:"9",anio:1984,relacion:"Deroga a"}]},
       {nro:"10384", anio:2025, tipoNorma:"Ordenanza", tema:"Declaración de utilidad pública y pago obligatorio por contribución por mejoras para ampliación de red de gas natural, con registro de oposición y modalidades de pago", rama:"Planeamiento Territorial", subtema:"Infraestructura Pública", impacto:"Urbanístico", complejidad:"Medio", fechaSancion:"15 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Ampliación de red de gas natural — Cooperativas Epu Pehuén, SEJUN y Mutual BPN", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"Ordenanza N° 4774/05", detalle:"Impulsa la obra \"Ampliación de Red de Gas Natural\" para sectores Cooperativas Epu Pehuén, SEJUN y Mutual BPN, destinada a conectar el servicio a familias beneficiarias. Establece el régimen de contribución por mejoras con modalidades de pago (contado con descuento y planes en cuotas sin interés) y dispone la apertura del Registro de Oposición por el plazo legal de 30 días corridos conforme Ordenanza N° 4774/05. Prevé la suscripción de convenios de pago con frentistas una vez vencido el registro y si el resultado fuera favorable.", keywords:["ordenanza 10384","red de gas natural","ampliación","infraestructura pública","utilidad pública","contribución por mejoras","cuotas sin interés","descuento","registro de oposición","ordenanza 4774/05","centenario","neuquén"]},
       {nro:"751", anio:2025, tipoNorma:"Declaración", tema:"Reconocimiento institucional a atletas locales por participación y logros en Juegos Para Araucanía 2025", rama:"Administrativo", subtema:"Actos Administrativos", impacto:"Social", complejidad:"Bajo", fechaSancion:"3 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Reconocimiento a atletas locales — Juegos Para Araucanía 2025", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Declara de interés y reconoce institucionalmente a los atletas locales que participaron y obtuvieron logros deportivos en los Juegos Para Araucanía 2025, en representación de la ciudad de Centenario.", keywords:["declaración 751","reconocimiento","atletas","juegos para araucanía","centenario"]},
       {nro:"10383", anio:2025, tipoNorma:"Ordenanza", tema:"Aprobación del Presupuesto General 2026: cálculo de recursos, autorización de transferencias compensatorias e incorporación de partidas", rama:"Tributario", subtema:"Presupuesto", impacto:"Económico", complejidad:"Alto", fechaSancion:"1 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Presupuesto General de Gastos y Cálculo de Recursos - Ejercicio 2026", anexos:"Planillas de cálculo de recursos y erogaciones", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Aprueba el Presupuesto General de Gastos y Cálculo de Recursos del municipio para el Ejercicio 2026, autorizando al Departamento Ejecutivo a realizar transferencias compensatorias entre partidas y a incorporar nuevas partidas presupuestarias durante el ejercicio.", keywords:["ordenanza 10383","presupuesto general 2026","cálculo de recursos","transferencias compensatorias","centenario"]}
@@ -1110,6 +1151,10 @@ function tipoIconHTML(tipo, sizeClass, fallbackClass){
 
 /* ============ STATE ============ */
 let currentMunicipioKey = "centenario"; // municipio propio (plan pagado)
+let misDigestoPendiente = false;        // true si el municipio propio del usuario todavía no tiene normas cargadas
+let municipioPendienteNombre = '';
+let municipioPendienteProvincia = '';
+let municipioPendientePais = '';
 let currentView = "list"; // list | detail
 let currentNormaId = null;
 let currentDetailMuniKey = null;
@@ -1118,6 +1163,7 @@ let currentDetailMuniKey = null;
    En producción esto viene de la cuenta del usuario en Supabase; acá queda fijo para la demo. */
 let currentUserPlan = 'propio';
 let currentUserRol = 'usuario'; // 'usuario' (concejal/asesor) | 'consultora' (equipo interno)
+let nbCargo = ''; // tipo de responsabilidad del usuario: Concejal, Asesor/a, etc.
 function hasAccessToMuni(muniKey){
   if(muniKey === currentMunicipioKey) return true;
   const home = MUNICIPIOS[currentMunicipioKey];
@@ -1134,7 +1180,7 @@ function scopeUnlocked(scope){
   return false;
 }
 function planLabel(plan){
-  return plan==='mundo' ? 'Plan Mundo' : (plan==='pais' ? 'Plan País' : 'Plan Municipio propio');
+  return plan==='mundo' ? 'Plan Mundo' : (plan==='pais' ? 'Plan País' : 'Plan Municipio Propio');
 }
 
 const scopeState = {
@@ -1201,15 +1247,20 @@ async function renderPerfilPage(){
         <h1 class="serif" style="margin:0;">${nbEsc(nbDisplayName||'—')}</h1>
         <span class="plan-badge" onclick="showPage('planes'); renderPlanesPage();" style="cursor:pointer;" title="Ver planes y prestaciones">${nbEsc(planLabel(currentUserPlan))}</span>
       </div>
-      <div class="sub">${nbEsc(m.nombre)}, ${nbEsc(m.provincia)}</div>
+      <div class="sub">${misDigestoPendiente ? nbEsc(municipioPendienteNombre)+' (en proceso de carga)' : nbEsc(m.nombre)+', '+nbEsc(m.provincia)}${nbCargo?' · '+nbEsc(nbCargo):''}</div>
     </div>
     <div class="stats-card" style="margin-bottom:16px;">
       <h4>👤 Datos</h4>
       <div class="stats-mini-row" style="justify-content:flex-start;">
         <div style="min-width:150px; text-align:left;"><b style="display:block; font-family:'Lora'; font-size:15px; color:var(--ink);">${nbEsc(nbDisplayName||'—')}</b><span>Nombre</span></div>
         <div style="min-width:150px; text-align:left;"><b style="display:block; font-family:'Lora'; font-size:15px; color:var(--ink);">${nbEsc(planLabel(currentUserPlan))}</b><span>Plan</span></div>
-        <div style="min-width:150px; text-align:left;"><b style="display:block; font-family:'Lora'; font-size:15px; color:var(--ink);">${nbEsc(m.nombre)}</b><span>Municipio propio</span></div>
+        <div style="min-width:150px; text-align:left;"><b style="display:block; font-family:'Lora'; font-size:15px; color:var(--ink);">${misDigestoPendiente?nbEsc(municipioPendienteNombre)+' ⏳':nbEsc(m.nombre)}</b><span>Municipio propio</span></div>
       </div>
+      <label class="login-label" style="margin-top:14px;">Tipo de responsabilidad — se muestra en tus proyectos y archivos compartidos</label>
+      <select id="perfilCargoSel" class="nb-reason-select" onchange="perfilCambiarCargo(this.value)">
+        <option value="">Sin especificar</option>
+        ${CARGOS.map(c=>`<option value="${nbEsc(c)}" ${nbCargo===c?'selected':''}>${nbEsc(c)}</option>`).join('')}
+      </select>
     </div>
     <div class="stats-card" style="margin-bottom:16px;">
       <h4>🕘 Mi historial de actividad</h4>
@@ -1235,6 +1286,12 @@ async function renderPerfilPage(){
   `;
 }
 function logout(){ location.reload(); }
+async function perfilCambiarCargo(valor){
+  nbCargo = valor;
+  try{ await window.storage.set('perfil_cargo', valor, false); }catch(e){ /* no bloqueante */ }
+  nbToast('Cargo actualizado');
+  renderPerfilPage();
+}
 
 /* ============ CONSULTORA (solo equipo interno, no visible para usuarios comunes) ============ */
 function renderConsultoraPage(){
@@ -1334,17 +1391,24 @@ function renderPlanesPage(){
 const AP_SEED = [
   {
     id:'apseed1', tipo:'Anteproyecto', titulo:'Anteproyecto de Ordenanza de Arbolado Urbano y Reposición de Especies Nativas',
-    rubro:'espacios_verdes', municipioOrigen:'Bahía Blanca, Buenos Aires', autor:'Equipo Consultora', fecha:'2026-04-10',
+    rubro:'espacios_verdes', municipioKey:'bahiaBlanca', municipioOrigen:'Bahía Blanca, Buenos Aires', autor:'Equipo Consultora', fecha:'2026-04-10',
     resumen:'Marco normativo modelo para crear un programa municipal de forestación urbana con vivero propio y metas anuales de plantación.',
     cuerpo:'VISTO la necesidad de fortalecer la cobertura arbórea urbana y CONSIDERANDO los beneficios ambientales, paisajísticos y de mitigación de la isla de calor que aporta el arbolado público, se propone: Artículo 1° - Créase el Programa Municipal de Arbolado Urbano. Artículo 2° - El programa contemplará un vivero municipal de especies nativas, metas anuales de plantación en avenidas y espacios públicos, y un registro de ejemplares protegidos. Artículo 3° - La autoridad de aplicación coordinará con el área de Ambiente la selección de especies aptas para cada tipo de vereda y tendido eléctrico. Artículo 4° - Se autoriza la firma de convenios con universidades y ONG ambientales para el sostenimiento del vivero.',
-    createdAt:'2026-04-10T12:00:00.000Z'
+    pdfUrl:'', createdAt:'2026-04-10T12:00:00.000Z'
   },
   {
     id:'apseed2', tipo:'Proyecto', titulo:'Proyecto de Creación de un Banco de Tierras Municipal para Vivienda Social',
-    rubro:'vivienda', municipioOrigen:'Centenario, Neuquén', autor:'Equipo Consultora', fecha:'2026-03-02',
+    rubro:'vivienda', municipioKey:'centenario', municipioOrigen:'Centenario, Neuquén', autor:'Equipo Consultora', fecha:'2026-03-02',
     resumen:'Proyecto ya sancionable que crea un banco de tierras fiscales ociosas destinado a planes de vivienda social y regularización dominial.',
     cuerpo:'VISTO el déficit habitacional relevado en los últimos censos municipales y CONSIDERANDO la existencia de lotes fiscales sin uso asignado, se propone: Artículo 1° - Créase el Banco de Tierras Municipal, integrado por inmuebles fiscales ociosos relevados por Catastro. Artículo 2° - Las tierras del banco se destinarán prioritariamente a planes de vivienda social, regularización dominial y equipamiento comunitario. Artículo 3° - Facúltase al Departamento Ejecutivo a suscribir convenios con cooperativas de vivienda para la ejecución de los planes. Artículo 4° - Créase un registro público y actualizado de los inmuebles incorporados al banco.',
-    createdAt:'2026-03-02T12:00:00.000Z'
+    pdfUrl:'', createdAt:'2026-03-02T12:00:00.000Z'
+  },
+  {
+    id:'apseed3', tipo:'Anteproyecto', titulo:'Modelo General de Ordenanza de Créditos de Carbono Municipales',
+    rubro:'creditos_carbono', municipioKey:'', municipioOrigen:'Modelo general (sin municipio de origen específico)', autor:'Equipo Consultora', fecha:'2026-02-14',
+    resumen:'Marco general, aplicable a cualquier municipio, para participar en mercados voluntarios de carbono a partir de proyectos de forestación o eficiencia energética propios.',
+    cuerpo:'VISTO la posibilidad de generar ingresos genuinos a partir de la mitigación de emisiones y CONSIDERANDO la existencia de mercados voluntarios de carbono, se propone: Artículo 1° - Facúltase al Departamento Ejecutivo a inscribir proyectos municipales de captura o reducción de emisiones en registros de créditos de carbono reconocidos. Artículo 2° - Los fondos obtenidos se destinarán a un fondo específico de sostenibilidad ambiental municipal. Artículo 3° - Créase un registro público de los proyectos inscriptos y sus resultados.',
+    pdfUrl:'', createdAt:'2026-02-14T12:00:00.000Z'
   }
 ];
 async function fetchAnteproyectos(){
@@ -1358,7 +1422,7 @@ async function saveAnteproyectos(list){
   try{ await window.storage.set('anteproyectos_proyectos', JSON.stringify(list), true); }
   catch(e){ nbToast('No se pudo guardar. Probá de nuevo.'); }
 }
-let apFilter = { tipo:'', rubro:'', q:'' };
+let apFilter = { tipo:'', rubro:'', municipio:'', provincia:'', pais:'', q:'' };
 let apCurrentList = [];
 async function renderApPage(){
   const root = document.getElementById('apRoot');
@@ -1366,11 +1430,18 @@ async function renderApPage(){
   apCurrentList = await fetchAnteproyectos();
   apRenderList();
 }
+function apAccessible(a){ return !a.municipioKey || hasAccessToMuni(a.municipioKey); }
 function apRenderList(){
   const root = document.getElementById('apRoot');
+  const provinciasDisp = [...new Set(apCurrentList.map(a=>a.municipioKey?MUNICIPIOS[a.municipioKey].provincia:null).filter(Boolean))].sort();
+  const paisesDisp = [...new Set(apCurrentList.map(a=>a.municipioKey?MUNICIPIOS[a.municipioKey].pais:null).filter(Boolean))].sort();
+  const municipiosDisp = [...new Set(apCurrentList.map(a=>a.municipioKey?MUNICIPIOS[a.municipioKey].nombre:null).filter(Boolean))].sort();
   const list = apCurrentList.filter(a=>{
     if(apFilter.tipo && a.tipo!==apFilter.tipo) return false;
     if(apFilter.rubro && a.rubro!==apFilter.rubro) return false;
+    if(apFilter.municipio && (!a.municipioKey || MUNICIPIOS[a.municipioKey].nombre!==apFilter.municipio)) return false;
+    if(apFilter.provincia && (!a.municipioKey || MUNICIPIOS[a.municipioKey].provincia!==apFilter.provincia)) return false;
+    if(apFilter.pais && (!a.municipioKey || MUNICIPIOS[a.municipioKey].pais!==apFilter.pais)) return false;
     if(apFilter.q){
       const q = apFilter.q.toLowerCase();
       const hay = [a.titulo, a.resumen, a.municipioOrigen, rubroLabel(a.rubro)].join(' ').toLowerCase();
@@ -1394,23 +1465,37 @@ function apRenderList(){
         <span class="ic">🔍</span>
         <input type="text" id="apSearch" placeholder="Buscar por título, rubro o municipio de origen..." value="${nbEscAttr(apFilter.q)}" oninput="apOnSearch(this.value)">
       </div>
-      <select id="apFiltroTipo" class="nb-reason-select" style="max-width:180px;" onchange="apOnFilterTipo(this.value)">
+      <select id="apFiltroTipo" class="nb-reason-select" style="max-width:160px;" onchange="apOnFilter('tipo',this.value)">
         <option value="">Todos los tipos</option>
         <option value="Anteproyecto" ${apFilter.tipo==='Anteproyecto'?'selected':''}>📝 Anteproyecto</option>
         <option value="Proyecto" ${apFilter.tipo==='Proyecto'?'selected':''}>📘 Proyecto</option>
       </select>
-      <select id="apFiltroRubro" class="nb-reason-select" style="max-width:220px;" onchange="apOnFilterRubro(this.value)">
+      <select id="apFiltroRubro" class="nb-reason-select" style="max-width:200px;" onchange="apOnFilter('rubro',this.value)">
         <option value="">Todos los rubros</option>
         ${RUBROS.map(r=>`<option value="${r.id}" ${apFilter.rubro===r.id?'selected':''}>${r.label}</option>`).join('')}
+      </select>
+      <select id="apFiltroMuni" class="nb-reason-select" style="max-width:170px;" onchange="apOnFilter('municipio',this.value)">
+        <option value="">Toda localidad</option>
+        ${municipiosDisp.map(m=>`<option value="${nbEscAttr(m)}" ${apFilter.municipio===m?'selected':''}>${nbEsc(m)}</option>`).join('')}
+      </select>
+      <select id="apFiltroProv" class="nb-reason-select" style="max-width:170px;" onchange="apOnFilter('provincia',this.value)">
+        <option value="">Toda provincia</option>
+        ${provinciasDisp.map(p=>`<option value="${nbEscAttr(p)}" ${apFilter.provincia===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
+      </select>
+      <select id="apFiltroPais" class="nb-reason-select" style="max-width:150px;" onchange="apOnFilter('pais',this.value)">
+        <option value="">Todo país</option>
+        ${paisesDisp.map(p=>`<option value="${nbEscAttr(p)}" ${apFilter.pais===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
       </select>
       ${currentUserRol==='consultora'?`<button class="nb-btn tiny" onclick="openApForm()" style="margin-left:auto;">＋ Nuevo</button>`:''}
     </div>
     <div class="results-line">${list.length} modelo${list.length===1?'':'s'} encontrado${list.length===1?'':'s'}</div>
     <div class="norma-list">
-      ${list.length ? list.map(a=>`
-        <div class="norma-card" onclick="renderApDetail('${a.id}')">
+      ${list.length ? list.map(a=>{
+        const ok = apAccessible(a);
+        return `
+        <div class="norma-card ${ok?'':'locked'}" onclick="${ok?`renderApDetail('${a.id}')`:`apBlockedClick('${a.municipioKey}')`}">
           <div class="tipo-icon-fallback">${a.tipo==='Anteproyecto'?'📝':'📘'}</div>
-          <div class="norma-body">
+          <div class="norma-body ${ok?'':'blur-me'}">
             <div class="norma-title"><b>${nbEsc(a.tipo)}</b> — ${nbEsc(a.titulo)}</div>
             <div class="norma-meta">
               <span>${nbEsc(rubroLabel(a.rubro))}</span>
@@ -1418,17 +1503,23 @@ function apRenderList(){
               <span>${nbFecha(a.fecha||a.createdAt)}</span>
             </div>
           </div>
-        </div>`).join('') : `<div class="empty-state"><div class="glyph">📑</div>Todavía no hay modelos cargados con esos filtros.</div>`}
+          ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}
+        </div>`;
+      }).join('') : `<div class="empty-state"><div class="glyph">📑</div>Todavía no hay modelos cargados con esos filtros.</div>`}
     </div>
   `;
 }
+function apBlockedClick(municipioKey){
+  const m = MUNICIPIOS[municipioKey];
+  nbToast(`Ese modelo es de ${m?m.nombre+', '+m.provincia:'otra localidad'}, fuera de tu plan actual (${planLabel(currentUserPlan)}).`);
+}
 function apOnSearch(v){ apFilter.q = v; apRenderList(); const el=document.getElementById('apSearch'); if(el){ el.focus(); el.setSelectionRange(v.length,v.length); } }
-function apOnFilterTipo(v){ apFilter.tipo = v; apRenderList(); }
-function apOnFilterRubro(v){ apFilter.rubro = v; apRenderList(); }
+function apOnFilter(key, v){ apFilter[key] = v; apRenderList(); }
 
 function renderApDetail(id){
   const root = document.getElementById('apRoot');
   const a = apCurrentList.find(x=>x.id===id); if(!a) return;
+  if(!apAccessible(a)){ apBlockedClick(a.municipioKey); apRenderList(); return; }
   root.innerHTML = `
     <button class="detail-back" onclick="apRenderList()">← Volver al listado</button>
     <div class="detail-header">
@@ -1448,6 +1539,10 @@ function renderApDetail(id){
       <h4>Análisis / contenido completo</h4>
       <div class="txt" style="white-space:pre-wrap;">${nbEsc(a.cuerpo||'Sin contenido cargado.')}</div>
     </div>
+    ${a.pdfUrl ? `<div class="block-card">
+      <h4>Documento original</h4>
+      <a href="${nbEscAttr(a.pdfUrl)}" target="_blank" rel="noopener" class="nb-btn ghost tiny" style="text-decoration:none;">📄 Ver PDF original</a>
+    </div>` : ''}
     <div class="btn-row" style="flex-wrap:wrap; margin-bottom:16px;">
       <button class="btn-primary" onclick="usarComoBase('${a.id}')">📝 Usar como base para mi propia nota</button>
       ${currentUserRol==='consultora'?`
@@ -1462,14 +1557,18 @@ function openApForm(editId){
   if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede publicar contenido acá.'); return; }
   const rubroSel = document.getElementById('apRubro');
   rubroSel.innerHTML = RUBROS.map(r=>`<option value="${r.id}">${r.label}</option>`).join('');
+  const muniSel = document.getElementById('apMunicipioSel');
+  muniSel.innerHTML = `<option value="">🌐 Modelo general (sin municipio de origen)</option>` +
+    Object.keys(MUNICIPIOS).map(k=>`<option value="${k}">${nbEsc(MUNICIPIOS[k].nombre)}, ${nbEsc(MUNICIPIOS[k].provincia)}</option>`).join('');
   const editing = editId ? apCurrentList.find(x=>x.id===editId) : null;
   document.getElementById('apFormTitle').textContent = editing ? 'Editar modelo' : 'Nuevo anteproyecto / proyecto';
   document.getElementById('apTipo').value = editing ? editing.tipo : 'Anteproyecto';
   document.getElementById('apTitulo').value = editing ? editing.titulo : '';
   document.getElementById('apRubro').value = editing ? editing.rubro : 'otro';
-  document.getElementById('apMunicipio').value = editing ? (editing.municipioOrigen||'') : '';
+  muniSel.value = editing ? (editing.municipioKey||'') : '';
   document.getElementById('apResumen').value = editing ? (editing.resumen||'') : '';
   document.getElementById('apCuerpo').value = editing ? (editing.cuerpo||'') : '';
+  document.getElementById('apPdfUrl').value = editing ? (editing.pdfUrl||'') : '';
   document.getElementById('apFormOverlay').dataset.editId = editId || '';
   document.getElementById('apFormOverlay').classList.add('open');
 }
@@ -1479,13 +1578,16 @@ async function submitAnteproyecto(){
   const titulo = document.getElementById('apTitulo').value.trim();
   const cuerpo = document.getElementById('apCuerpo').value.trim();
   if(!titulo || !cuerpo){ nbToast('Completá al menos el título y el contenido.'); return; }
+  const muniKey = document.getElementById('apMunicipioSel').value;
+  const m = muniKey ? MUNICIPIOS[muniKey] : null;
   const item = {
     id: editId || ('ap'+Date.now()+Math.random().toString(36).slice(2,6)),
     tipo: document.getElementById('apTipo').value,
     titulo, rubro: document.getElementById('apRubro').value,
-    municipioOrigen: document.getElementById('apMunicipio').value.trim(),
+    municipioKey: muniKey, municipioOrigen: m ? `${m.nombre}, ${m.provincia}` : 'Modelo general (sin municipio de origen específico)',
     resumen: document.getElementById('apResumen').value.trim(),
-    cuerpo, autor: nbDisplayName||'Equipo Consultora',
+    cuerpo, pdfUrl: document.getElementById('apPdfUrl').value.trim(),
+    autor: nbDisplayName||'Equipo Consultora',
     fecha: new Date().toISOString().slice(0,10),
     createdAt: editId ? (apCurrentList.find(x=>x.id===editId)||{}).createdAt || new Date().toISOString() : new Date().toISOString()
   };
@@ -2391,6 +2493,27 @@ function mundoScopeKeys(){ return Object.keys(MUNICIPIOS); }
 /* ============ RENDER: MI DIGESTO ============ */
 function renderDigesto(){
   const root = document.getElementById('digestoRoot');
+  if(misDigestoPendiente){
+    root.innerHTML = `
+      <div class="stats-hero">
+        <div class="section-eyebrow" style="color:#f0dcb3;">Plan Digesto Propio</div>
+        <h1 class="serif">${nbEsc(municipioPendienteNombre||'Tu municipio')}</h1>
+        <div class="sub">${nbEsc(municipioPendienteProvincia||'')}${municipioPendientePais?', '+nbEsc(municipioPendientePais):''}</div>
+      </div>
+      <div class="locked-wrap" style="min-height:220px;">
+        <div class="locked-overlay" style="position:relative; background:none; backdrop-filter:none;">
+          <div class="locked-icon" style="filter:none;">🚧</div>
+          <div class="locked-title" style="color:var(--slate-blue);">Tu digesto está en camino</div>
+          <div class="locked-msg">
+            Todavía estamos cargando las normas de <b>${nbEsc(municipioPendienteNombre||'tu municipio')}</b>.<br>
+            No hace falta que hagas nada — este panel se actualiza solo apenas esté disponible.<br>
+            Mientras tanto, podés explorar <b>País</b> o <b>Mundo</b> según tu plan.
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
   const m = MUNICIPIOS[currentMunicipioKey];
   if(currentView === 'detail'){
     root.innerHTML = renderDetail(currentDetailMuniKey || currentMunicipioKey, currentNormaId, true);
@@ -2490,7 +2613,10 @@ function normaListHTML(list, scope){
     return `<div class="empty-state"><div class="glyph">🗂</div>${t('empty_normas')}</div>`;
   }
   const showMuni = scope !== false && scope !== undefined;
-  return list.map(n=>`
+  return list.map(n=>{
+    const estado = n.estado || 'Vigente';
+    const estadoClass = estado==='Derogada' ? 'estado-derogada' : (estado==='Modificada' ? 'estado-modificada' : 'estado-vigente');
+    return `
     <div class="norma-card" onclick="openDetail('${n.muniKey}','${n.nro}_${n.anio}'${showMuni?`,'${scope}'`:''})">
       ${tipoIconHTML(n.tipoNorma,'tipo-icon','tipo-icon-fallback')}
       <div class="norma-body">
@@ -2499,13 +2625,15 @@ function normaListHTML(list, scope){
           <b>${n.tipoNorma} Municipal Nro. ${n.nro}/${n.anio}</b> | Tema Principal: ${n.tema} | Rama del Derecho: ${n.rama}
         </div>
         <div class="norma-meta">
+          <span class="estado-badge sm ${estadoClass}">${estado==='Vigente'?'✔':estado==='Derogada'?'✕':'↻'} ${estado}</span>
           <span>Subtema: <b>${n.subtema}</b></span>
           <span>Impacto: <b>${n.impacto}</b></span>
           <span class="pill ${n.complejidad.toLowerCase()}">Complejidad: ${n.complejidad}</span>
         </div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 function renderNormaList(containerId, list, scope){
   const listEl = document.getElementById(containerId);
@@ -2582,6 +2710,8 @@ function renderDetail(muniKey, id){
   const m = MUNICIPIOS[muniKey];
   const n = m.normas.find(x => `${x.nro}_${x.anio}` === id);
   if(!n) return `<div class="empty-state">Norma no encontrada.</div>`;
+  const estado = n.estado || 'Vigente';
+  const estadoClass = estado==='Derogada' ? 'estado-derogada' : (estado==='Modificada' ? 'estado-modificada' : 'estado-vigente');
   const fields = [
     ["Tipo de Norma", n.tipoNorma], ["Ordenanza Nro", n.nro], ["Año", n.anio], ["Fecha de Sanción", n.fechaSancion],
     ["Tipo", n.tipoNorma], ["Impacto", n.impacto], ["Nivel de complejidad", n.complejidad], ["Rama del Derecho", n.rama],
@@ -2597,10 +2727,11 @@ function renderDetail(muniKey, id){
     <div class="detail-header">
       <div class="detail-header-row">
         ${tipoIconHTML(n.tipoNorma,'detail-tipo-icon','detail-tipo-icon-fallback')}
-        <div>
+        <div style="flex:1;">
           <div class="detail-eyebrow">${n.tipoNorma} N° ${n.nro}/${n.anio} · ${m.nombre}, ${m.provincia}</div>
           <div class="detail-title serif">${n.tema}</div>
         </div>
+        <span class="estado-badge ${estadoClass}">${estado==='Vigente'?'✔':estado==='Derogada'?'✕':'↻'} ${estado}</span>
       </div>
     </div>
     <div class="field-grid">
@@ -2608,6 +2739,19 @@ function renderDetail(muniKey, id){
         <div class="field-item"><div class="field-label">${label}</div><div class="field-value">${val}</div></div>
       `).join('')}
     </div>
+    ${(n.vinculos&&n.vinculos.length) ? `<div class="block-card">
+      <h4>Normas vinculadas — acceso directo</h4>
+      <div class="vinculos-list">
+        ${n.vinculos.map(v=>{
+          const vm = MUNICIPIOS[v.muniKey];
+          const vn = vm ? vm.normas.find(x=>x.nro===v.nro && String(x.anio)===String(v.anio)) : null;
+          if(!vn) return '';
+          return `<button class="nb-btn ghost tiny" onclick="openDetail('${v.muniKey}','${v.nro}_${v.anio}','digesto')">
+            🔗 ${nbEsc(v.relacion)}: ${nbEsc(vn.tipoNorma)} N° ${nbEsc(v.nro)}/${v.anio}
+          </button>`;
+        }).join('')}
+      </div>
+    </div>` : ''}
     <div class="block-card">
       <h4>Detalle del texto</h4>
       <div class="txt">${n.detalle}</div>
@@ -2713,10 +2857,103 @@ function addAIMessage(role, text){
   body.scrollTop = body.scrollHeight;
   return div;
 }
+
+/* ---- flujo guiado: armar un anteproyecto/proyecto/normativa con el asistente ---- */
+/* Los bots dependen del plan de cada usuario: el armado guiado requiere Plan País o Mundo. */
+let aiDraftState = null;
+function aiStartDraft(){
+  if(currentUserPlan==='propio'){
+    document.getElementById('aiPanel').classList.remove('open');
+    openPlanLockPopup('pais');
+    return;
+  }
+  aiDraftState = { step:1, fundamento:'', tipoNorma:'Ordenanza', normativasRef:[] };
+  const body = document.getElementById('aiBody');
+  body.innerHTML = '';
+  addAIMessage('bot', 'Vamos a armar un anteproyecto, proyecto o normativa juntos. Primero contame: ¿qué necesitás desarrollar y por qué? Escribí el objetivo y el fundamento con tus palabras.');
+  const input = document.getElementById('aiInput');
+  input.placeholder = 'Ej: necesitamos regular el estacionamiento medido porque...';
+  input.focus();
+}
+function aiCancelDraft(){
+  aiDraftState = null;
+  document.getElementById('aiInput').placeholder = 'Ej: normas sobre viviendas...';
+  addAIMessage('bot', 'Cancelé el armado guiado. Podés volver a empezar cuando quieras con "📝 Armar un anteproyecto", o seguir buscando normas normalmente.');
+}
+function aiHandleDraftStep(q){
+  addAIMessage('user', q);
+  const d = aiDraftState;
+  if(!d) return;
+  if(q.toLowerCase()==='cancelar'){ aiCancelDraft(); return; }
+
+  if(d.step===1){
+    d.fundamento = q;
+    d.step = 2;
+    addAIMessage('bot', '¡Buenísimo! ¿Tenés alguna normativa de referencia (de tu municipio o de otro) que quieras que tengamos en cuenta para el análisis? Escribí un número (ej: 2493/2011) o un tema para buscarla. Si no tenés ninguna, escribí "no". (En cualquier momento podés escribir "cancelar".)');
+    return;
+  }
+
+  if(d.step===2){
+    const ql = q.toLowerCase().trim();
+    if(ql==='no' || ql==='listo' || ql==='ninguna'){
+      d.step = 3;
+      aiGenerateDraft();
+      return;
+    }
+    const res = searchAllNormas(q).slice(0,3).filter(r=>hasAccessToMuni(r.muniKey));
+    if(res.length){
+      res.forEach(r=> d.normativasRef.push({ label:`${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio}`, tema:r.n.tema, muni:MUNICIPIOS[r.muniKey].nombre }));
+      addAIMessage('bot', `Sumé ${res.length} norma(s) de referencia: ${res.map(r=>`${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio}`).join(', ')}. ¿Querés agregar otra? Escribí otro número/tema, o "listo" para continuar.`);
+    }else{
+      addAIMessage('bot', 'No encontré coincidencias en tu plan actual. Probá con otro número o tema, o escribí "listo" para continuar sin más referencias.');
+    }
+    return;
+  }
+}
+function aiGenerateDraft(){
+  const d = aiDraftState;
+  const refsTxt = d.normativasRef.length
+    ? `Que resulta pertinente tener en cuenta como antecedente: ${d.normativasRef.map(n=>n.label+' ('+n.muni+')').join('; ')}.\n`
+    : '';
+  const cuerpo =
+`VISTO
+La necesidad de ${d.fundamento}
+
+CONSIDERANDO
+Que ${d.fundamento}.
+${refsTxt}Que corresponde al Concejo Deliberante dictar la norma correspondiente en uso de las atribuciones que le son propias.
+
+POR ELLO,
+EL CONCEJO DELIBERANTE SANCIONA CON FUERZA DE ORDENANZA (o el tipo de norma que corresponda)
+
+Artículo 1° — [Completar el objeto específico de la norma]
+Artículo 2° — [Completar alcance, autoridad de aplicación y plazos]
+Artículo 3° — Comuníquese al Departamento Ejecutivo.
+
+— Borrador generado por el asistente a partir de lo conversado. Es un punto de partida: SIEMPRE debe ser revisado, verificado y ajustado por una persona con competencia legal antes de su presentación formal. —`;
+  addAIMessage('bot', 'Con esto armé un primer borrador para que sigas trabajando. Importante: esto es un punto de partida — siempre tiene que revisarlo y ajustarlo una persona antes de presentarlo formalmente. Te lo guardo en tu Anotador.');
+  const titulo = 'Borrador: ' + d.fundamento.slice(0,70) + (d.fundamento.length>70?'…':'');
+  aiSaveDraftToAnotador(titulo, cuerpo);
+  aiDraftState = null;
+  document.getElementById('aiInput').placeholder = 'Ej: normas sobre viviendas...';
+}
+async function aiSaveDraftToAnotador(titulo, cuerpo){
+  await nbEnsureLoaded();
+  nbPendingTemplate = { titulo, cuerpo };
+  nbPendingLink = null; nbPickerProjectId = null;
+  document.getElementById('aiPanel').classList.remove('open');
+  const panel = document.getElementById('nbPanel');
+  panel.classList.add('open');
+  nbView = 'picker-project';
+  nbRender();
+  if(nbAllProjects().length===0) nbShowEmptyProjectsPrompt();
+  else nbInfoModal('Elegí el proyecto', 'Seleccioná dónde guardar el borrador que armamos juntos.', 'Entendido');
+}
 function submitAIQuery(){
   const input = document.getElementById('aiInput');
   const q = input.value.trim();
   if(!q) return;
+  if(aiDraftState){ input.value=''; aiHandleDraftStep(q); return; }
   addAIMessage('user', q);
   input.value = '';
   const results = searchAllNormas(q).slice(0,6);
@@ -2922,7 +3159,7 @@ function nbLogEvent(accion, entidad, detalle, motivo, targetProject){
   const p = targetProject || nbActiveProject();
   if(p && p.visibility==='public'){
     p.historial = p.historial || [];
-    p.historial.unshift({ id:nbUid(), ts:nbNow(), usuario: nbDisplayName||'Sin nombre', accion, entidad, detalle, motivo: motivo||null });
+    p.historial.unshift({ id:nbUid(), ts:nbNow(), usuario: (nbDisplayName||'Sin nombre') + (nbCargo?' ('+nbCargo+')':''), accion, entidad, detalle, motivo: motivo||null });
     if(p.historial.length>300) p.historial = p.historial.slice(0,300);
   }
 }
@@ -3058,7 +3295,7 @@ function nbRender(){
     const role = nbMyRoleIn(p);
     const canEdit = nbCanEdit(p);
     titleBar.textContent = (p.visibility==='public'?'🌐 ':'🔒 ') + p.nombre;
-    subBar.textContent = p.notes.length + ' nota' + (p.notes.length===1?'':'s') + ' · creado el ' + nbFecha(p.createdAt) + (p.visibility==='public' ? (' · por ' + (p.ownerName||'—')) : '');
+    subBar.textContent = p.notes.length + ' nota' + (p.notes.length===1?'':'s') + ' · creado el ' + nbFecha(p.createdAt) + (p.visibility==='public' ? (' · por ' + (p.ownerName||'—') + (p.ownerCargo?' ('+p.ownerCargo+')':'')) : '');
     toolbar.innerHTML = `
       <input class="nb-find" id="nbFind" placeholder="${t('nb_find_notes')}" oninput="nbRenderNotes(this.value)">
       ${p.visibility==='public'?`<button class="nb-btn ghost tiny" onclick="nbOpenProjectHistorial()" title="Ver quién hizo qué en este proyecto">👥 Actividad</button>`:''}
@@ -3162,7 +3399,7 @@ function nbProjectsHTML(){
           <span>${rubroLabel(p.categoria)}</span>
           <span>${p.notes.length} nota${p.notes.length===1?'':'s'}</span>
           <span>${p.notes.reduce((a,n)=>a+(n.links||[]).length,0)} norma(s) vinculada(s)</span>
-          ${p.visibility==='public'?`<span>👤 ${nbEsc(p.ownerName||'—')}</span>`:''}
+          ${p.visibility==='public'?`<span>👤 ${nbEsc(p.ownerName||'—')}${p.ownerCargo?' · '+nbEsc(p.ownerCargo):''}</span>`:''}
           ${(p.visibility==='public' && role==='owner')?`<span>👥 ${(p.colaboradores||[]).length} autorizado(s)</span>`:''}
         </div>
       </div>
@@ -3609,7 +3846,7 @@ async function nbCreateProjectConfirm(){
   }
   const p = {
     id:nbUid(), nombre:nombreFinal, createdAt:nbNow(), notes:[], visibility, categoria,
-    provincia: nbHomeProvincia(), municipio: MUNICIPIOS[currentMunicipioKey].nombre, ownerName: nbDisplayName || null, historial:[], colaboradores:[]
+    provincia: nbHomeProvincia(), municipio: MUNICIPIOS[currentMunicipioKey].nombre, ownerName: nbDisplayName || null, ownerCargo: nbCargo || '', historial:[], colaboradores:[]
   };
   if(visibility==='public'){
     nbPublicProjects.unshift(p);
@@ -4161,9 +4398,11 @@ function nbImportBackup(ev){
 }
 
 /* ============ LOGIN ============ */
+const CARGOS = ['Concejal', 'Asesor/a', 'Secretario/a de Concejo', 'Intendente/a', 'Director/a de área', 'Equipo Consultora', 'Otro'];
 const DEMO_ACCOUNTS = {
-  'admin':  { password:'1234', plan:'mundo',  nombre:'Ana Rodríguez',    municipioKey:'centenario',  partido:'Bloque A', rol:'consultora', label:'Acceso completo al digesto' },
-  'admin1': { password:'1234', plan:'propio', nombre:'Bruno Fernández', municipioKey:'bahiaBlanca', partido:'Bloque B', rol:'usuario',    label:'Solo tu municipio' }
+  'admin':  { password:'1234', plan:'mundo',  nombre:'Ana Rodríguez',    municipioKey:'centenario',  partido:'Bloque A', rol:'consultora', cargo:'Equipo Consultora', label:'Acceso completo al digesto' },
+  'admin1': { password:'1234', plan:'propio', nombre:'Bruno Fernández', municipioKey:'bahiaBlanca', partido:'Bloque B', rol:'usuario',    cargo:'Concejal',          label:'Solo tu municipio' },
+  'admin2': { password:'1234', plan:'propio', nombre:'Carla Sánchez',   municipioKey:null, municipioPendiente:'Villa La Angostura', municipioPendienteProvincia:'Neuquén', municipioPendientePais:'Argentina', partido:'Bloque A', rol:'usuario', cargo:'Asesor/a', label:'Digesto en proceso de carga' }
 };
 /* Nombres de prueba precargados en el directorio, para poder probar el buscador de "Compartir" sin pasos extra. */
 const DIRECTORIO_DEMO = ['María González', 'Juan Pérez'];
@@ -4215,8 +4454,22 @@ async function attemptLogin(){
   errEl.textContent = '';
   currentUserPlan = account.plan;
   currentUserRol = account.rol || 'usuario';
-  if(account.municipioKey && MUNICIPIOS[account.municipioKey]) currentMunicipioKey = account.municipioKey;
+  if(account.municipioKey && MUNICIPIOS[account.municipioKey]){
+    currentMunicipioKey = account.municipioKey;
+    misDigestoPendiente = false;
+  }else{
+    // El municipio del usuario todavía no fue cargado al sistema: se mantiene un municipio
+    // "de referencia" para que el resto de la app (País/Mundo, filtros) siga funcionando,
+    // pero Mi Digesto muestra el aviso de "en proceso de carga" en vez de datos ajenos.
+    misDigestoPendiente = true;
+    municipioPendienteNombre = account.municipioPendiente || 'Tu municipio';
+    municipioPendienteProvincia = account.municipioPendienteProvincia || '';
+    municipioPendientePais = account.municipioPendientePais || '';
+    const refKey = Object.keys(MUNICIPIOS).find(k=>MUNICIPIOS[k].provincia===municipioPendienteProvincia) || 'centenario';
+    currentMunicipioKey = refKey;
+  }
   nbDisplayName = account.nombre; // viene del login: ya no se le pregunta el nombre al usuario
+  nbCargo = account.cargo || '';
   document.getElementById('loginScreen').style.display = 'none';
   document.querySelectorAll('.consultora-only').forEach(el=>{ el.style.display = currentUserRol==='consultora' ? '' : 'none'; });
   const badgeEl = document.getElementById('headerPlanBadge'); if(badgeEl) badgeEl.textContent = planLabel(currentUserPlan);
