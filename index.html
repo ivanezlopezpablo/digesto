@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modernización Urbana — Digesto Normativo Municipal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#132234;
+    --ink-soft:#2c4258;
+    --paper:#f4f6f5;
+    --paper-card:#ffffff;
+    --line:#dde3e2;
+    --bronze:#a9752f;
+    --bronze-soft:#f3e6d3;
+    --seal-green:#2f5c46;
+    --seal-green-soft:#e3ede6;
+    --slate-blue:#3a6a86;
+    --slate-blue-soft:#e4edf1;
+    --text-main:#1a2733;
+    --text-muted:#5c6b78;
+    --danger:#a13d3d;
+    --radius:10px;
+    --shadow:0 1px 2px rgba(19,34,52,.06),0 4px 16px rgba(19,34,52,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'IBM Plex Sans',sans-serif;
+    background:var(--paper);
+    color:var(--text-main);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:'Lora',serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-thumb{background:#c7cfce;border-radius:8px;}
+
+  /* ---------- HEADER ---------- */
+  header.topbar{
+    position:sticky; top:0; z-index:200;
+    background:var(--ink); color:#fff;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 22px; height:60px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; cursor:pointer;}
+  .brand-mark{
+    width:32px;height:32px;border-radius:7px;
+    background:linear-gradient(155deg,var(--bronze),#c99a52);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Lora',serif;font-weight:700;color:var(--ink);font-size:15px;
+  }
+  .brand-name{font-family:'Lora',serif;font-weight:600;font-size:17px;letter-spacing:.2px;}
+  .brand-name span{color:#c99a52;font-style:italic;font-weight:500;}
+  nav.tabs{display:flex; gap:2px;}
+  nav.tabs button{
+    background:none;border:none;color:#c9d3da;font-family:'IBM Plex Sans';
+    font-size:13.5px; font-weight:500; padding:10px 14px; cursor:pointer;
+    border-radius:7px; letter-spacing:.2px; transition:.15s;
+  }
+  nav.tabs button:hover{color:#fff; background:rgba(255,255,255,.06);}
+  nav.tabs button.active{color:#fff; background:rgba(201,154,82,.18); font-weight:600;}
+  .head-right{display:flex; align-items:center; gap:14px;}
+  .more-wrap{position:relative;}
+  .avatar{
+    width:32px;height:32px;border-radius:50%;background:var(--slate-blue);
+    display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;
+  }
+  .more-menu{
+    position:absolute; right:0; top:44px; background:#fff; color:var(--text-main);
+    border-radius:10px; box-shadow:var(--shadow); min-width:170px; padding:6px;
+    display:none; border:1px solid var(--line);
+  }
+  .more-menu.open{display:block;}
+  .more-menu button{
+    width:100%; text-align:left; background:none; border:none; padding:9px 12px;
+    font-size:13.5px; border-radius:7px; cursor:pointer; color:var(--text-main);
+  }
+  .more-menu button:hover{background:var(--paper);}
+
+  @media(max-width:880px){
+    nav.tabs{display:none;}
+    header.topbar{height:54px;}
+  }
+
+  main{max-width:1180px; margin:0 auto; padding:26px 22px 90px;}
+  .page{display:none;}
+  .page.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+
+  /* ---------- MUNICIPIO HEADER ---------- */
+  .municipio-hero{
+    background:linear-gradient(120deg,var(--ink) 0%,var(--ink-soft) 100%);
+    color:#fff; border-radius:16px; padding:26px 28px; margin-bottom:24px;
+    display:flex; align-items:center; gap:20px; position:relative; overflow:hidden;
+  }
+  .municipio-hero::after{
+    content:""; position:absolute; right:-40px; top:-40px; width:180px;height:180px;
+    border:38px solid rgba(201,154,82,.09); border-radius:50%;
+  }
+  .municipio-seal{
+    width:60px;height:60px;border-radius:50%;background:var(--bronze-soft);
+    display:flex;align-items:center;justify-content:center; flex-shrink:0;
+    border:2px solid rgba(201,154,82,.55); font-family:'Lora',serif; font-weight:700;
+    color:var(--bronze); font-size:20px;
+  }
+  .municipio-hero h1{font-size:23px; font-weight:600;}
+  .municipio-hero .sub{font-size:13px; color:#c9d3da; margin-top:3px;}
+  .municipio-hero .badge-access{
+    margin-left:auto; background:rgba(201,154,82,.2); border:1px solid rgba(201,154,82,.5);
+    color:#f0dcb3; font-size:11.5px; font-weight:600; padding:5px 11px; border-radius:20px;
+    white-space:nowrap;
+  }
+
+  /* ---------- SEARCH + FILTER ---------- */
+  .search-row{display:flex; gap:10px; margin-bottom:18px;}
+  .search-box{
+    flex:1; display:flex; align-items:center; gap:8px; background:#fff;
+    border:1px solid var(--line); border-radius:9px; padding:10px 14px;
+  }
+  .search-box input{border:none; outline:none; flex:1; font-size:14px; font-family:inherit; background:none;}
+  .search-box .ic{color:var(--text-muted); font-size:14px;}
+  .btn-filter{
+    display:flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--line);
+    border-radius:9px; padding:10px 15px; font-size:13.5px; font-weight:600; cursor:pointer; color:var(--ink-soft);
+  }
+  .btn-filter:hover{border-color:var(--bronze);}
+  .filter-count{
+    background:var(--bronze); color:#fff; font-size:10.5px; font-weight:700; border-radius:10px;
+    padding:1px 6px; margin-left:2px;
+  }
+  .results-line{font-size:12.5px; color:var(--text-muted); margin-bottom:12px;}
+
+  /* ---------- NORMA LIST ---------- */
+  .norma-list{display:flex; flex-direction:column; gap:10px;}
+  .norma-card{
+    background:var(--paper-card); border:1px solid var(--line); border-left:4px solid var(--bronze);
+    border-radius:9px; padding:14px 16px; cursor:pointer; transition:.15s; display:flex; gap:14px;
+  }
+  .norma-card:hover{box-shadow:var(--shadow); transform:translateY(-1px); border-left-color:var(--seal-green);}
+  .norma-tag{
+    font-family:'IBM Plex Mono'; font-size:11px; font-weight:600; color:var(--bronze);
+    background:var(--bronze-soft); border-radius:6px; padding:6px 8px; height:fit-content; white-space:nowrap;
+  }
+  .norma-body .norma-title{font-size:14.5px; font-weight:600; color:var(--ink); line-height:1.4; margin-bottom:5px;}
+  .norma-title b{font-weight:600;}
+  .norma-meta{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:var(--text-muted);}
+  .norma-meta span b{color:var(--text-main); font-weight:600;}
+  .pill{
+    font-size:10.5px; font-weight:600; padding:2px 8px; border-radius:20px; letter-spacing:.2px;
+  }
+  .pill.bajo{background:var(--seal-green-soft); color:var(--seal-green);}
+  .pill.medio{background:var(--slate-blue-soft); color:var(--slate-blue);}
+  .pill.alto{background:#f5e3e0; color:var(--danger);}
+  .empty-state{text-align:center; padding:60px 20px; color:var(--text-muted);}
+  .empty-state .glyph{font-size:34px; margin-bottom:10px;}
+
+  /* ---------- GRID: PAÍS / MUNDO / EDU / CHATGPT ---------- */
+  .grid-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px;}
+  .muni-card{
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; cursor:pointer;
+    transition:.15s;
+  }
+  .muni-card:hover{box-shadow:var(--shadow); border-color:var(--bronze);}
+  .muni-card .seal-sm{
+    width:38px;height:38px;border-radius:50%; background:var(--seal-green-soft); color:var(--seal-green);
+    display:flex;align-items:center;justify-content:center; font-family:'Lora'; font-weight:700; margin-bottom:12px;
+  }
+  .muni-card h3{font-size:15px; margin-bottom:3px;}
+  .muni-card p{font-size:12px; color:var(--text-muted); margin-bottom:10px;}
+  .muni-card .count{font-size:11.5px; color:var(--bronze); font-weight:600;}
+  .section-eyebrow{font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--bronze); margin-bottom:6px;}
+  .section-title{font-size:20px; margin-bottom:20px; font-weight:600;}
+
+  .service-card{
+    background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px;
+    display:flex; flex-direction:column; gap:12px; margin-bottom:16px;
+  }
+  .service-card .icon-box{
+    width:44px;height:44px;border-radius:10px; background:var(--ink); color:#c99a52;
+    display:flex;align-items:center;justify-content:center; font-size:19px;
+  }
+  .service-card h3{font-size:16px;}
+  .service-card p{font-size:13px; color:var(--text-muted); line-height:1.5;}
+  .btn-row{display:flex; gap:10px; margin-top:4px;}
+  .btn-primary{background:var(--ink); color:#fff; border:none; padding:9px 16px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer;}
+  .btn-primary:hover{background:var(--ink-soft);}
+  .btn-secondary{background:none; border:1px solid var(--line); padding:9px 16px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink-soft);}
+
+  /* ---------- DETAIL VIEW ---------- */
+  .detail-back{
+    display:inline-flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer;
+    color:var(--ink-soft); font-size:13px; font-weight:600; margin-bottom:16px;
+  }
+  .detail-header{
+    background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin-bottom:18px;
+  }
+  .detail-eyebrow{font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--bronze); font-weight:600; margin-bottom:8px;}
+  .detail-title{font-size:19px; font-weight:600; line-height:1.4;}
+  .field-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:16px 24px; margin-top:18px;
+    background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin-bottom:18px;
+  }
+  @media(max-width:760px){.field-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:480px){.field-grid{grid-template-columns:1fr;}}
+  .field-item .field-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.6px; color:var(--text-muted); margin-bottom:4px; font-weight:600;}
+  .field-item .field-value{font-size:13.5px; color:var(--text-main); font-weight:500;}
+  .block-card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin-bottom:18px;}
+  .block-card h4{font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-soft); margin-bottom:10px;}
+  .block-card .txt{font-size:14px; line-height:1.7; color:var(--text-main); background:var(--paper); border-radius:10px; padding:16px; border-left:3px solid var(--bronze);}
+  .keywords{display:flex; flex-wrap:wrap; gap:8px;}
+  .keywords span{background:var(--seal-green-soft); color:var(--seal-green); font-size:11.5px; font-weight:600; padding:5px 10px; border-radius:20px;}
+  .doc-placeholder{
+    background:#eef1f0; border:1px dashed var(--line); border-radius:12px; padding:34px; text-align:center; color:var(--text-muted); font-size:13px;
+  }
+
+  /* ---------- FILTER MODAL ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(19,34,52,.45); display:none; align-items:flex-end; justify-content:center; z-index:500;}
+  .overlay.open{display:flex;}
+  @media(min-width:700px){.overlay{align-items:center;}}
+  .filter-sheet{
+    background:#fff; width:100%; max-width:420px; border-radius:16px 16px 0 0; padding:20px; max-height:82vh; overflow-y:auto;
+  }
+  @media(min-width:700px){.filter-sheet{border-radius:16px;}}
+  .filter-sheet-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;}
+  .filter-sheet-head h3{font-size:16px;}
+  .filter-sheet-head button{background:none; border:none; font-size:18px; cursor:pointer; color:var(--text-muted);}
+  .filter-group{border-top:1px solid var(--line); padding:6px 0;}
+  .filter-group summary{list-style:none; display:flex; justify-content:space-between; align-items:center; padding:11px 2px; cursor:pointer; font-size:13.5px; font-weight:600;}
+  .filter-group summary::-webkit-details-marker{display:none;}
+  .filter-group summary::after{content:"›"; transform:rotate(90deg); color:var(--text-muted); font-size:16px;}
+  .filter-group[open] summary::after{transform:rotate(270deg);}
+  .filter-opts{display:flex; flex-wrap:wrap; gap:8px; padding:4px 2px 12px;}
+  .chip{border:1px solid var(--line); border-radius:20px; padding:6px 12px; font-size:12px; cursor:pointer; user-select:none;}
+  .chip.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .filter-actions{display:flex; gap:10px; margin-top:16px;}
+  .filter-actions button{flex:1; padding:11px; border-radius:9px; font-size:13.5px; font-weight:600; cursor:pointer;}
+  .filter-actions .clear{background:none; border:1px solid var(--line); color:var(--ink-soft);}
+  .filter-actions .apply{background:var(--seal-green); border:none; color:#fff;}
+
+  /* ---------- BOTTOM NAV (mobile) ---------- */
+  .bottom-nav{
+    display:none; position:fixed; bottom:0; left:0; width:100%; height:60px; background:#fff;
+    border-top:1px solid var(--line); z-index:200; align-items:center; justify-content:space-around;
+  }
+  .bottom-nav button{background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:2px; font-size:10px; color:var(--text-muted); font-weight:600; cursor:pointer;}
+  .bottom-nav button .bic{font-size:16px;}
+  .bottom-nav button.active{color:var(--bronze);}
+  @media(max-width:880px){ .bottom-nav{display:flex;} main{padding-bottom:78px;} }
+
+  .about-copy{background:#fff; border:1px solid var(--line); border-radius:14px; padding:26px; max-width:640px; line-height:1.7; font-size:14px; color:var(--text-main);}
+  .about-copy h2{margin-bottom:10px;}
+  .about-copy p{margin-bottom:12px; color:var(--text-muted);}
+
+  /* ---------- TIPO NORMA ICONS ---------- */
+  .tipo-icon{width:46px;height:46px;border-radius:9px;object-fit:cover;flex-shrink:0;background:var(--bronze-soft);border:1px solid rgba(169,117,47,.25);}
+  .tipo-icon-fallback{
+    width:46px;height:46px;border-radius:9px;flex-shrink:0;background:var(--bronze-soft);color:var(--bronze);
+    display:flex;align-items:center;justify-content:center;font-family:'Lora';font-weight:700;font-size:14px;border:1px solid rgba(169,117,47,.25);
+  }
+  .norma-card .tipo-icon,.norma-card .tipo-icon-fallback{width:44px;height:44px;}
+  .detail-tipo-icon{width:52px;height:52px;border-radius:11px;object-fit:cover;flex-shrink:0;}
+  .detail-tipo-icon-fallback{width:52px;height:52px;border-radius:11px;flex-shrink:0;background:var(--bronze-soft);color:var(--bronze);display:flex;align-items:center;justify-content:center;font-family:'Lora';font-weight:700;font-size:16px;}
+  .detail-header-row{display:flex; align-items:flex-start; gap:16px;}
+
+  /* ---------- MUNICIPIO HERO w/ PORTADA ---------- */
+  .municipio-hero{background-size:cover; background-position:center;}
+  .municipio-hero .hero-overlay{
+    position:absolute; inset:0; background:linear-gradient(120deg,rgba(19,34,52,.92) 10%,rgba(44,66,88,.78) 100%);
+  }
+  .municipio-hero > *{position:relative; z-index:1;}
+
+  /* ---------- AI ASSISTANT ---------- */
+  .ai-fab{
+    position:fixed; right:24px; bottom:24px; z-index:400; width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(155deg,var(--bronze),#c99a52); color:#fff; border:none; cursor:pointer;
+    font-size:22px; box-shadow:0 8px 22px rgba(169,117,47,.4); display:flex; align-items:center; justify-content:center;
+    transition:.15s;
+  }
+  .ai-fab:hover{transform:scale(1.06);}
+  @media(max-width:880px){ .ai-fab{ bottom:76px; right:16px; width:50px;height:50px;font-size:19px;} }
+  .ai-panel{
+    position:fixed; right:24px; bottom:92px; z-index:400; width:380px; max-width:calc(100vw - 32px);
+    height:520px; max-height:70vh; background:#fff; border-radius:16px; box-shadow:0 16px 46px rgba(19,34,52,.25);
+    border:1px solid var(--line); display:none; flex-direction:column; overflow:hidden;
+  }
+  .ai-panel.open{display:flex;}
+  @media(max-width:880px){ .ai-panel{ bottom:134px; right:16px; } }
+  .ai-head{background:var(--ink); color:#fff; padding:14px 16px; display:flex; align-items:center; justify-content:space-between;}
+  .ai-head-title{display:flex; align-items:center; gap:9px; font-size:13.5px; font-weight:600;}
+  .ai-head-title .dot{width:8px;height:8px;border-radius:50%;background:#5fd08a;}
+  .ai-head button{background:none;border:none;color:#c9d3da;font-size:16px;cursor:pointer;}
+  .ai-body{flex:1; overflow-y:auto; padding:14px 14px 6px; display:flex; flex-direction:column; gap:12px; background:var(--paper);}
+  .ai-msg{max-width:88%; font-size:13px; line-height:1.5; padding:10px 13px; border-radius:12px;}
+  .ai-msg.bot{background:#fff; border:1px solid var(--line); align-self:flex-start; border-top-left-radius:3px;}
+  .ai-msg.user{background:var(--ink); color:#fff; align-self:flex-end; border-top-right-radius:3px;}
+  .ai-results{display:flex; flex-direction:column; gap:7px; margin-top:2px;}
+  .ai-result-card{
+    background:#fff; border:1px solid var(--line); border-left:3px solid var(--bronze); border-radius:8px;
+    padding:9px 11px; cursor:pointer; font-size:12px; display:flex; gap:9px; align-items:flex-start;
+  }
+  .ai-result-card:hover{border-left-color:var(--seal-green); box-shadow:var(--shadow);}
+  .ai-result-card .rtitle{font-weight:600; color:var(--ink); margin-bottom:2px; line-height:1.35;}
+  .ai-result-card .rmeta{color:var(--text-muted); font-size:11px;}
+  .ai-foot{padding:10px; border-top:1px solid var(--line); display:flex; gap:8px; background:#fff;}
+  .ai-foot input{flex:1; border:1px solid var(--line); border-radius:20px; padding:9px 14px; font-size:12.5px; outline:none; font-family:inherit;}
+  .ai-foot button{background:var(--bronze); border:none; color:#fff; width:36px;height:36px;border-radius:50%; cursor:pointer; font-size:14px;}
+  .ai-empty-hint{font-size:11.5px; color:var(--text-muted); padding:0 2px;}
+
+  /* ---------- STATS BANNER (País / Mundo) ---------- */
+  .stats-hero{
+    background:linear-gradient(120deg,var(--ink) 0%,var(--ink-soft) 100%); color:#fff; border-radius:16px;
+    padding:26px 28px; margin-bottom:22px; position:relative; overflow:hidden;
+  }
+  .stats-hero::after{content:""; position:absolute; right:-30px; bottom:-50px; width:200px;height:200px; border:36px solid rgba(201,154,82,.09); border-radius:50%;}
+  .stats-hero > *{position:relative; z-index:1;}
+  .stats-hero h1{font-size:22px; font-weight:600; margin-bottom:4px;}
+  .stats-hero .sub{font-size:13px; color:#c9d3da; margin-bottom:18px;}
+  .stats-row{display:flex; gap:34px; flex-wrap:wrap;}
+  .stat-item .num{font-family:'Lora'; font-size:26px; font-weight:700; color:#f0dcb3;}
+  .stat-item .lbl{font-size:11px; color:#c9d3da; text-transform:uppercase; letter-spacing:.5px; margin-top:2px;}
+  .muni-pill{
+    display:inline-flex; align-items:center; gap:4px; font-size:10.5px; font-weight:600; color:var(--slate-blue);
+    background:var(--slate-blue-soft); padding:2px 8px; border-radius:20px; white-space:nowrap;
+  }
+
+  /* ---------- ANOTADOR / CUADERNO DE TRABAJO ---------- */
+  .nb-fab{
+    position:fixed; right:92px; bottom:24px; z-index:400; width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(155deg,var(--seal-green),#417f60); color:#fff; border:none; cursor:pointer;
+    font-size:21px; box-shadow:0 8px 22px rgba(47,92,70,.38); display:flex; align-items:center; justify-content:center;
+    transition:.15s;
+  }
+  .nb-fab:hover{transform:scale(1.06);}
+  .nb-fab .nb-badge{
+    position:absolute; top:-3px; right:-3px; background:var(--bronze); color:#fff; font-size:10px; font-weight:700;
+    min-width:19px; height:19px; border-radius:10px; display:none; align-items:center; justify-content:center;
+    border:2px solid var(--paper); padding:0 4px;
+  }
+  .nb-fab .nb-badge.show{display:flex;}
+  @media(max-width:880px){ .nb-fab{ bottom:76px; right:76px; width:50px;height:50px;font-size:18px;} }
+
+  .nb-panel{
+    position:fixed; right:24px; bottom:92px; z-index:401; width:440px; max-width:calc(100vw - 32px);
+    height:610px; max-height:76vh; background:#fff; border-radius:16px; box-shadow:0 16px 46px rgba(19,34,52,.28);
+    border:1px solid var(--line); display:none; flex-direction:column; overflow:hidden;
+  }
+  .nb-panel.open{display:flex;}
+  .nb-panel.expanded{ width:min(960px, calc(100vw - 32px)); height:calc(100vh - 150px); max-height:none; }
+  @media(max-width:880px){
+    .nb-panel{ bottom:134px; right:16px; height:68vh; }
+    .nb-panel.expanded{ height:calc(100vh - 170px); }
+  }
+  .nb-head{background:var(--seal-green); color:#fff; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .nb-head-left{display:flex; align-items:center; gap:9px; min-width:0;}
+  .nb-head .nb-back{
+    background:rgba(255,255,255,.12); border:none; color:#fff; width:26px;height:26px;border-radius:7px;
+    cursor:pointer; font-size:13px; display:none; flex:0 0 auto;
+  }
+  .nb-head .nb-back.show{display:block;}
+  .nb-head-title{font-family:'Lora',serif; font-size:14.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .nb-head-sub{font-size:11px; color:#cfe2d7; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .nb-head-actions{display:flex; align-items:center; gap:4px; flex:0 0 auto;}
+  .nb-head-actions button{background:none;border:none;color:#d7e7de;font-size:14px;cursor:pointer;padding:4px 6px;border-radius:6px;}
+  .nb-head-actions button:hover{background:rgba(255,255,255,.12); color:#fff;}
+  @media(max-width:880px){ .nb-expand-btn{display:none;} }
+
+  .nb-body{flex:1; overflow-y:auto; background:var(--paper); padding:12px;}
+  .nb-toolbar{display:flex; gap:7px; padding:9px 12px; border-bottom:1px solid var(--line); background:#fff; align-items:center;}
+  .nb-toolbar input.nb-find{
+    flex:1; border:1px solid var(--line); border-radius:20px; padding:7px 12px; font-size:12.5px; outline:none; font-family:inherit;
+  }
+  .nb-btn{
+    background:var(--seal-green); border:none; color:#fff; border-radius:8px; padding:8px 12px;
+    font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit; white-space:nowrap;
+  }
+  .nb-btn.ghost{background:#fff; color:var(--ink); border:1px solid var(--line);}
+  .nb-btn.tiny{padding:5px 9px; font-size:11.5px;}
+  .nb-btn.danger{background:#fff; color:var(--danger); border:1px solid #e6cccc;}
+
+  .nb-item{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:11px 12px; margin-bottom:8px;
+    cursor:pointer; display:flex; align-items:flex-start; gap:10px; transition:.12s;
+  }
+  .nb-item:hover{border-color:var(--seal-green); box-shadow:var(--shadow);}
+  .nb-item .nb-ic{
+    width:30px;height:30px;border-radius:8px;background:var(--seal-green-soft); color:var(--seal-green);
+    display:flex;align-items:center;justify-content:center;font-size:14px; flex:0 0 auto;
+  }
+  .nb-item .nb-it-body{flex:1; min-width:0;}
+  .nb-item .nb-it-title{font-size:13.5px; font-weight:600; color:var(--text-main); margin-bottom:2px; word-break:break-word;}
+  .nb-item .nb-it-meta{font-size:11px; color:var(--text-muted); display:flex; gap:8px; flex-wrap:wrap;}
+  .nb-item .nb-it-prev{font-size:11.5px; color:var(--text-muted); margin-top:4px; line-height:1.45;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .nb-item .nb-del{background:none;border:none;color:#b9c2c8;cursor:pointer;font-size:13px;padding:2px 4px;flex:0 0 auto;}
+  .nb-item .nb-del:hover{color:var(--danger);}
+
+  .nb-empty{text-align:center; color:var(--text-muted); font-size:12.5px; padding:26px 16px; line-height:1.6;}
+  .nb-empty .glyph{font-size:26px; display:block; margin-bottom:8px; opacity:.5;}
+  .nb-sec-label{
+    font-size:10.5px; text-transform:uppercase; letter-spacing:.9px; color:var(--text-muted);
+    font-weight:600; margin:14px 2px 7px;
+  }
+  .nb-sec-label:first-child{margin-top:2px;}
+
+  /* editor */
+  .nb-editor{display:flex; flex-direction:column; gap:10px;}
+  .nb-title-input{
+    width:100%; border:none; border-bottom:2px solid var(--bronze-soft); background:transparent;
+    font-family:'Lora',serif; font-size:17px; font-weight:600; color:var(--ink); padding:4px 2px 7px; outline:none;
+  }
+  .nb-title-input:focus{border-bottom-color:var(--bronze);}
+  .nb-textarea{
+    width:100%; min-height:150px; border:1px solid var(--line); border-radius:var(--radius); background:#fff;
+    padding:11px 12px; font-family:inherit; font-size:13px; line-height:1.6; color:var(--text-main); outline:none; resize:vertical;
+  }
+  .nb-textarea:focus{border-color:var(--seal-green);}
+  .nb-sub{background:#fff; border:1px solid var(--line); border-left:3px solid var(--slate-blue); border-radius:var(--radius); padding:9px 10px; margin-bottom:8px;}
+  .nb-sub-head{display:flex; align-items:center; gap:6px; margin-bottom:6px;}
+  .nb-sub-head input{
+    flex:1; border:none; background:transparent; font-family:inherit; font-size:12.5px; font-weight:600;
+    color:var(--ink); outline:none; padding:2px 0;
+  }
+  .nb-sub textarea{
+    width:100%; min-height:64px; border:none; background:transparent; font-family:inherit; font-size:12.5px;
+    line-height:1.55; color:var(--text-main); outline:none; resize:vertical; padding:0;
+  }
+  .nb-link-chip{
+    display:flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--line);
+    border-radius:8px; padding:8px 10px; margin-bottom:6px; cursor:pointer; transition:.12s;
+  }
+  .nb-link-chip:hover{border-color:var(--bronze); background:#fffdf9;}
+  .nb-link-chip .lk-ic{width:26px;height:26px;border-radius:7px;background:var(--bronze-soft); color:var(--bronze);
+    display:flex;align-items:center;justify-content:center;font-size:12px;flex:0 0 auto;}
+  .nb-link-chip .lk-txt{flex:1; min-width:0;}
+  .nb-link-chip .lk-t{font-size:12.5px; font-weight:600; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .nb-link-chip .lk-m{font-size:10.5px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .nb-link-chip .nb-del{background:none;border:none;color:#b9c2c8;cursor:pointer;font-size:12px;padding:2px 4px;}
+  .nb-link-chip .nb-del:hover{color:var(--danger);}
+  .nb-linksearch{margin-bottom:8px; display:none;}
+  .nb-linksearch.open{display:block;}
+  .nb-linksearch input{
+    width:100%; border:1px solid var(--line); border-radius:8px; padding:8px 11px; font-size:12.5px;
+    font-family:inherit; outline:none; margin-bottom:6px;
+  }
+  .nb-linkres{max-height:190px; overflow-y:auto;}
+  .nb-linkres .r{
+    background:#fff; border:1px solid var(--line); border-radius:8px; padding:7px 9px; margin-bottom:5px; cursor:pointer;
+    font-size:12px; line-height:1.4;
+  }
+  .nb-linkres .r:hover{border-color:var(--seal-green);}
+  .nb-linkres .r b{display:block; font-size:12.3px; color:var(--ink); margin-bottom:1px;}
+  .nb-linkres .r span{color:var(--text-muted); font-size:10.5px;}
+  .nb-foot{
+    padding:8px 12px; border-top:1px solid var(--line); background:#fff; display:flex; align-items:center;
+    justify-content:space-between; gap:8px; font-size:11px; color:var(--text-muted);
+  }
+  .nb-saved{display:flex; align-items:center; gap:6px;}
+  .nb-saved .dot{width:7px;height:7px;border-radius:50%;background:#5fd08a;}
+  .nb-foot-actions{display:flex; gap:6px;}
+
+  .nb-pick-banner{
+    background:var(--bronze-soft); border:1px solid #e7d4b8; border-radius:var(--radius);
+    padding:10px 12px; font-size:12px; color:#6b4a17; line-height:1.5; margin-bottom:10px;
+  }
+  .nb-modal{
+    position:absolute; inset:0; background:rgba(19,34,52,.42); display:none; align-items:center;
+    justify-content:center; z-index:20; padding:20px;
+  }
+  .nb-modal.open{display:flex;}
+  .nb-modal-box{
+    background:#fff; border-radius:12px; padding:16px; width:100%; max-width:340px;
+    box-shadow:0 14px 36px rgba(19,34,52,.3);
+  }
+  .nb-modal-box h4{font-family:'Lora',serif; font-size:14.5px; color:var(--ink); margin-bottom:4px;}
+  .nb-modal-box p{font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:11px;}
+  .nb-modal-box input{
+    width:100%; border:1px solid var(--line); border-radius:8px; padding:9px 11px;
+    font-size:13px; font-family:inherit; outline:none; margin-bottom:12px;
+  }
+  .nb-modal-box input:focus{border-color:var(--seal-green);}
+  .nb-modal-actions{display:flex; gap:8px; justify-content:flex-end;}
+  .nb-reason-select{
+    width:100%; border:1px solid var(--line); border-radius:8px; padding:10px 11px; font-size:12.5px;
+    font-family:inherit; outline:none; margin-bottom:12px; background:#fff; color:var(--text-main); cursor:pointer;
+  }
+  .nb-reason-select:focus{border-color:var(--seal-green);}
+  .nb-reason-otro{width:100%; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:12.5px; font-family:inherit; outline:none; margin-bottom:12px;}
+  .nb-reason-otro:focus{border-color:var(--seal-green);}
+  #nbReasonConfirmBtn:disabled{opacity:.45; cursor:not-allowed;}
+  .nb-hist-item{background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin-bottom:8px;}
+  .nb-hist-top{display:flex; justify-content:space-between; gap:8px; align-items:baseline; margin-bottom:4px; flex-wrap:wrap;}
+  .nb-hist-accion{font-size:11.5px; font-weight:700; color:var(--seal-green); text-transform:uppercase; letter-spacing:.3px;}
+  .nb-hist-accion.del{color:var(--danger);}
+  .nb-hist-ts{font-size:10.5px; color:var(--text-muted); font-family:'IBM Plex Mono'; white-space:nowrap;}
+  .nb-hist-detail{font-size:12.5px; color:var(--text-main); line-height:1.4;}
+  .nb-hist-motivo{font-size:11px; color:var(--bronze); margin-top:4px; font-weight:600;}
+  .nb-toast{
+    position:fixed; left:50%; transform:translateX(-50%); bottom:32px; z-index:900;
+    background:var(--ink); color:#fff; padding:10px 16px; border-radius:22px; font-size:12.5px;
+    box-shadow:0 10px 26px rgba(19,34,52,.3); opacity:0; pointer-events:none; transition:.2s;
+  }
+  .nb-toast.show{opacity:1; bottom:44px;}
+  .detail-actions{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:12px;}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand" onclick="goHome()">
+    <div class="brand-mark">MU</div>
+    <div class="brand-name">Modernización <span>Urbana</span></div>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-page="digesto" class="active">Mi Digesto</button>
+    <button data-page="pais">País</button>
+    <button data-page="mundo">Mundo</button>
+    <button data-page="chatgpt">ChatGPT</button>
+    <button data-page="educacion">Educación</button>
+  </nav>
+  <div class="head-right">
+    <div class="more-wrap">
+      <div class="avatar" id="avatarBtn" onclick="toggleMore()">P</div>
+      <div class="more-menu" id="moreMenu">
+        <button onclick="showPage('nosotros'); toggleMore()">Nosotros</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= MI DIGESTO ================= -->
+  <section class="page active" id="page-digesto">
+    <div id="digestoRoot"></div>
+  </section>
+
+  <!-- ================= PAÍS ================= -->
+  <section class="page" id="page-pais">
+    <div id="paisRoot"></div>
+  </section>
+
+  <!-- ================= MUNDO ================= -->
+  <section class="page" id="page-mundo">
+    <div id="mundoRoot"></div>
+  </section>
+
+  <!-- ================= CHATGPT ================= -->
+  <section class="page" id="page-chatgpt">
+    <div class="section-eyebrow">Inteligencia Artificial Especializada</div>
+    <div class="section-title">Asistentes de análisis y redacción normativa</div>
+    <div class="service-card">
+      <div class="icon-box">◈</div>
+      <h3>IA de Análisis y Redacción Normativa</h3>
+      <p>Asistente especializado en el análisis técnico de las normas de tu digesto y en la elaboración de nuevos proyectos legislativos a partir de normas existentes.</p>
+      <div class="btn-row"><button class="btn-primary">Ir al Bot</button><button class="btn-secondary">Saber más</button></div>
+    </div>
+    <div class="service-card">
+      <div class="icon-box">◈</div>
+      <h3>IA de Análisis Normativo Técnico</h3>
+      <p>Buscá documentos específicos entre las normas cargadas de tu municipio, con respuestas trazables a la ordenanza de origen.</p>
+      <div class="btn-row"><button class="btn-primary">Ir al Bot</button><button class="btn-secondary">Saber más</button></div>
+    </div>
+  </section>
+
+  <!-- ================= EDUCACIÓN ================= -->
+  <section class="page" id="page-educacion">
+    <div class="section-eyebrow">Capacitación</div>
+    <div class="section-title">Cursos certificados</div>
+    <div class="service-card">
+      <div class="icon-box">✎</div>
+      <h3>IA de Análisis y Redacción Normativa</h3>
+      <p>Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.</p>
+      <div class="btn-row"><button class="btn-primary">Ir al Curso</button><button class="btn-secondary">Acerca del Curso</button></div>
+    </div>
+  </section>
+
+  <!-- ================= NOSOTROS ================= -->
+  <section class="page" id="page-nosotros">
+    <div class="about-copy">
+      <h2 class="serif">Nosotros</h2>
+      <p>Modernización Urbana reúne y ordena las normas de cada municipio a partir de trabajo propio de investigación, y las pone a disposición de concejos deliberantes y funcionarios para analizar normativa y comparar la evolución de cada comunidad.</p>
+      <p>El acceso a municipios y jurisdicciones depende del plan contratado: Municipio propio, País o Mundo.</p>
+    </div>
+  </section>
+
+</main>
+
+<div class="bottom-nav" id="bottomNav">
+  <button data-page="digesto" class="active"><span class="bic">🏛</span>Digesto</button>
+  <button data-page="pais"><span class="bic">🇦🇷</span>País</button>
+  <button data-page="mundo"><span class="bic">🌐</span>Mundo</button>
+  <button data-page="chatgpt"><span class="bic">◈</span>ChatGPT</button>
+  <button data-page="educacion"><span class="bic">✎</span>Educ.</button>
+</div>
+
+<!-- FILTER MODAL -->
+<div class="overlay" id="filterOverlay">
+  <div class="filter-sheet">
+    <div class="filter-sheet-head"><h3>Filtrar normas</h3><button onclick="closeFilter()">✕</button></div>
+    <div id="filterGroups"></div>
+    <div class="filter-actions">
+      <button class="clear" onclick="clearFilters()">Borrar todo</button>
+      <button class="apply" onclick="closeFilter()">Listo</button>
+    </div>
+  </div>
+</div>
+
+<button class="ai-fab" id="aiFab" onclick="toggleAI()">✨</button>
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-head">
+    <div class="ai-head-title"><span class="dot"></span> Asistente del Digesto</div>
+    <button onclick="toggleAI()">✕</button>
+  </div>
+  <div class="ai-body" id="aiBody"></div>
+  <div class="ai-foot">
+    <input type="text" id="aiInput" placeholder="Ej: normas sobre viviendas..." onkeydown="if(event.key==='Enter')submitAIQuery()">
+    <button onclick="submitAIQuery()">➤</button>
+  </div>
+</div>
+
+
+<!-- ================= ANOTADOR / CUADERNO DE TRABAJO ================= -->
+<button class="nb-fab" id="nbFab" onclick="toggleNotebook()" title="Mi anotador">📓<span class="nb-badge" id="nbBadge"></span></button>
+<div class="nb-panel" id="nbPanel">
+  <div class="nb-head">
+    <div class="nb-head-left">
+      <button class="nb-back" id="nbBack" onclick="nbGoBack()">←</button>
+      <div style="min-width:0;">
+        <div class="nb-head-title" id="nbTitleBar">Mi anotador</div>
+        <div class="nb-head-sub" id="nbSubBar">Proyectos y notas de trabajo</div>
+      </div>
+    </div>
+    <div class="nb-head-actions">
+      <button class="nb-expand-btn" onclick="nbToggleExpand()" title="Ampliar / reducir">⛶</button>
+      <button onclick="toggleNotebook()" title="Cerrar">✕</button>
+    </div>
+  </div>
+  <div class="nb-toolbar" id="nbToolbar"></div>
+  <div class="nb-body" id="nbBody"></div>
+  <div class="nb-modal" id="nbModal"></div>
+  <div class="nb-foot">
+    <div class="nb-saved"><span class="dot" id="nbDot"></span><span id="nbSavedTxt">Listo</span></div>
+    <div class="nb-foot-actions" id="nbFootActions"></div>
+  </div>
+</div>
+<div class="nb-toast" id="nbToast"></div>
+<input type="file" id="nbImportFile" accept="application/json" style="display:none" onchange="nbImportBackup(event)">
+
+<script>
+/* ============ DATA ============ */
+const MUNICIPIOS = {
+  centenario: {
+    nombre: "Centenario", provincia: "Neuquén", pais: "Argentina", plan: "Municipio propio",
+    normas: [
+      {nro:"9996", anio:2024, tipoNorma:"Ordenanza", tema:"Modificación del esquema de financiamiento de la contribución por mejoras para obra de pavimento y obras complementarias en Barrio 173 Viviendas y reapertura del registro de oposición", rama:"Tributario", subtema:"Contribuciones", impacto:"Económico", complejidad:"Medio", fechaSancion:"27 de septiembre de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Pavimento urbano y obras complementarias Barrio 173 Viviendas: nuevo plan de financiamiento de la contribución por mejora", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ordenanza N° 9972/2024", relacionadas:"Ordenanza N° 4774/05, Ordenanza N° 9972/2024", detalle:"Aprueba un nuevo plan de financiamiento para el pago de la contribución por mejora del proyecto \"Pavimento Urbano y Obras Complementarias Barrio 173 Viviendas\" (aprobado por Ordenanza N° 9972/2024), disponiendo quita de interés por financiación y habilitando el pago contado con descuento o en 6, 9, 12, 18, 24, 36 o 48 cuotas sin interés. Autoriza la reapertura del Registro de Oposición por 15 días corridos a partir de la promulgación, por excepción al Art. 10 inc. 2 de la Ordenanza N° 4774/05, y comunica al Poder Ejecutivo Municipal.", keywords:["ordenanza 9996","contribución por mejoras","financiación","quita de interés","cuotas sin interés","descuento pago contado","registro de oposición","reapertura","ordenanza 4774/05","pavimento urbano","barrio 173 viviendas","centenario","neuquén"]},
+      {nro:"9994", anio:2024, tipoNorma:"Ordenanza", tema:"Autorización de préstamo provincial y afectación de recursos en garantía", rama:"Administrativo", subtema:"Actos Administrativos", impacto:"Económico", complejidad:"Medio", fechaSancion:"20 de septiembre de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Autorización de préstamo provincial con afectación de recursos en garantía", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Autoriza al Departamento Ejecutivo Municipal a gestionar un préstamo ante la Provincia de Neuquén, afectando recursos de coparticipación como garantía del repago de la obligación asumida.", keywords:["ordenanza 9994","préstamo provincial","garantía","coparticipación","centenario"]},
+      {nro:"9972", anio:2024, tipoNorma:"Ordenanza", tema:"Aprobación de anteproyecto de pavimento y obras complementarias con registro de oposición", rama:"Planeamiento Territorial", subtema:"Infraestructura Pública", impacto:"Urbanístico", complejidad:"Medio", fechaSancion:"6 de septiembre de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Anteproyecto Pavimento Urbano y Obras Complementarias Barrio 173 Viviendas", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ordenanza N° 9996/2024", relacionadas:"Ordenanza N° 4774/05, Ordenanza N° 9996/2024", detalle:"Aprueba el anteproyecto de Pavimento Urbano y Obras Complementarias para el Barrio 173 Viviendas, declara la obra de utilidad pública y pago obligatorio, y abre el Registro de Oposición por el término de 10 días corridos conforme la Ordenanza N° 4774/05.", keywords:["ordenanza 9972","anteproyecto","pavimento","obras complementarias","registro de oposición","utilidad pública","barrio 173 viviendas"]},
+      {nro:"6365", anio:2013, tipoNorma:"Ordenanza", tema:"Promoción industrial municipal: establece un régimen para fomentar instalación y desarrollo de industrias en el Parque Industrial de Centenario", rama:"Desarrollo Económico", subtema:"Promoción Industrial", impacto:"Económico", complejidad:"Alto", fechaSancion:"14 de noviembre de 2013", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Régimen de Promoción Industrial - Parque Industrial de Centenario", anexos:"Anexo I: cuadro de beneficios fiscales", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Crea un régimen de promoción para la instalación y el desarrollo de industrias dentro del Parque Industrial de Centenario, con beneficios fiscales escalonados según nivel de inversión y generación de empleo local.", keywords:["ordenanza 6365","promoción industrial","parque industrial","beneficios fiscales","empleo","centenario"]},
+      {nro:"6271", anio:2012, tipoNorma:"Ordenanza", tema:"Creación de nueva zona urbana: define un Área de Servicios Turísticos, Comerciales y Urbanísticos, con carácter, usos admitidos y delimitación territorial", rama:"Urbanístico", subtema:"Zonificación", impacto:"Urbanístico", complejidad:"Alto", fechaSancion:"9 de agosto de 2012", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Área de Servicios Turísticos, Comerciales y Urbanísticos (ASTCU)", anexos:"Plano de delimitación territorial", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Define una nueva zona urbana denominada Área de Servicios Turísticos, Comerciales y Urbanísticos, estableciendo su carácter, los usos del suelo admitidos y su delimitación territorial dentro del ejido municipal.", keywords:["ordenanza 6271","zonificación","área de servicios","turístico","comercial","urbanístico","centenario"]},
+      {nro:"5449", anio:2009, tipoNorma:"Ordenanza", tema:"Ordenamiento vehicular: sentidos de circulación y prohibiciones de estacionamiento/ingreso de pesados en calles de barrio; medidas de señalización y difusión", rama:"Administrativo", subtema:"Tránsito", impacto:"Social", complejidad:"Bajo", fechaSancion:"3 de junio de 2009", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Ordenamiento de Sentidos de Circulación y Restricción de Vehículos Pesados", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Establece nuevos sentidos de circulación en calles de barrio, prohíbe el estacionamiento y el ingreso de vehículos de carga pesada en las mismas, y dispone la señalización y difusión correspondientes.", keywords:["ordenanza 5449","tránsito","sentidos de circulación","vehículos pesados","señalización","centenario"]},
+      {nro:"5248", anio:2008, tipoNorma:"Ordenanza", tema:"Adhiere a la Ley Provincial 2189 y su modificatoria 2370 que establece régimen especial de descuentos automáticos de cuotas de viviendas del IPVUN para beneficiarios agentes públicos municipales y provinciales, con el fin de reducir morosidad", rama:"Administrativo", subtema:"Actos Administrativos", impacto:"Económico", complejidad:"Bajo", fechaSancion:"12 de mayo de 2008", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Adhesión al Régimen de Descuento Automático de Cuotas IPVUN", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ley Provincial 2189 y 2370", relacionadas:"No consta", detalle:"Adhiere al régimen previsto por la Ley Provincial 2189 y su modificatoria 2370, habilitando el descuento automático de haberes para el pago de cuotas de viviendas del IPVUN a agentes públicos municipales y provinciales, con el objeto de reducir la morosidad.", keywords:["ordenanza 5248","ipvun","descuento automático","morosidad","vivienda","centenario"]},
+      {nro:"9", anio:1984, tipoNorma:"Ordenanza", tema:"Establece un régimen para adjudicación, ocupación, conservación, inspección y restitución de casas municipales", rama:"Administrativo", subtema:"Vivienda", impacto:"Social", complejidad:"Medio", fechaSancion:"2 de marzo de 1984", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Régimen de Casas Municipales", anexos:"No consta", historial:"Modificada parcialmente por ordenanzas posteriores", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Fija el régimen aplicable a la adjudicación, ocupación, conservación, inspección y eventual restitución de las casas de propiedad municipal destinadas a agentes y familias del municipio.", keywords:["ordenanza 9","casas municipales","adjudicación","vivienda","centenario"]},
+      {nro:"10384", anio:2025, tipoNorma:"Ordenanza", tema:"Declaración de utilidad pública y pago obligatorio por contribución por mejoras para ampliación de red de gas natural, con registro de oposición y modalidades de pago", rama:"Planeamiento Territorial", subtema:"Infraestructura Pública", impacto:"Urbanístico", complejidad:"Medio", fechaSancion:"15 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Ampliación de red de gas natural — Cooperativas Epu Pehuén, SEJUN y Mutual BPN", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"Ordenanza N° 4774/05", detalle:"Impulsa la obra \"Ampliación de Red de Gas Natural\" para sectores Cooperativas Epu Pehuén, SEJUN y Mutual BPN, destinada a conectar el servicio a familias beneficiarias. Establece el régimen de contribución por mejoras con modalidades de pago (contado con descuento y planes en cuotas sin interés) y dispone la apertura del Registro de Oposición por el plazo legal de 30 días corridos conforme Ordenanza N° 4774/05. Prevé la suscripción de convenios de pago con frentistas una vez vencido el registro y si el resultado fuera favorable.", keywords:["ordenanza 10384","red de gas natural","ampliación","infraestructura pública","utilidad pública","contribución por mejoras","cuotas sin interés","descuento","registro de oposición","ordenanza 4774/05","centenario","neuquén"]},
+      {nro:"751", anio:2025, tipoNorma:"Declaración", tema:"Reconocimiento institucional a atletas locales por participación y logros en Juegos Para Araucanía 2025", rama:"Administrativo", subtema:"Actos Administrativos", impacto:"Social", complejidad:"Bajo", fechaSancion:"3 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Reconocimiento a atletas locales — Juegos Para Araucanía 2025", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Declara de interés y reconoce institucionalmente a los atletas locales que participaron y obtuvieron logros deportivos en los Juegos Para Araucanía 2025, en representación de la ciudad de Centenario.", keywords:["declaración 751","reconocimiento","atletas","juegos para araucanía","centenario"]},
+      {nro:"10383", anio:2025, tipoNorma:"Ordenanza", tema:"Aprobación del Presupuesto General 2026: cálculo de recursos, autorización de transferencias compensatorias e incorporación de partidas", rama:"Tributario", subtema:"Presupuesto", impacto:"Económico", complejidad:"Alto", fechaSancion:"1 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Presupuesto General de Gastos y Cálculo de Recursos - Ejercicio 2026", anexos:"Planillas de cálculo de recursos y erogaciones", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Aprueba el Presupuesto General de Gastos y Cálculo de Recursos del municipio para el Ejercicio 2026, autorizando al Departamento Ejecutivo a realizar transferencias compensatorias entre partidas y a incorporar nuevas partidas presupuestarias durante el ejercicio.", keywords:["ordenanza 10383","presupuesto general 2026","cálculo de recursos","transferencias compensatorias","centenario"]}
+    ]
+  },
+  neuquenCapital: {
+    nombre:"Neuquén Capital", provincia:"Neuquén", pais:"Argentina", plan:"País",
+    normas:[
+      {nro:"14210", anio:2024, tipoNorma:"Ordenanza", tema:"Régimen de fomento para la construcción de viviendas sociales en el ejido municipal", rama:"Planeamiento Territorial", subtema:"Vivienda", impacto:"Social", complejidad:"Alto", fechaSancion:"11 de abril de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Neuquén", denominacion:"Régimen de Fomento a la Vivienda Social", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Crea un régimen de fomento para la construcción de viviendas sociales, con beneficios impositivos para cooperativas y desarrolladores que destinen unidades a sectores de ingresos medios y bajos.", keywords:["vivienda social","fomento","neuquén capital"]},
+      {nro:"13990", anio:2023, tipoNorma:"Ordenanza", tema:"Creación del Registro Único de Comercios Gastronómicos y régimen de habilitaciones simplificadas", rama:"Administrativo", subtema:"Comercio", impacto:"Económico", complejidad:"Medio", fechaSancion:"22 de agosto de 2023", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Neuquén", denominacion:"Registro Único de Comercios Gastronómicos", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Crea el Registro Único de Comercios Gastronómicos y simplifica el trámite de habilitación comercial para el rubro, unificando requisitos entre las distintas áreas municipales intervinientes.", keywords:["comercio","gastronomía","habilitaciones","neuquén capital"]}
+    ]
+  },
+  bahiaBlanca: {
+    nombre:"Bahía Blanca", provincia:"Buenos Aires", pais:"Argentina", plan:"País",
+    normas:[
+      {nro:"18452", anio:2024, tipoNorma:"Ordenanza", tema:"Creación del programa municipal de arbolado urbano y reposición de especies nativas en avenidas principales", rama:"Ambiental", subtema:"Espacios Verdes", impacto:"Ambiental", complejidad:"Medio", fechaSancion:"5 de junio de 2024", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Bahía Blanca", denominacion:"Programa Municipal de Arbolado Urbano", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Crea un programa municipal para la forestación y reposición de especies nativas en avenidas y espacios públicos, con metas anuales de plantación y un vivero municipal propio.", keywords:["arbolado urbano","especies nativas","ambiental","bahía blanca"]},
+      {nro:"18201", anio:2023, tipoNorma:"Resolución", tema:"Aprobación del protocolo de atención a personas en situación de calle durante los meses de invierno", rama:"Administrativo", subtema:"Acción Social", impacto:"Social", complejidad:"Bajo", fechaSancion:"2 de mayo de 2023", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Bahía Blanca", denominacion:"Protocolo de Atención Invernal a Personas en Situación de Calle", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Aprueba el protocolo de actuación de las áreas municipales para la atención y asistencia de personas en situación de calle durante los meses de menor temperatura, incluyendo refugios temporarios y recorridas nocturnas.", keywords:["situación de calle","invierno","acción social","bahía blanca"]}
+    ]
+  },
+  temuco: {
+    nombre:"Temuco", provincia:"Araucanía", pais:"Chile", plan:"Mundo",
+    normas:[
+      {nro:"4120", anio:2022, tipoNorma:"Ordenanza", tema:"Regula la instalación de publicidad y letreros comerciales en el centro histórico de la comuna", rama:"Urbanístico", subtema:"Espacio Público", impacto:"Urbanístico", complejidad:"Medio", fechaSancion:"14 de octubre de 2022", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Temuco", denominacion:"Ordenanza de Publicidad y Letreros en Centro Histórico", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Regula tamaño, ubicación y materiales de la publicidad y letreros comerciales instalados en fachadas del centro histórico, con el fin de proteger el patrimonio visual de la comuna.", keywords:["publicidad","letreros","centro histórico","temuco","chile"]},
+      {nro:"3987", anio:2021, tipoNorma:"Decreto", tema:"Establece el plan comunal de gestión de residuos orgánicos y compostaje domiciliario", rama:"Ambiental", subtema:"Residuos", impacto:"Ambiental", complejidad:"Medio", fechaSancion:"9 de marzo de 2021", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Temuco", denominacion:"Plan Comunal de Gestión de Residuos Orgánicos", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Crea el plan comunal de gestión de residuos orgánicos, promoviendo el compostaje domiciliario mediante entrega de composteras subsidiadas y talleres barriales.", keywords:["residuos orgánicos","compostaje","ambiental","temuco","chile"]}
+    ]
+  }
+};
+
+const RAMA_COLORS = {};
+
+const PORTADA_URL = "https://firebasestorage.googleapis.com/v0/b/digestos-536e1.firebasestorage.app/o/Im%C3%A1genes%2FDigesto%20Portada.png?alt=media&token=3b61b8a9-b897-497b-a5e3-b7835ca7c9bc";
+
+const TIPO_ICONS = {
+  "Comunicación": "https://firebasestorage.googleapis.com/v0/b/digestos-536e1.firebasestorage.app/o/Im%C3%A1genes%2FComunicaci%C3%B3n.png?alt=media&token=0c28063a-b3d1-429f-a636-49efb40e203d",
+  "Declaración": "https://firebasestorage.googleapis.com/v0/b/digestos-536e1.firebasestorage.app/o/Im%C3%A1genes%2FDeclaraci%C3%B3n.png?alt=media&token=7214c79f-4799-4450-9750-daea8979d092",
+  "Ordenanza": "https://firebasestorage.googleapis.com/v0/b/digestos-536e1.firebasestorage.app/o/Im%C3%A1genes%2Fordenanza.png?alt=media&token=9277ed73-f7bb-4b67-81d3-1797e6df8556"
+  /* Acta, Decreto, Disposición, Ley y Resolución: sumar sus URLs acá cuando estén disponibles */
+};
+function tipoIconHTML(tipo, sizeClass, fallbackClass){
+  const url = TIPO_ICONS[tipo];
+  if(url) return `<img src="${url}" class="${sizeClass}" alt="${tipo}">`;
+  return `<div class="${fallbackClass}">${(tipo||'?').slice(0,2).toUpperCase()}</div>`;
+}
+
+/* ============ STATE ============ */
+let currentMunicipioKey = "centenario"; // municipio propio (plan pagado)
+let currentView = "list"; // list | detail
+let currentNormaId = null;
+let currentDetailMuniKey = null;
+
+const scopeState = {
+  digesto: { search:'', filters:{tipoNorma:[],rama:[],subtema:[],anio:[],complejidad:[]} },
+  pais:    { search:'', filters:{municipio:[],provincia:[],tipoNorma:[],rama:[],subtema:[],anio:[],complejidad:[]} },
+  mundo:   { search:'', filters:{pais:[],provincia:[],municipio:[],tipoNorma:[],rama:[],subtema:[],anio:[],complejidad:[]} }
+};
+let activeFilterScope = 'digesto';
+
+/* ============ NAV ============ */
+document.querySelectorAll('#tabs button, #bottomNav button').forEach(btn=>{
+  btn.addEventListener('click', ()=> showPage(btn.dataset.page));
+});
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('#tabs button, #bottomNav button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.page===id);
+  });
+  if(id==='pais') renderScopePage('pais');
+  if(id==='mundo') renderScopePage('mundo');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function goHome(){ showPage('digesto'); currentView='list'; renderDigesto(); }
+function toggleMore(){ document.getElementById('moreMenu').classList.toggle('open'); }
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.more-wrap')) document.getElementById('moreMenu').classList.remove('open');
+});
+
+/* ============ DATA HELPERS ============ */
+function flatNormas(keys){
+  let out=[];
+  keys.forEach(k=>{
+    const m = MUNICIPIOS[k];
+    m.normas.forEach(n=> out.push(Object.assign({}, n, {muniKey:k, muniNombre:m.nombre, provincia:m.provincia, pais:m.pais})));
+  });
+  return out;
+}
+function paisScopeKeys(){
+  const home = MUNICIPIOS[currentMunicipioKey];
+  return Object.keys(MUNICIPIOS).filter(k=>MUNICIPIOS[k].pais===home.pais);
+}
+function mundoScopeKeys(){ return Object.keys(MUNICIPIOS); }
+
+/* ============ RENDER: MI DIGESTO ============ */
+function renderDigesto(){
+  const root = document.getElementById('digestoRoot');
+  const m = MUNICIPIOS[currentMunicipioKey];
+  if(currentView === 'detail'){
+    root.innerHTML = renderDetail(currentDetailMuniKey || currentMunicipioKey, currentNormaId, true);
+    return;
+  }
+  const st = scopeState.digesto;
+  const filtered = filterNormas(flatNormas([currentMunicipioKey]), st, {});
+  root.innerHTML = `
+    <div class="municipio-hero" style="background-image:url('${PORTADA_URL}');">
+      <div class="hero-overlay"></div>
+      <div class="municipio-seal">${m.nombre.slice(0,2).toUpperCase()}</div>
+      <div>
+        <h1 class="serif">${m.nombre}</h1>
+        <div class="sub">${m.provincia}, ${m.pais} · Concejo Deliberante</div>
+      </div>
+      <div class="badge-access">Plan: ${m.plan}</div>
+    </div>
+    <div class="search-row">
+      <div class="search-box">
+        <span class="ic">🔍</span>
+        <input type="text" id="searchInput-digesto" placeholder="Buscar por número, tema, palabra clave..." value="${st.search}">
+      </div>
+      <button class="btn-filter" onclick="openFilter('digesto')">⚙ Filtrar ${filterCount(st)>0?`<span class="filter-count">${filterCount(st)}</span>`:''}</button>
+    </div>
+    <div class="results-line">${filtered.length} norma${filtered.length===1?'':'s'} encontrada${filtered.length===1?'':'s'}</div>
+    <div class="norma-list" id="normaList-digesto"></div>
+  `;
+  wireSearchInput('digesto', renderDigesto);
+  renderNormaList('normaList-digesto', filtered, false);
+}
+
+/* ============ RENDER: PAÍS / MUNDO (listado completo) ============ */
+function renderScopePage(scope){
+  const root = document.getElementById(scope+'Root');
+  if(currentView === 'detail' && activeDetailScope === scope){
+    root.innerHTML = renderDetail(currentDetailMuniKey, currentNormaId, false, scope);
+    return;
+  }
+  const keys = scope==='pais' ? paisScopeKeys() : mundoScopeKeys();
+  const all = flatNormas(keys);
+  const st = scopeState[scope];
+  const filtered = filterNormas(all, st, {});
+  const nMunis = new Set(all.map(n=>n.muniKey)).size;
+  const nProv = new Set(all.map(n=>n.provincia)).size;
+  const nPais = new Set(all.map(n=>n.pais)).size;
+  const label = scope==='pais' ? `Municipios de ${MUNICIPIOS[currentMunicipioKey].pais}` : 'Municipios y jurisdicciones del mundo';
+  const eyebrow = scope==='pais' ? 'Plan País' : 'Plan Mundo';
+  root.innerHTML = `
+    <div class="stats-hero">
+      <div class="section-eyebrow" style="color:#f0dcb3;">${eyebrow}</div>
+      <h1 class="serif">${label}</h1>
+      <div class="sub">Todo el digesto disponible en tu suscripción, en un solo listado.</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="num">${all.length.toLocaleString('es-AR')}</div><div class="lbl">Normas cargadas</div></div>
+        <div class="stat-item"><div class="num">${nMunis}</div><div class="lbl">Municipios</div></div>
+        <div class="stat-item"><div class="num">${nProv}</div><div class="lbl">Provincias / Regiones</div></div>
+        ${scope==='mundo'?`<div class="stat-item"><div class="num">${nPais}</div><div class="lbl">Países</div></div>`:''}
+      </div>
+    </div>
+    <div class="search-row">
+      <div class="search-box">
+        <span class="ic">🔍</span>
+        <input type="text" id="searchInput-${scope}" placeholder="Buscar en todo el digesto: número, tema, municipio, palabra clave..." value="${st.search}">
+      </div>
+      <button class="btn-filter" onclick="openFilter('${scope}')">⚙ Filtrar ${filterCount(st)>0?`<span class="filter-count">${filterCount(st)}</span>`:''}</button>
+    </div>
+    <div class="results-line">${filtered.length.toLocaleString('es-AR')} norma${filtered.length===1?'':'s'} encontrada${filtered.length===1?'':'s'}</div>
+    <div class="norma-list" id="normaList-${scope}"></div>
+  `;
+  wireSearchInput(scope, ()=>renderScopePage(scope));
+  renderNormaList('normaList-'+scope, filtered, scope);
+}
+
+function renderNormaList(containerId, list, scope){
+  const listEl = document.getElementById(containerId);
+  if(!listEl) return;
+  if(list.length===0){
+    listEl.innerHTML = `<div class="empty-state"><div class="glyph">🗂</div>No se encontraron normas con esos criterios.</div>`;
+    return;
+  }
+  const showMuni = scope !== false && scope !== undefined;
+  listEl.innerHTML = list.map(n=>`
+    <div class="norma-card" onclick="openDetail('${n.muniKey}','${n.nro}_${n.anio}'${showMuni?`,'${scope}'`:''})">
+      ${tipoIconHTML(n.tipoNorma,'tipo-icon','tipo-icon-fallback')}
+      <div class="norma-body">
+        <div class="norma-title">
+          ${showMuni?`<span class="muni-pill">📍 ${n.muniNombre}, ${n.provincia}</span> `:''}
+          <b>${n.tipoNorma} Municipal Nro. ${n.nro}/${n.anio}</b> | Tema Principal: ${n.tema} | Rama del Derecho: ${n.rama}
+        </div>
+        <div class="norma-meta">
+          <span>Subtema: <b>${n.subtema}</b></span>
+          <span>Impacto: <b>${n.impacto}</b></span>
+          <span class="pill ${n.complejidad.toLowerCase()}">Complejidad: ${n.complejidad}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function wireSearchInput(scope, rerender){
+  const el = document.getElementById('searchInput-'+scope);
+  if(!el) return;
+  el.addEventListener('input', e=>{
+    scopeState[scope].search = e.target.value;
+    rerender();
+    const fresh = document.getElementById('searchInput-'+scope);
+    fresh.focus();
+    fresh.setSelectionRange(fresh.value.length, fresh.value.length);
+  });
+}
+
+function filterNormas(list, st){
+  const q = st.search.trim().toLowerCase();
+  const f = st.filters;
+  return list.filter(n=>{
+    const matchesQuery = !q || n.tema.toLowerCase().includes(q) || n.nro.includes(q) ||
+      (n.keywords||[]).some(k=>k.includes(q)) || (n.muniNombre||'').toLowerCase().includes(q);
+    const checks = Object.keys(f).every(key=>{
+      if(f[key].length===0) return true;
+      if(key==='tipoNorma') return f[key].includes(n.tipoNorma);
+      if(key==='rama') return f[key].includes(n.rama);
+      if(key==='subtema') return f[key].includes(n.subtema);
+      if(key==='anio') return f[key].includes(String(n.anio));
+      if(key==='complejidad') return f[key].includes(n.complejidad);
+      if(key==='municipio') return f[key].includes(n.muniNombre);
+      if(key==='provincia') return f[key].includes(n.provincia);
+      if(key==='pais') return f[key].includes(n.pais);
+      return true;
+    });
+    return matchesQuery && checks;
+  });
+}
+
+let activeDetailScope = 'digesto';
+function openDetail(muniKey, id, fromScope){
+  currentDetailMuniKey = muniKey; currentNormaId = id; currentView = 'detail';
+  activeDetailScope = fromScope || 'digesto';
+  if(activeDetailScope==='digesto') renderDigesto(); else renderScopePage(activeDetailScope);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function backToList(){
+  currentView='list';
+  if(activeDetailScope==='digesto') renderDigesto(); else renderScopePage(activeDetailScope);
+}
+
+function renderDetail(muniKey, id){
+  const m = MUNICIPIOS[muniKey];
+  const n = m.normas.find(x => `${x.nro}_${x.anio}` === id);
+  if(!n) return `<div class="empty-state">Norma no encontrada.</div>`;
+  const fields = [
+    ["Tipo de Norma", n.tipoNorma], ["Ordenanza Nro", n.nro], ["Año", n.anio], ["Fecha de Sanción", n.fechaSancion],
+    ["Tipo", n.tipoNorma], ["Impacto", n.impacto], ["Nivel de complejidad", n.complejidad], ["Rama del Derecho", n.rama],
+    ["Subtema", n.subtema], ["Nivel Normativo", n.nivelNormativo], ["Jurisdicción", n.jurisdiccion],
+    ["Denominación Oficial", n.denominacion], ["Anexos", n.anexos], ["Historial de Modificaciones", n.historial],
+    ["Norma que la Modifica", n.modifica], ["Reglamentaciones asociadas", n.reglamentaciones], ["Normas relacionadas", n.relacionadas]
+  ];
+  return `
+    <div class="detail-actions">
+      <button class="detail-back" style="margin-bottom:0;" onclick="backToList()">← Volver al listado</button>
+      <button class="nb-btn tiny" onclick="saveNormaToNotebook('${muniKey}','${id}')">🔖 Guardar en mi anotador</button>
+    </div>
+    <div class="detail-header">
+      <div class="detail-header-row">
+        ${tipoIconHTML(n.tipoNorma,'detail-tipo-icon','detail-tipo-icon-fallback')}
+        <div>
+          <div class="detail-eyebrow">${n.tipoNorma} N° ${n.nro}/${n.anio} · ${m.nombre}, ${m.provincia}</div>
+          <div class="detail-title serif">${n.tema}</div>
+        </div>
+      </div>
+    </div>
+    <div class="field-grid">
+      ${fields.map(([label,val])=>`
+        <div class="field-item"><div class="field-label">${label}</div><div class="field-value">${val}</div></div>
+      `).join('')}
+    </div>
+    <div class="block-card">
+      <h4>Detalle del texto</h4>
+      <div class="txt">${n.detalle}</div>
+    </div>
+    <div class="block-card">
+      <h4>Palabras clave</h4>
+      <div class="keywords">${(n.keywords||[]).map(k=>`<span>${k}</span>`).join('')}</div>
+    </div>
+    <div class="block-card">
+      <h4>Documento original</h4>
+      <div class="doc-placeholder">📄 El PDF escaneado de esta norma se mostrará acá una vez cargado al digesto.</div>
+    </div>
+  `;
+}
+
+/* ============ FILTERS (genérico para los 3 contextos) ============ */
+const FACET_LABELS = {
+  tipoNorma:"Tipo de Norma", rama:"Rama de Derecho", subtema:"Subtema", anio:"Año", complejidad:"Nivel de complejidad",
+  municipio:"Municipio", provincia:"Provincia / Región", pais:"País"
+};
+function buildFilterOptions(list, facetKeys){
+  const uniq = arr => [...new Set(arr)].filter(Boolean).sort();
+  const opts = {};
+  facetKeys.forEach(key=>{
+    if(key==='tipoNorma') opts[key]=uniq(list.map(n=>n.tipoNorma));
+    else if(key==='rama') opts[key]=uniq(list.map(n=>n.rama));
+    else if(key==='subtema') opts[key]=uniq(list.map(n=>n.subtema));
+    else if(key==='anio') opts[key]=uniq(list.map(n=>String(n.anio))).sort((a,b)=>b-a);
+    else if(key==='complejidad') opts[key]=["Bajo","Medio","Alto"];
+    else if(key==='municipio') opts[key]=uniq(list.map(n=>n.muniNombre));
+    else if(key==='provincia') opts[key]=uniq(list.map(n=>n.provincia));
+    else if(key==='pais') opts[key]=uniq(list.map(n=>n.pais));
+  });
+  return opts;
+}
+function openFilter(scope){
+  activeFilterScope = scope;
+  const keys = scope==='digesto' ? [currentMunicipioKey] : (scope==='pais' ? paisScopeKeys() : mundoScopeKeys());
+  const list = flatNormas(keys);
+  const facetKeys = Object.keys(scopeState[scope].filters);
+  const opts = buildFilterOptions(list, facetKeys);
+  const st = scopeState[scope];
+  const html = facetKeys.map((key,i)=>`
+    <details class="filter-group" ${i===0?'open':''}>
+      <summary>${FACET_LABELS[key]}</summary>
+      <div class="filter-opts">
+        ${(opts[key]||[]).map(v=>`<div class="chip ${st.filters[key].includes(v)?'sel':''}" onclick="toggleFilter('${key}','${String(v).replace(/'/g,"\\'")}')">${v}</div>`).join('')}
+      </div>
+    </details>
+  `).join('');
+  document.getElementById('filterGroups').innerHTML = html;
+  document.getElementById('filterOverlay').classList.add('open');
+}
+function toggleFilter(key, val){
+  const st = scopeState[activeFilterScope];
+  const idx = st.filters[key].indexOf(val);
+  if(idx===-1) st.filters[key].push(val); else st.filters[key].splice(idx,1);
+  openFilter(activeFilterScope);
+  rerenderScope(activeFilterScope);
+}
+function closeFilter(){ document.getElementById('filterOverlay').classList.remove('open'); }
+function clearFilters(){
+  const st = scopeState[activeFilterScope];
+  Object.keys(st.filters).forEach(k=> st.filters[k]=[]);
+  openFilter(activeFilterScope);
+  rerenderScope(activeFilterScope);
+}
+function filterCount(st){ return Object.values(st.filters).reduce((a,b)=>a+b.length,0); }
+function rerenderScope(scope){
+  if(scope==='digesto') renderDigesto(); else renderScopePage(scope);
+}
+
+function visitMunicipio(key){
+  currentMunicipioKey = key; currentView='list';
+  scopeState.digesto = { search:'', filters:{tipoNorma:[],rama:[],subtema:[],anio:[],complejidad:[]} };
+  renderDigesto(); showPage('digesto');
+}
+
+/* ============ ASISTENTE (búsqueda inteligente local) ============ */
+let aiStarted = false;
+function toggleAI(){
+  const panel = document.getElementById('aiPanel');
+  const nb = document.getElementById('nbPanel');
+  if(nb) nb.classList.remove('open');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open') && !aiStarted){
+    aiStarted = true;
+    addAIMessage('bot', `Hola${MUNICIPIOS[currentMunicipioKey]?', vecino de '+MUNICIPIOS[currentMunicipioKey].nombre:''} 👋 Contame qué necesitás encontrar (un tema, un número de norma, una palabra clave) y te acerco las opciones más relevantes de todo el digesto.`);
+    document.getElementById('aiInput').focus();
+  }
+}
+function addAIMessage(role, text){
+  const body = document.getElementById('aiBody');
+  const div = document.createElement('div');
+  div.className = 'ai-msg '+role;
+  div.textContent = text;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+  return div;
+}
+function submitAIQuery(){
+  const input = document.getElementById('aiInput');
+  const q = input.value.trim();
+  if(!q) return;
+  addAIMessage('user', q);
+  input.value = '';
+  const results = searchAllNormas(q).slice(0,6);
+  const body = document.getElementById('aiBody');
+  if(results.length===0){
+    addAIMessage('bot', 'No encontré normas relacionadas con eso todavía. Probá con otra palabra clave, una rama del derecho o un número de norma.');
+    return;
+  }
+  addAIMessage('bot', `Encontré ${results.length} norma${results.length===1?'':'s'} que podrían servirte:`);
+  const wrap = document.createElement('div');
+  wrap.className = 'ai-results';
+  wrap.innerHTML = results.map(r=>`
+    <div class="ai-result-card" onclick="goToAIResult('${r.muniKey}','${r.n.nro}_${r.n.anio}')">
+      ${tipoIconHTML(r.n.tipoNorma,'tipo-icon','tipo-icon-fallback')}
+      <div>
+        <div class="rtitle">${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio} — ${r.n.tema.length>90? r.n.tema.slice(0,90)+'…':r.n.tema}</div>
+        <div class="rmeta">${MUNICIPIOS[r.muniKey].nombre} · ${r.n.rama} · ${r.n.subtema}</div>
+      </div>
+    </div>
+  `).join('');
+  body.appendChild(wrap);
+  body.scrollTop = body.scrollHeight;
+}
+function searchAllNormas(query){
+  const q = query.toLowerCase().trim();
+  const terms = q.split(/\s+/).filter(Boolean);
+  const scored = [];
+  Object.keys(MUNICIPIOS).forEach(muniKey=>{
+    MUNICIPIOS[muniKey].normas.forEach(n=>{
+      const haystack = [n.tema, n.rama, n.subtema, n.tipoNorma, n.nro, n.denominacion, ...(n.keywords||[])].join(' ').toLowerCase();
+      let score = 0;
+      terms.forEach(t=>{
+        if(haystack.includes(t)) score += (n.tema.toLowerCase().includes(t) ? 3 : 1);
+        if((n.keywords||[]).some(k=>k.includes(t))) score += 2;
+        if(n.nro === t) score += 5;
+      });
+      if(score>0) scored.push({n, muniKey, score});
+    });
+  });
+  return scored.sort((a,b)=>b.score-a.score);
+}
+function goToAIResult(muniKey, normaId){
+  document.getElementById('aiPanel').classList.remove('open');
+  openDetail(muniKey, normaId, 'mundo');
+  showPage('mundo');
+}
+
+
+/* ============ ANOTADOR / CUADERNO DE TRABAJO ============ */
+/* Cuaderno interno por usuario: Proyectos -> Notas -> Subnotas + accesos directos a normas.
+   Persistencia mediante el almacenamiento propio del entorno (por usuario), con degradación a memoria si no está disponible.
+   No genera ni interpreta contenido normativo: sólo guarda lo que el usuario escribe y los
+   vínculos a normas ya cargadas en el digesto. */
+
+const NB_KEY = 'mu_anotador_v1';
+let NB = { projects: [], activeProjectId: null, activeNoteId: null };
+let nbView = 'projects';          // projects | notes | editor | picker
+let nbPendingLink = null;         // {muniKey, normaId, label, meta} cuando se guarda desde una norma
+let nbSaveTimer = null;
+let nbStorageOK = true;
+
+function nbUid(){ return 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function nbNow(){ return new Date().toISOString(); }
+function nbEsc(s){
+  return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function nbFecha(iso){
+  if(!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+function nbHora(iso){
+  const d = iso ? new Date(iso) : new Date();
+  return d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+}
+
+let nbLoaded = false;
+async function nbLoad(){
+  try{
+    const res = await window.storage.get(NB_KEY, false);
+    if(res && res.value){ const parsed = JSON.parse(res.value); if(parsed && parsed.projects) NB = parsed; }
+  }catch(e){ /* todavía no hay datos guardados */ }
+  if(!NB.projects || !NB.projects.length){
+    NB.projects = [{ id:nbUid(), nombre:'Proyecto general', createdAt:nbNow(), notes:[] }];
+  }
+  if(!NB.historial) NB.historial = [];
+  nbLoaded = true;
+}
+async function nbEnsureLoaded(){ if(!nbLoaded) await nbLoad(); }
+async function nbPersist(){
+  try{ await window.storage.set(NB_KEY, JSON.stringify(NB), false); nbStorageOK = true; }
+  catch(e){ nbStorageOK = false; }
+}
+let nbPendingLog = null;
+function nbLogEvent(accion, entidad, detalle, motivo){
+  NB.historial = NB.historial || [];
+  NB.historial.unshift({ id:nbUid(), ts:nbNow(), accion, entidad, detalle, motivo: motivo||null });
+  if(NB.historial.length>500) NB.historial = NB.historial.slice(0,500);
+}
+function nbTouch(msg, logInfo){
+  const note = nbActiveNote();
+  if(note) note.updatedAt = nbNow();
+  nbSetSaved('Guardando…');
+  if(logInfo) nbPendingLog = logInfo;
+  clearTimeout(nbSaveTimer);
+  nbSaveTimer = setTimeout(async ()=>{
+    if(nbPendingLog){ nbLogEvent(nbPendingLog.accion, nbPendingLog.entidad, nbPendingLog.detalle); nbPendingLog = null; }
+    await nbPersist();
+    nbSetSaved(nbStorageOK ? ('Guardado ' + nbHora()) : 'Sólo en esta sesión');
+    nbUpdateBadge();
+  }, 400);
+  if(msg) nbToast(msg);
+}
+function nbSetSaved(txt){
+  const el = document.getElementById('nbSavedTxt');
+  if(el) el.textContent = txt;
+}
+function nbToast(msg){
+  const t = document.getElementById('nbToast');
+  if(!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tm);
+  t._tm = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function nbUpdateBadge(){
+  const total = NB.projects.reduce((a,p)=>a+p.notes.length,0);
+  const b = document.getElementById('nbBadge');
+  if(!b) return;
+  if(total>0){ b.textContent = total>99?'99+':total; b.classList.add('show'); }
+  else b.classList.remove('show');
+}
+
+/* ---- acceso a entidades ---- */
+function nbActiveProject(){ return NB.projects.find(p=>p.id===NB.activeProjectId) || null; }
+function nbActiveNote(){
+  const p = nbActiveProject();
+  if(!p) return null;
+  return p.notes.find(n=>n.id===NB.activeNoteId) || null;
+}
+
+/* ---- panel ---- */
+async function toggleNotebook(){
+  await nbEnsureLoaded();
+  const panel = document.getElementById('nbPanel');
+  const ai = document.getElementById('aiPanel');
+  if(ai) ai.classList.remove('open');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open')){
+    if(nbView!=='picker' && nbView!=='historial'){ nbView = NB.activeNoteId ? 'editor' : (NB.activeProjectId ? 'notes' : 'projects'); }
+    nbUpdateBadge();
+    nbRender();
+  }else{
+    nbPendingLink = null;
+  }
+}
+function nbToggleExpand(){ document.getElementById('nbPanel').classList.toggle('expanded'); }
+function nbGoBack(){
+  if(nbView==='editor'){ NB.activeNoteId=null; nbView='notes'; }
+  else if(nbView==='notes'){ NB.activeProjectId=null; nbView='projects'; }
+  else if(nbView==='picker'){ nbPendingLink=null; nbView='projects'; }
+  else if(nbView==='historial'){ nbView='projects'; }
+  nbRender();
+}
+
+/* ---- render principal ---- */
+function nbRender(){
+  const back = document.getElementById('nbBack');
+  const titleBar = document.getElementById('nbTitleBar');
+  const subBar = document.getElementById('nbSubBar');
+  const toolbar = document.getElementById('nbToolbar');
+  const body = document.getElementById('nbBody');
+  const foot = document.getElementById('nbFootActions');
+  if(!body) return;
+
+  back.classList.toggle('show', nbView!=='projects');
+  const p = nbActiveProject();
+  const n = nbActiveNote();
+
+  if(nbView==='projects'){
+    titleBar.textContent = 'Mi anotador';
+    subBar.textContent = NB.projects.length + ' proyecto' + (NB.projects.length===1?'':'s') + ' · ' + NB.projects.reduce((a,x)=>a+x.notes.length,0) + ' nota(s)';
+    toolbar.innerHTML = `
+      <input class="nb-find" id="nbFind" placeholder="Buscar en mis notas…" oninput="nbRenderSearch(this.value)">
+      <button class="nb-btn ghost" onclick="nbOpenHistorial()" title="Ver historial de cambios">🕘</button>
+      <button class="nb-btn" onclick="nbNewProject()">＋ Proyecto</button>`;
+    foot.innerHTML = `
+      <button class="nb-btn ghost tiny" onclick="nbExportBackup()">⤓ Respaldo</button>
+      <button class="nb-btn ghost tiny" onclick="document.getElementById('nbImportFile').click()">⤒ Restaurar</button>`;
+    body.innerHTML = nbProjectsHTML();
+  }
+  else if(nbView==='notes' && p){
+    titleBar.textContent = p.nombre;
+    subBar.textContent = p.notes.length + ' nota' + (p.notes.length===1?'':'s') + ' · creado el ' + nbFecha(p.createdAt);
+    toolbar.innerHTML = `
+      <input class="nb-find" id="nbFind" placeholder="Buscar dentro del proyecto…" oninput="nbRenderNotes(this.value)">
+      <button class="nb-btn" onclick="nbNewNote()">＋ Nota</button>`;
+    foot.innerHTML = `
+      <button class="nb-btn ghost tiny" onclick="nbRenameProject()">✎ Renombrar</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportProject()">⤓ Exportar</button>`;
+    body.innerHTML = `<div id="nbNotesWrap">${nbNotesHTML(p, '')}</div>`;
+  }
+  else if(nbView==='editor' && p && n){
+    titleBar.textContent = n.titulo || 'Nota sin título';
+    subBar.textContent = p.nombre + ' · actualizada ' + nbFecha(n.updatedAt);
+    toolbar.innerHTML = `
+      <button class="nb-btn tiny" onclick="nbAddSub()">＋ Subnota</button>
+      <button class="nb-btn ghost tiny" onclick="nbToggleLinkSearch()">🔗 Vincular norma</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportNote()">⤓ Exportar</button>`;
+    foot.innerHTML = `<button class="nb-btn danger tiny" onclick="nbDeleteNote('${n.id}')">🗑 Eliminar nota</button>`;
+    body.innerHTML = nbEditorHTML(n);
+  }
+  else if(nbView==='picker'){
+    titleBar.textContent = 'Guardar acceso directo';
+    subBar.textContent = nbPendingLink ? nbPendingLink.label : '';
+    toolbar.innerHTML = `<button class="nb-btn" onclick="nbPickerNewNote()">＋ Nota nueva con esta norma</button>`;
+    foot.innerHTML = `<button class="nb-btn ghost tiny" onclick="nbCancelPicker()">Cancelar</button>`;
+    body.innerHTML = nbPickerHTML();
+  }
+  else if(nbView==='historial'){
+    titleBar.textContent = 'Historial de cambios';
+    subBar.textContent = 'Solo vos podés ver esta actividad';
+    toolbar.innerHTML = `<input class="nb-find" id="nbHistFind" placeholder="Buscar en el historial…" oninput="nbRenderHistorial(this.value)">`;
+    foot.innerHTML = `<button class="nb-btn ghost tiny" onclick="nbClearHistorialConfirm()">🗑 Vaciar historial</button>`;
+    body.innerHTML = nbHistorialHTML('');
+  }
+  else { nbView='projects'; nbRender(); return; }
+
+  nbUpdateBadge();
+  if(!nbStorageOK) nbSetSaved('Sólo en esta sesión');
+}
+
+/* ---- vista: proyectos ---- */
+function nbProjectsHTML(){
+  if(!NB.projects.length){
+    return `<div class="nb-empty"><span class="glyph">🗂</span>Todavía no tenés proyectos.<br>Creá el primero para empezar a tomar notas.</div>`;
+  }
+  return `<div class="nb-sec-label">Proyectos</div>` + NB.projects.map(p=>`
+    <div class="nb-item" onclick="nbOpenProject('${p.id}')">
+      <div class="nb-ic">🗂</div>
+      <div class="nb-it-body">
+        <div class="nb-it-title">${nbEsc(p.nombre)}</div>
+        <div class="nb-it-meta">
+          <span>${p.notes.length} nota${p.notes.length===1?'':'s'}</span>
+          <span>${p.notes.reduce((a,n)=>a+(n.links||[]).length,0)} norma(s) vinculada(s)</span>
+        </div>
+      </div>
+      <button class="nb-del" onclick="event.stopPropagation();nbDeleteProject('${p.id}')" title="Eliminar proyecto">✕</button>
+    </div>`).join('');
+}
+
+/* ---- búsqueda global en notas ---- */
+function nbRenderSearch(q){
+  const body = document.getElementById('nbBody');
+  const term = (q||'').trim().toLowerCase();
+  if(!term){ body.innerHTML = nbProjectsHTML(); return; }
+  const hits = [];
+  NB.projects.forEach(p=>{
+    p.notes.forEach(n=>{
+      const hay = [n.titulo, n.cuerpo, ...(n.subnotas||[]).map(s=>s.titulo+' '+s.texto), ...(n.links||[]).map(l=>l.label)]
+        .join(' ').toLowerCase();
+      if(hay.includes(term)) hits.push({p, n});
+    });
+  });
+  if(!hits.length){
+    body.innerHTML = `<div class="nb-empty"><span class="glyph">🔍</span>Sin resultados en tus notas.</div>`;
+    return;
+  }
+  body.innerHTML = `<div class="nb-sec-label">${hits.length} resultado${hits.length===1?'':'s'}</div>` + hits.map(h=>`
+    <div class="nb-item" onclick="nbOpenNote('${h.p.id}','${h.n.id}')">
+      <div class="nb-ic">📝</div>
+      <div class="nb-it-body">
+        <div class="nb-it-title">${nbEsc(h.n.titulo||'Nota sin título')}</div>
+        <div class="nb-it-meta"><span>${nbEsc(h.p.nombre)}</span><span>${nbFecha(h.n.updatedAt)}</span></div>
+        <div class="nb-it-prev">${nbEsc((h.n.cuerpo||'').slice(0,160))}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ---- vista: historial de cambios (privado, por perfil) ---- */
+function nbOpenHistorial(){ nbView='historial'; nbRender(); }
+function nbHistorialHTML(term){
+  term = (term||'').trim().toLowerCase();
+  let list = NB.historial || [];
+  if(term) list = list.filter(h => [h.accion,h.entidad,h.detalle,h.motivo].filter(Boolean).join(' ').toLowerCase().includes(term));
+  if(!list.length){
+    return `<div class="nb-empty"><span class="glyph">🕘</span>${term?'Sin resultados en el historial.':'Todavía no hay actividad registrada. Cada acción que hagas en tu anotador va a quedar anotada acá, con fecha y hora.'}</div>`;
+  }
+  return list.map(h=>`
+    <div class="nb-hist-item">
+      <div class="nb-hist-top">
+        <span class="nb-hist-accion ${h.accion==='Eliminó'?'del':''}">${nbEsc(h.accion)} · ${nbEsc(h.entidad)}</span>
+        <span class="nb-hist-ts">${nbFecha(h.ts)} · ${nbHora(h.ts)}</span>
+      </div>
+      <div class="nb-hist-detail">${nbEsc(h.detalle||'')}</div>
+      ${h.motivo?`<div class="nb-hist-motivo">Motivo: ${nbEsc(h.motivo)}</div>`:''}
+    </div>`).join('');
+}
+function nbRenderHistorial(q){
+  const body = document.getElementById('nbBody');
+  if(body) body.innerHTML = nbHistorialHTML(q);
+}
+function nbClearHistorialConfirm(){
+  nbConfirm('Vaciar historial', 'Se va a borrar tu registro de actividad. Esta acción no se puede deshacer.', ()=>{
+    NB.historial = [];
+    nbPersist();
+    nbToast('Historial vaciado');
+    nbRender();
+  }, 'Sí, vaciar');
+}
+
+/* ---- vista: notas de un proyecto ---- */
+function nbNotesHTML(p, q){
+  const term = (q||'').trim().toLowerCase();
+  const list = p.notes.filter(n=>{
+    if(!term) return true;
+    const hay = [n.titulo, n.cuerpo, ...(n.subnotas||[]).map(s=>s.titulo+' '+s.texto)].join(' ').toLowerCase();
+    return hay.includes(term);
+  }).sort((a,b)=> (b.updatedAt||'').localeCompare(a.updatedAt||''));
+  if(!list.length){
+    return `<div class="nb-empty"><span class="glyph">📝</span>${term?'Sin resultados en este proyecto.':'Este proyecto todavía no tiene notas.'}</div>`;
+  }
+  return list.map(n=>`
+    <div class="nb-item" onclick="nbOpenNote('${p.id}','${n.id}')">
+      <div class="nb-ic">📝</div>
+      <div class="nb-it-body">
+        <div class="nb-it-title">${nbEsc(n.titulo||'Nota sin título')}</div>
+        <div class="nb-it-meta">
+          <span>${nbFecha(n.updatedAt)}</span>
+          ${(n.subnotas||[]).length?`<span>${n.subnotas.length} subnota(s)</span>`:''}
+          ${(n.links||[]).length?`<span>🔖 ${n.links.length} norma(s)</span>`:''}
+        </div>
+        ${n.cuerpo?`<div class="nb-it-prev">${nbEsc(n.cuerpo.slice(0,160))}</div>`:''}
+      </div>
+      <button class="nb-del" onclick="event.stopPropagation();nbDeleteNote('${n.id}')" title="Eliminar nota">✕</button>
+    </div>`).join('');
+}
+function nbRenderNotes(q){
+  const p = nbActiveProject();
+  const wrap = document.getElementById('nbNotesWrap');
+  if(p && wrap) wrap.innerHTML = nbNotesHTML(p, q);
+}
+
+/* ---- vista: editor de nota ---- */
+function nbEditorHTML(n){
+  return `
+  <div class="nb-editor">
+    <input class="nb-title-input" id="nbNoteTitle" value="${nbEsc(n.titulo)}" placeholder="Título de la nota"
+           oninput="nbEditNote('titulo', this.value)">
+    <textarea class="nb-textarea" id="nbNoteBody" placeholder="Escribí acá tus apuntes, recordatorios, borradores…"
+              oninput="nbEditNote('cuerpo', this.value)">${nbEsc(n.cuerpo)}</textarea>
+
+    <div class="nb-sec-label">Accesos directos a normas</div>
+    <div class="nb-linksearch" id="nbLinkSearch">
+      <input id="nbLinkQuery" placeholder="Buscar norma por número, tema o palabra clave…" oninput="nbRenderLinkResults(this.value)">
+      <div class="nb-linkres" id="nbLinkResults"></div>
+    </div>
+    <div id="nbLinksWrap">${nbLinksHTML(n)}</div>
+
+    <div class="nb-sec-label">Subnotas</div>
+    <div id="nbSubsWrap">${nbSubsHTML(n)}</div>
+  </div>`;
+}
+function nbLinksHTML(n){
+  const links = n.links||[];
+  if(!links.length) return `<div class="nb-empty" style="padding:12px;">Sin normas vinculadas todavía.</div>`;
+  return links.map(l=>`
+    <div class="nb-link-chip" onclick="nbOpenLink('${l.muniKey}','${l.normaId}')">
+      <div class="lk-ic">🔖</div>
+      <div class="lk-txt">
+        <div class="lk-t">${nbEsc(l.label)}</div>
+        <div class="lk-m">${nbEsc(l.meta||'')}</div>
+      </div>
+      <button class="nb-del" onclick="event.stopPropagation();nbRemoveLink('${l.id}')" title="Quitar vínculo">✕</button>
+    </div>`).join('');
+}
+function nbSubsHTML(n){
+  const subs = n.subnotas||[];
+  if(!subs.length) return `<div class="nb-empty" style="padding:12px;">Sin subnotas. Usalas para separar temas, audiencias o etapas del expediente.</div>`;
+  return subs.map((s,i)=>`
+    <div class="nb-sub">
+      <div class="nb-sub-head">
+        <input value="${nbEsc(s.titulo)}" placeholder="Subnota ${i+1}" oninput="nbEditSub('${s.id}','titulo',this.value)">
+        <button class="nb-del" onclick="nbDeleteSub('${s.id}')" title="Eliminar subnota">✕</button>
+      </div>
+      <textarea placeholder="Detalle de la subnota…" oninput="nbEditSub('${s.id}','texto',this.value)">${nbEsc(s.texto)}</textarea>
+    </div>`).join('');
+}
+
+/* ---- diálogos internos (no dependen de prompt/confirm del navegador) ---- */
+let nbModalCb = null;
+function nbPrompt(titulo, desc, valor, cb){
+  const m = document.getElementById('nbModal'); if(!m) return;
+  nbModalCb = cb;
+  m.innerHTML = `<div class="nb-modal-box">
+      <h4>${nbEsc(titulo)}</h4>
+      ${desc?`<p>${nbEsc(desc)}</p>`:''}
+      <input id="nbModalInput" value="${nbEsc(valor||'')}"
+             onkeydown="if(event.key==='Enter')nbModalOk(); if(event.key==='Escape')nbModalClose();">
+      <div class="nb-modal-actions">
+        <button class="nb-btn ghost tiny" onclick="nbModalClose()">Cancelar</button>
+        <button class="nb-btn tiny" onclick="nbModalOk()">Guardar</button>
+      </div>
+    </div>`;
+  m.classList.add('open');
+  setTimeout(()=>{ const i=document.getElementById('nbModalInput'); if(i){ i.focus(); i.select(); } }, 50);
+}
+function nbConfirm(titulo, desc, cb, okLabel, cancelLabel){
+  const m = document.getElementById('nbModal'); if(!m) return;
+  nbModalCb = cb;
+  m.innerHTML = `<div class="nb-modal-box">
+      <h4>${nbEsc(titulo)}</h4>
+      ${desc?`<p>${nbEsc(desc)}</p>`:''}
+      <div class="nb-modal-actions">
+        <button class="nb-btn ghost tiny" onclick="nbModalClose()">${nbEsc(cancelLabel||'Cancelar')}</button>
+        <button class="nb-btn danger tiny" onclick="nbModalOk()">${nbEsc(okLabel||'Sí, eliminar')}</button>
+      </div>
+    </div>`;
+  m.classList.add('open');
+}
+function nbModalOk(){
+  const i = document.getElementById('nbModalInput');
+  const val = i ? i.value : true;
+  const cb = nbModalCb;
+  nbModalClose();
+  if(cb) cb(val);
+}
+function nbModalClose(){
+  nbModalCb = null;
+  window.__nbReasonCb = null;
+  const m = document.getElementById('nbModal');
+  if(m){ m.classList.remove('open'); m.innerHTML=''; }
+}
+
+const NB_DELETE_REASONS = ['Ya no lo necesito', 'Lo creé por error', 'Información desactualizada', 'El tema ya se resolvió', 'Otro motivo'];
+function nbConfirmReason(titulo, desc, cb){
+  const m = document.getElementById('nbModal'); if(!m) return;
+  nbModalCb = null;
+  window.__nbReasonCb = cb;
+  m.innerHTML = `<div class="nb-modal-box">
+      <h4>${nbEsc(titulo)}</h4>
+      ${desc?`<p>${nbEsc(desc)}</p>`:''}
+      <select id="nbReasonSelect" class="nb-reason-select" onchange="nbReasonSelected(this.value)">
+        <option value="" selected disabled>Seleccioná un motivo…</option>
+        ${NB_DELETE_REASONS.map(r=>`<option value="${nbEsc(r)}">${nbEsc(r)}</option>`).join('')}
+      </select>
+      <input id="nbReasonOtro" class="nb-reason-otro" placeholder="Especificá el motivo…" style="display:none;">
+      <div class="nb-modal-actions">
+        <button class="nb-btn ghost tiny" onclick="nbModalClose()">Cancelar</button>
+        <button class="nb-btn danger tiny" id="nbReasonConfirmBtn" disabled onclick="nbReasonConfirm()">Sí, eliminar</button>
+      </div>
+    </div>`;
+  m.classList.add('open');
+  setTimeout(()=>{ const s=document.getElementById('nbReasonSelect'); if(s) s.focus(); }, 50);
+}
+function nbReasonSelected(val){
+  const otro = document.getElementById('nbReasonOtro');
+  const btn = document.getElementById('nbReasonConfirmBtn');
+  if(otro) otro.style.display = val==='Otro motivo' ? 'block' : 'none';
+  if(btn) btn.disabled = !val;
+  if(val==='Otro motivo' && otro) otro.focus();
+}
+function nbReasonConfirm(){
+  const select = document.getElementById('nbReasonSelect');
+  const val = select ? select.value : '';
+  if(!val) return;
+  let motivo = val;
+  if(motivo==='Otro motivo'){
+    const otroEl = document.getElementById('nbReasonOtro');
+    const otro = otroEl ? otroEl.value.trim() : '';
+    motivo = otro ? ('Otro: '+otro) : 'Otro motivo (sin detalle)';
+  }
+  const cb = window.__nbReasonCb;
+  nbModalClose();
+  nbConfirm('¿Estás seguro que desea eliminar?', 'Esta acción no se puede deshacer.', ()=>{
+    if(cb) cb(motivo);
+  }, 'Sí, eliminar', 'No, cancelar');
+}
+
+/* ---- CRUD ---- */
+function nbNewProject(){
+  nbPrompt('Nuevo proyecto', 'Ej.: "Expediente pavimento B° 173" o "Dictamen zonificación".', '', nombre=>{
+    const nombreFinal = (nombre||'').trim() || 'Proyecto sin título';
+    const p = { id:nbUid(), nombre: nombreFinal, createdAt:nbNow(), notes:[] };
+    NB.projects.unshift(p);
+    NB.activeProjectId = p.id; NB.activeNoteId = null; nbView = 'notes';
+    nbLogEvent('Creó', 'Proyecto', nombreFinal);
+    nbTouch('Proyecto creado'); nbRender();
+  });
+}
+function nbRenameProject(){
+  const p = nbActiveProject(); if(!p) return;
+  const nombreAnterior = p.nombre;
+  nbPrompt('Renombrar proyecto', '', p.nombre, nombre=>{
+    p.nombre = (nombre||'').trim() || p.nombre;
+    if(p.nombre!==nombreAnterior) nbLogEvent('Renombró', 'Proyecto', `"${nombreAnterior}" → "${p.nombre}"`);
+    nbTouch(); nbRender();
+  });
+}
+function nbDeleteProject(id){
+  const p = NB.projects.find(x=>x.id===id); if(!p) return;
+  nbConfirmReason('Eliminar proyecto', `Se eliminará "${p.nombre}" y sus ${p.notes.length} nota(s). Contanos por qué lo eliminás:`, motivo=>{
+    NB.projects = NB.projects.filter(x=>x.id!==id);
+    if(NB.activeProjectId===id){ NB.activeProjectId=null; NB.activeNoteId=null; nbView='projects'; }
+    nbLogEvent('Eliminó', 'Proyecto', p.nombre, motivo);
+    nbTouch('Proyecto eliminado'); nbRender();
+  });
+}
+function nbOpenProject(id){ NB.activeProjectId=id; NB.activeNoteId=null; nbView='notes'; nbRender(); }
+function nbNewNote(){
+  const p = nbActiveProject(); if(!p) return;
+  const n = { id:nbUid(), titulo:'', cuerpo:'', subnotas:[], links:[], createdAt:nbNow(), updatedAt:nbNow() };
+  p.notes.unshift(n);
+  NB.activeNoteId = n.id; nbView='editor';
+  nbLogEvent('Creó', 'Nota', `en "${p.nombre}"`);
+  nbTouch(); nbRender();
+  setTimeout(()=>{ const t=document.getElementById('nbNoteTitle'); if(t) t.focus(); }, 60);
+}
+function nbOpenNote(pid, nid){ NB.activeProjectId=pid; NB.activeNoteId=nid; nbView='editor'; nbRender(); }
+function nbDeleteNote(id){
+  let p = nbActiveProject();
+  if(!p || !p.notes.some(x=>x.id===id)) p = NB.projects.find(x=>x.notes.some(y=>y.id===id));
+  if(!p) return;
+  const n = p.notes.find(x=>x.id===id); if(!n) return;
+  nbConfirmReason('Eliminar nota', `Se eliminará "${n.titulo||'nota sin título'}" con sus subnotas y vínculos. Contanos por qué la eliminás:`, motivo=>{
+    p.notes = p.notes.filter(x=>x.id!==id);
+    if(NB.activeNoteId===id){ NB.activeNoteId=null; nbView='notes'; }
+    nbLogEvent('Eliminó', 'Nota', n.titulo || 'Nota sin título', motivo);
+    nbTouch('Nota eliminada'); nbRender();
+  });
+}
+function nbEditNote(field, val){
+  const n = nbActiveNote(); if(!n) return;
+  n[field] = val;
+  if(field==='titulo'){
+    const tb = document.getElementById('nbTitleBar');
+    if(tb) tb.textContent = val || 'Nota sin título';
+  }
+  nbTouch(null, {accion:'Editó', entidad:'Nota', detalle: n.titulo || 'Nota sin título'});
+}
+function nbAddSub(){
+  const n = nbActiveNote(); if(!n) return;
+  n.subnotas = n.subnotas||[];
+  n.subnotas.push({ id:nbUid(), titulo:'', texto:'' });
+  nbLogEvent('Creó', 'Subnota', `en "${n.titulo||'Nota sin título'}"`);
+  nbTouch();
+  document.getElementById('nbSubsWrap').innerHTML = nbSubsHTML(n);
+}
+function nbEditSub(sid, field, val){
+  const n = nbActiveNote(); if(!n) return;
+  const s = (n.subnotas||[]).find(x=>x.id===sid); if(!s) return;
+  s[field] = val;
+  nbTouch(null, {accion:'Editó', entidad:'Subnota', detalle: (s.titulo||'Subnota') + ' — ' + (n.titulo||'Nota sin título')});
+}
+function nbDeleteSub(sid){
+  const n = nbActiveNote(); if(!n) return;
+  const s = (n.subnotas||[]).find(x=>x.id===sid); if(!s) return;
+  nbConfirmReason('Eliminar subnota', `Se eliminará "${s.titulo||'esta subnota'}". Contanos por qué la eliminás:`, motivo=>{
+    n.subnotas = (n.subnotas||[]).filter(x=>x.id!==sid);
+    nbLogEvent('Eliminó', 'Subnota', (s.titulo||'Subnota sin título') + ' — ' + (n.titulo||'Nota sin título'), motivo);
+    nbTouch();
+    document.getElementById('nbSubsWrap').innerHTML = nbSubsHTML(n);
+  });
+}
+
+/* ---- vínculos a normas ---- */
+function nbNormaLabel(muniKey, normaId){
+  const m = MUNICIPIOS[muniKey]; if(!m) return null;
+  const n = m.normas.find(x => `${x.nro}_${x.anio}` === normaId); if(!n) return null;
+  return {
+    label: `${n.tipoNorma} N° ${n.nro}/${n.anio}`,
+    meta: `${m.nombre}, ${m.provincia} · ${n.rama} · ${n.subtema}`,
+    tema: n.tema
+  };
+}
+function nbToggleLinkSearch(){
+  const box = document.getElementById('nbLinkSearch');
+  if(!box) return;
+  box.classList.toggle('open');
+  if(box.classList.contains('open')){
+    document.getElementById('nbLinkQuery').focus();
+    nbRenderLinkResults('');
+  }
+}
+function nbRenderLinkResults(q){
+  const cont = document.getElementById('nbLinkResults'); if(!cont) return;
+  const term = (q||'').trim();
+  if(!term){ cont.innerHTML = `<div class="nb-empty" style="padding:10px;">Escribí un número, tema o palabra clave.</div>`; return; }
+  const res = searchAllNormas(term).slice(0,8);
+  if(!res.length){ cont.innerHTML = `<div class="nb-empty" style="padding:10px;">Sin coincidencias en el digesto.</div>`; return; }
+  cont.innerHTML = res.map(r=>`
+    <div class="r" onclick="nbAddLink('${r.muniKey}','${r.n.nro}_${r.n.anio}')">
+      <b>${nbEsc(r.n.tipoNorma)} N° ${nbEsc(r.n.nro)}/${r.n.anio}</b>
+      <span>${nbEsc(MUNICIPIOS[r.muniKey].nombre)} · ${nbEsc(r.n.tema.slice(0,80))}${r.n.tema.length>80?'…':''}</span>
+    </div>`).join('');
+}
+function nbAddLink(muniKey, normaId){
+  const n = nbActiveNote(); if(!n) return;
+  const info = nbNormaLabel(muniKey, normaId); if(!info) return;
+  n.links = n.links||[];
+  if(n.links.some(l=>l.muniKey===muniKey && l.normaId===normaId)){ nbToast('Esa norma ya está vinculada'); return; }
+  n.links.push({ id:nbUid(), muniKey, normaId, label:info.label, meta:info.meta });
+  nbLogEvent('Vinculó norma', 'Nota', `${info.label} → "${n.titulo||'Nota sin título'}"`);
+  nbTouch('Norma vinculada');
+  document.getElementById('nbLinksWrap').innerHTML = nbLinksHTML(n);
+  const box = document.getElementById('nbLinkSearch');
+  if(box) box.classList.remove('open');
+}
+function nbRemoveLink(lid){
+  const n = nbActiveNote(); if(!n) return;
+  const l = (n.links||[]).find(x=>x.id===lid);
+  n.links = (n.links||[]).filter(l=>l.id!==lid);
+  if(l) nbLogEvent('Quitó vínculo', 'Nota', `${l.label} — "${n.titulo||'Nota sin título'}"`);
+  nbTouch();
+  document.getElementById('nbLinksWrap').innerHTML = nbLinksHTML(n);
+}
+function nbOpenLink(muniKey, normaId){
+  if(!MUNICIPIOS[muniKey]) return;
+  document.getElementById('nbPanel').classList.remove('open');
+  const scope = (muniKey === currentMunicipioKey) ? 'digesto' : 'mundo';
+  openDetail(muniKey, normaId, scope);
+  showPage(scope);
+}
+
+/* ---- guardar una norma desde su ficha ---- */
+async function saveNormaToNotebook(muniKey, normaId){
+  await nbEnsureLoaded();
+  const info = nbNormaLabel(muniKey, normaId); if(!info) return;
+  nbPendingLink = { muniKey, normaId, label: info.label, meta: info.meta };
+  const panel = document.getElementById('nbPanel');
+  const ai = document.getElementById('aiPanel');
+  if(ai) ai.classList.remove('open');
+  panel.classList.add('open');
+  nbView = 'picker';
+  nbRender();
+}
+function nbPickerHTML(){
+  const l = nbPendingLink;
+  let html = `<div class="nb-pick-banner">Vas a guardar <b>${nbEsc(l?l.label:'')}</b> como acceso directo.<br>Elegí en qué nota querés dejarlo.</div>`;
+  const notes = [];
+  NB.projects.forEach(p=> p.notes.forEach(n=> notes.push({p,n})));
+  notes.sort((a,b)=> (b.n.updatedAt||'').localeCompare(a.n.updatedAt||''));
+  if(!notes.length){
+    html += `<div class="nb-empty"><span class="glyph">📝</span>Todavía no tenés notas.<br>Creá una nota nueva con esta norma adentro.</div>`;
+    return html;
+  }
+  html += `<div class="nb-sec-label">Tus notas</div>` + notes.map(x=>`
+    <div class="nb-item" onclick="nbPickNote('${x.p.id}','${x.n.id}')">
+      <div class="nb-ic">📝</div>
+      <div class="nb-it-body">
+        <div class="nb-it-title">${nbEsc(x.n.titulo||'Nota sin título')}</div>
+        <div class="nb-it-meta"><span>${nbEsc(x.p.nombre)}</span><span>${nbFecha(x.n.updatedAt)}</span></div>
+      </div>
+    </div>`).join('');
+  return html;
+}
+function nbPickNote(pid, nid){
+  NB.activeProjectId = pid; NB.activeNoteId = nid;
+  const l = nbPendingLink; nbPendingLink = null;
+  nbView = 'editor'; nbRender();
+  if(l) nbAddLink(l.muniKey, l.normaId);
+}
+function nbPickerNewNote(){
+  const l = nbPendingLink;
+  if(!NB.activeProjectId) NB.activeProjectId = NB.projects[0].id;
+  nbPendingLink = null;
+  nbView = 'notes';
+  nbNewNote();
+  const n = nbActiveNote();
+  if(n && l){
+    n.titulo = l.label;
+    const t = document.getElementById('nbNoteTitle'); if(t) t.value = l.label;
+    nbAddLink(l.muniKey, l.normaId);
+    nbRender();
+  }
+}
+function nbCancelPicker(){ nbPendingLink=null; nbView='projects'; nbRender(); }
+
+/* ---- exportar / respaldar ---- */
+function nbNoteToMarkdown(n){
+  let out = `# ${n.titulo||'Nota sin título'}\n\n`;
+  out += `_Actualizada: ${nbFecha(n.updatedAt)}_\n\n`;
+  if(n.cuerpo) out += n.cuerpo + '\n\n';
+  if((n.links||[]).length){
+    out += `## Normas vinculadas\n`;
+    n.links.forEach(l=> out += `- ${l.label} — ${l.meta}\n`);
+    out += '\n';
+  }
+  if((n.subnotas||[]).length){
+    out += `## Subnotas\n`;
+    n.subnotas.forEach((s,i)=>{
+      out += `### ${s.titulo || 'Subnota '+(i+1)}\n${s.texto||''}\n\n`;
+    });
+  }
+  return out;
+}
+function nbDownload(filename, content, type){
+  const blob = new Blob([content], {type: type||'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+function nbSlug(s){ return String(s||'nota').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,50) || 'nota'; }
+function nbExportNote(){
+  const n = nbActiveNote(); if(!n) return;
+  nbDownload(nbSlug(n.titulo)+'.md', nbNoteToMarkdown(n), 'text/markdown;charset=utf-8');
+  nbToast('Nota exportada');
+}
+function nbExportProject(){
+  const p = nbActiveProject(); if(!p) return;
+  let out = `# ${p.nombre}\n\n`;
+  p.notes.forEach(n=> out += nbNoteToMarkdown(n) + '\n---\n\n');
+  nbDownload(nbSlug(p.nombre)+'.md', out, 'text/markdown;charset=utf-8');
+  nbToast('Proyecto exportado');
+}
+function nbExportBackup(){
+  nbDownload('anotador-respaldo-'+new Date().toISOString().slice(0,10)+'.json', JSON.stringify(NB,null,2), 'application/json');
+  nbToast('Respaldo descargado');
+}
+function nbImportBackup(ev){
+  const file = ev.target.files && ev.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!data || !Array.isArray(data.projects)) throw new Error('formato');
+      nbConfirm('Restaurar respaldo', 'Se reemplazará el contenido actual del anotador por el del archivo.', ()=>{
+        NB = data;
+        NB.activeProjectId=null; NB.activeNoteId=null; nbView='projects';
+        nbPersist(); nbRender(); nbToast('Respaldo restaurado');
+      }, 'Restaurar');
+    }catch(err){ nbToast('El archivo no tiene el formato de respaldo esperado'); }
+    finally{ ev.target.value=''; }
+  };
+  reader.readAsText(file);
+}
+
+/* ---- init anotador ---- */
+nbEnsureLoaded().then(()=>{ nbUpdateBadge(); });
+
+/* ============ INIT ============ */
+renderDigesto();
+</script>
+</body>
+</html>
