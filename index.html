@@ -626,7 +626,7 @@
     <input type="password" id="loginPass" class="login-input" placeholder="••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()">
     <div class="login-error" id="loginError"></div>
     <button class="login-btn" onclick="attemptLogin()">Ingresar</button>
-    <div class="login-hint">Demo de diseño — usuarios de prueba: <b>admin / 1234</b> (todo el digesto) · <b>admin1 / 1234</b> (solo tu municipio)</div>
+    <div class="login-hint">Demo de diseño — usuarios de prueba: <b>admin / 1234</b> (todo el digesto) · <b>admin1 / 1234</b> (solo tu municipio)<br>Para probar "Compartir" en el Anotador, ya están cargadas <b>María González</b> y <b>Juan Pérez</b>.</div>
   </div>
 </div>
 
@@ -1855,6 +1855,7 @@ function nbRender(){
     toolbar.innerHTML = '';
     foot.innerHTML = '';
     body.innerHTML = nbShareHTML(p);
+    nbRenderShareResults('');
   }
   else if(nbView==='proj-historial' && p){
     titleBar.textContent = 'Actividad — ' + p.nombre;
@@ -1995,19 +1996,26 @@ function nbShareHTML(p){
 function nbRenderShareResults(q){
   const cont = document.getElementById('nbShareResults'); if(!cont) return;
   const term = (q||'').trim().toLowerCase();
-  if(!term){ cont.innerHTML = ''; return; }
   const p = nbActiveProject(); if(!p) return;
   const yaAutorizados = (p.colaboradores||[]).map(c=>c.nombre.toLowerCase());
   const ownerLower = (p.ownerName||'').toLowerCase();
-  const matches = nbDirectorio.filter(u=>{
+  const disponibles = nbDirectorio.filter(u=>{
     const nl = u.nombre.toLowerCase();
-    return nl.includes(term) && nl!==ownerLower && !yaAutorizados.includes(nl);
-  }).slice(0,6);
+    return nl!==ownerLower && !yaAutorizados.includes(nl);
+  });
+  let matches, heading;
+  if(!term){
+    matches = disponibles.slice(0,4);
+    heading = matches.length ? 'Sugeridos' : '';
+  }else{
+    matches = disponibles.filter(u=>u.nombre.toLowerCase().includes(term)).slice(0,6);
+    heading = '';
+  }
   if(!matches.length){
-    cont.innerHTML = `<div class="nb-empty" style="padding:10px;">Nadie coincide con ese nombre. Pedile a esa persona que ingrese una vez a la app y cargue su nombre para que aparezca acá.</div>`;
+    cont.innerHTML = term ? `<div class="nb-empty" style="padding:10px;">Nadie coincide con ese nombre. Pedile a esa persona que ingrese una vez a la app para que aparezca acá.</div>` : '';
     return;
   }
-  cont.innerHTML = matches.map(u=>`
+  cont.innerHTML = (heading?`<div class="nb-sec-label" style="margin-top:0; margin-bottom:6px;">${heading}</div>`:'') + matches.map(u=>`
     <div class="nb-share-search-row">
       <span class="nb-share-name">${nbEsc(u.nombre)}</span>
       <div class="nb-share-btns">
@@ -2237,10 +2245,13 @@ function nbNewProject(){
         <h4>Nuevo proyecto</h4>
         <p>Ej.: "Expediente pavimento B° 173" o "Dictamen zonificación".</p>
         <input id="nbNewProjName" placeholder="Nombre del proyecto" onkeydown="if(event.key==='Enter')nbCreateProjectConfirm()">
-        <div class="nb-reason-list" style="margin-top:10px;">
-          <label class="nb-reason-opt"><input type="radio" name="nbVis" value="private" checked><span>🔒 Privado — solo vos lo ves</span></label>
-          <label class="nb-reason-opt"><input type="radio" name="nbVis" value="public"><span>🌐 Público — vos elegís después a qué colegas autorizar, y con qué rol</span></label>
-        </div>
+        <details class="nb-group" style="margin-top:12px;">
+          <summary>Visibilidad <span class="nb-group-count" id="nbVisSummary">🔒 Privado</span></summary>
+          <div class="nb-group-body" style="padding:10px; gap:8px; display:flex; flex-direction:column;">
+            <label class="nb-reason-opt"><input type="radio" name="nbVis" value="private" checked onchange="nbVisChanged(this)"><span>🔒 Privado — solo vos lo ves</span></label>
+            <label class="nb-reason-opt"><input type="radio" name="nbVis" value="public" onchange="nbVisChanged(this)"><span>🌐 Público — vos elegís después a qué colegas autorizar, y con qué rol</span></label>
+          </div>
+        </details>
         <div class="nb-modal-actions">
           <button class="nb-btn ghost tiny" onclick="nbModalClose()">Cancelar</button>
           <button class="nb-btn tiny" onclick="nbCreateProjectConfirm()">Crear</button>
@@ -2251,6 +2262,10 @@ function nbNewProject(){
   };
   openDialog();
 }
+function nbVisChanged(el){
+  const summary = document.getElementById('nbVisSummary');
+  if(summary) summary.textContent = el.value==='public' ? '🌐 Público' : '🔒 Privado';
+}
 async function nbCreateProjectConfirm(){
   const nameEl = document.getElementById('nbNewProjName');
   const visEl = document.querySelector('input[name="nbVis"]:checked');
@@ -2258,8 +2273,8 @@ async function nbCreateProjectConfirm(){
   const visibility = visEl ? visEl.value : 'private';
   nbModalClose();
   if(visibility==='public' && !nbDisplayName){
-    await new Promise(resolve=> askDisplayName(()=>resolve()));
-    if(!nbDisplayName) return; // el usuario canceló el nombre, no se crea el proyecto público
+    nbToast('No se pudo identificar tu usuario. Volvé a iniciar sesión.');
+    return;
   }
   const p = {
     id:nbUid(), nombre:nombreFinal, createdAt:nbNow(), notes:[], visibility,
@@ -2667,10 +2682,28 @@ function nbImportBackup(ev){
 
 /* ============ LOGIN ============ */
 const DEMO_ACCOUNTS = {
-  'admin':  { password:'1234', plan:'mundo',  label:'Acceso completo al digesto' },
-  'admin1': { password:'1234', plan:'propio', label:'Solo tu municipio' }
+  'admin':  { password:'1234', plan:'mundo',  nombre:'Ana Rodríguez',    label:'Acceso completo al digesto' },
+  'admin1': { password:'1234', plan:'propio', nombre:'Bruno Fernández', label:'Solo tu municipio' }
 };
-function attemptLogin(){
+/* Nombres de prueba precargados en el directorio, para poder probar el buscador de "Compartir" sin pasos extra. */
+const DIRECTORIO_DEMO = ['María González', 'Juan Pérez'];
+async function nbSeedDirectorio(nombrePropio){
+  try{
+    const res = await window.storage.get('directorio_usuarios', true);
+    let dir = (res && res.value) ? JSON.parse(res.value) : [];
+    const nombres = DIRECTORIO_DEMO.concat(nombrePropio ? [nombrePropio] : []);
+    let changed = false;
+    nombres.forEach(nombre=>{
+      if(!dir.some(u=>u.nombre.toLowerCase()===nombre.toLowerCase())){
+        dir.push({ nombre, provincia: nbHomeProvincia() });
+        changed = true;
+      }
+    });
+    if(changed) await window.storage.set('directorio_usuarios', JSON.stringify(dir), true);
+    nbDirectorio = dir;
+  }catch(e){ /* el directorio es best-effort */ }
+}
+async function attemptLogin(){
   const userEl = document.getElementById('loginUser');
   const passEl = document.getElementById('loginPass');
   const errEl = document.getElementById('loginError');
@@ -2684,7 +2717,10 @@ function attemptLogin(){
   }
   errEl.textContent = '';
   currentUserPlan = account.plan;
+  nbDisplayName = account.nombre; // viene del login: ya no se le pregunta el nombre al usuario
   document.getElementById('loginScreen').style.display = 'none';
+  try{ await window.storage.set('perfil_nombre', nbDisplayName, false); }catch(e){ /* no bloqueante */ }
+  await nbSeedDirectorio(nbDisplayName);
   initApp();
 }
 function initApp(){
