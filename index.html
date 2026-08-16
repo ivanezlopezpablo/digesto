@@ -637,7 +637,9 @@
     display:inline-flex; align-items:center; gap:4px; background:#f5e3e0; color:var(--danger); font-size:10px; font-weight:700;
     padding:2px 8px; border-radius:20px; margin-left:6px; text-transform:uppercase; letter-spacing:.3px; vertical-align:middle;
   }
-  .ai-result-card.locked, .r.locked{ opacity:.55; cursor:not-allowed; }
+  .ai-result-card.locked, .r.locked{ cursor:not-allowed; }
+  .blur-me{ filter: blur(3px); user-select:none; }
+  .nb-link-loc{ display:block; font-size:10.5px; font-weight:700; color:var(--slate-blue); margin:2px 0; }
   .nb-toast{
     position:fixed; left:50%; transform:translateX(-50%); bottom:32px; z-index:900;
     background:var(--ink); color:#fff; padding:10px 16px; border-radius:22px; font-size:12.5px;
@@ -2022,6 +2024,7 @@ function renderDetail(muniKey, id){
     <div class="detail-actions">
       <button class="detail-back" style="margin-bottom:0;" onclick="backToList()">← Volver al listado</button>
       <button class="nb-btn tiny" onclick="saveNormaToNotebook('${muniKey}','${id}')">🔖 Guardar en mi anotador</button>
+      <button class="nb-btn ghost tiny" onclick="saveNormaToProject('${muniKey}','${id}')">📁 Agregar a un proyecto</button>
     </div>
     <div class="detail-header">
       <div class="detail-header-row">
@@ -2163,10 +2166,11 @@ function submitAIQuery(){
     return `
     <div class="ai-result-card ${ok?'':'locked'}" onclick="${ok?`goToAIResult('${r.muniKey}','${r.n.nro}_${r.n.anio}')`:`aiBlockedClick()`}">
       ${tipoIconHTML(r.n.tipoNorma,'tipo-icon','tipo-icon-fallback')}
-      <div>
-        <div class="rtitle">${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio} — ${r.n.tema.length>90? r.n.tema.slice(0,90)+'…':r.n.tema} ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}</div>
-        <div class="rmeta">${MUNICIPIOS[r.muniKey].nombre} · ${r.n.rama} · ${r.n.subtema}</div>
+      <div class="${ok?'':'blur-me'}" style="flex:1;">
+        <div class="rtitle">${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio} — ${r.n.tema.length>90? r.n.tema.slice(0,90)+'…':r.n.tema}</div>
+        <div class="rmeta">📍 ${MUNICIPIOS[r.muniKey].nombre}, ${MUNICIPIOS[r.muniKey].provincia}, ${MUNICIPIOS[r.muniKey].pais} · ${r.n.rama}</div>
       </div>
+      ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}
     </div>`;
   }).join('');
   body.appendChild(wrap);
@@ -2177,16 +2181,22 @@ function aiBlockedClick(){
 }
 function searchAllNormas(query){
   const q = query.toLowerCase().trim();
+  const slash = q.match(/^(\d+)\s*\/\s*(\d{4})$/); // reconoce "2493/2011"
   const terms = q.split(/\s+/).filter(Boolean);
   const scored = [];
   Object.keys(MUNICIPIOS).forEach(muniKey=>{
     MUNICIPIOS[muniKey].normas.forEach(n=>{
-      const haystack = [n.tema, n.rama, n.subtema, n.tipoNorma, n.nro, n.denominacion, ...(n.keywords||[])].join(' ').toLowerCase();
+      const haystack = [n.tema, n.rama, n.subtema, n.tipoNorma, n.nro, String(n.anio), n.denominacion, ...(n.keywords||[])].join(' ').toLowerCase();
       let score = 0;
+      if(slash){
+        if(n.nro === slash[1] && String(n.anio) === slash[2]) score += 10; // coincidencia exacta nro+año
+        else if(n.nro === slash[1]) score += 3;
+      }
       terms.forEach(t=>{
         if(haystack.includes(t)) score += (n.tema.toLowerCase().includes(t) ? 3 : 1);
         if((n.keywords||[]).some(k=>k.includes(t))) score += 2;
         if(n.nro === t) score += 5;
+        if(String(n.anio) === t) score += 2;
       });
       if(score>0) scored.push({n, muniKey, score});
     });
@@ -2410,6 +2420,8 @@ function nbGoBack(){
   if(nbView==='editor'){ NB.activeNoteId=null; nbView='notes'; }
   else if(nbView==='notes'){ NB.activeProjectId=null; nbView='projects'; }
   else if(nbView==='picker'){ nbPendingLink=null; nbView='projects'; }
+  else if(nbView==='picker-project'){ nbPendingLink=null; nbView='projects'; }
+  else if(nbView==='picker-project-notes'){ nbPickerProjectId=null; nbView='picker-project'; }
   else if(nbView==='historial'){ nbView='projects'; }
   else if(nbView==='proj-historial'){ nbView='notes'; }
   else if(nbView==='proj-share'){ nbView='notes'; }
@@ -2485,6 +2497,21 @@ function nbRender(){
     toolbar.innerHTML = `<button class="nb-btn" onclick="nbPickerNewNote()">＋ Nota nueva con esta norma</button>`;
     foot.innerHTML = `<button class="nb-btn ghost tiny" onclick="nbCancelPicker()">Cancelar</button>`;
     body.innerHTML = nbPickerHTML();
+  }
+  else if(nbView==='picker-project'){
+    titleBar.textContent = 'Agregar a un proyecto';
+    subBar.textContent = nbPendingLink ? nbPendingLink.label : '';
+    toolbar.innerHTML = '';
+    foot.innerHTML = `<button class="nb-btn ghost tiny" onclick="nbCancelPicker()">Cancelar</button>`;
+    body.innerHTML = nbPickerProjectHTML();
+  }
+  else if(nbView==='picker-project-notes'){
+    const proj = nbAllProjects().find(x=>x.id===nbPickerProjectId);
+    titleBar.textContent = proj ? proj.nombre : 'Elegí una nota';
+    subBar.textContent = nbPendingLink ? ('Guardando: '+nbPendingLink.label) : '';
+    toolbar.innerHTML = `<button class="nb-btn tiny" onclick="nbPickerNewNoteInProject()">＋ Nota nueva con esta norma</button>`;
+    foot.innerHTML = `<button class="nb-btn ghost tiny" onclick="nbPickerProjectId=null; nbView='picker-project'; nbRender();">← Otro proyecto</button>`;
+    body.innerHTML = nbPickerProjectNotesHTML(proj);
   }
   else if(nbView==='historial'){
     titleBar.textContent = t('nb_history_title');
@@ -2683,10 +2710,12 @@ function nbAddColaborador(nombre, rol){
 function nbRemoveColaborador(nombre){
   const p = nbActiveProject(); if(!p) return;
   if(nbMyRoleIn(p)!=='owner') return;
-  p.colaboradores = (p.colaboradores||[]).filter(c=>c.nombre.toLowerCase()!==nombre.toLowerCase());
-  nbLogEvent('Quitó autorización', 'Proyecto', nombre, null, p);
-  nbTouch('Autorización quitada');
-  nbRender();
+  nbConfirm('¿Quitar esta autorización?', `${nombre} va a perder el acceso a "${p.nombre}". ¿Confirmás que querés quitarlo/a?`, ()=>{
+    p.colaboradores = (p.colaboradores||[]).filter(c=>c.nombre.toLowerCase()!==nombre.toLowerCase());
+    nbLogEvent('Quitó autorización', 'Proyecto', nombre, null, p);
+    nbTouch('Autorización quitada');
+    nbRender();
+  }, 'Sí, quitar', 'No, cancelar');
 }
 
 /* ---- vista: actividad colaborativa de un proyecto público (quién hizo qué) ---- */
@@ -2771,10 +2800,11 @@ function nbLinksHTML(n, readOnly){
     return `
     <div class="nb-link-chip ${ok?'':'locked'}" onclick="nbOpenLink('${l.muniKey}','${l.normaId}')">
       <div class="lk-ic">🔖</div>
-      <div class="lk-txt">
-        <div class="lk-t">${nbEsc(l.label)} ${ok?'':'<span class="lock-badge">🔒</span>'}</div>
+      <div class="lk-txt ${ok?'':'blur-me'}">
+        <div class="lk-t">${nbEsc(l.label)}</div>
         <div class="lk-m">${nbEsc(l.meta||'')}</div>
       </div>
+      ${ok?'':'<span class="lock-badge">🔒</span>'}
       ${readOnly?'':`<button class="nb-del" onclick="event.stopPropagation();nbRemoveLink('${l.id}')" title="Quitar vínculo">✕</button>`}
     </div>`;
   }).join('');
@@ -3113,21 +3143,28 @@ function nbRenderLinkResults(q){
   if(!res.length){ cont.innerHTML = `<div class="nb-empty" style="padding:10px;">Sin coincidencias en el digesto.</div>`; return; }
   cont.innerHTML = res.map(r=>{
     const ok = hasAccessToMuni(r.muniKey);
+    const m = MUNICIPIOS[r.muniKey];
     return `
-    <div class="r ${ok?'':'locked'}" onclick="nbAddLink('${r.muniKey}','${r.n.nro}_${r.n.anio}')">
-      <b>${nbEsc(r.n.tipoNorma)} N° ${nbEsc(r.n.nro)}/${r.n.anio}</b> ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}
-      <span>${nbEsc(MUNICIPIOS[r.muniKey].nombre)} · ${nbEsc(r.n.tema.slice(0,80))}${r.n.tema.length>80?'…':''}</span>
+    <div class="r ${ok?'':'locked'}" onclick="${ok?`nbAddLink('${r.muniKey}','${r.n.nro}_${r.n.anio}')`:`nbBlockedLinkClick()`}">
+      <span class="${ok?'':'blur-me'}"><b>${nbEsc(r.n.tipoNorma)} N° ${nbEsc(r.n.nro)}/${r.n.anio}</b>
+      <span class="nb-link-loc">📍 ${nbEsc(m.nombre)}, ${nbEsc(m.provincia)}, ${nbEsc(m.pais)}</span>
+      <span>${nbEsc(r.n.tema.slice(0,80))}${r.n.tema.length>80?'…':''}</span></span>
+      ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}
     </div>`;
   }).join('');
 }
+function nbBlockedLinkClick(){
+  nbToast(`Esa norma está fuera de tu plan actual (${planLabel(currentUserPlan)}). No se puede vincular a una nota hasta mejorar el plan.`);
+}
 function nbAddLink(muniKey, normaId){
   const n = nbActiveNote(); if(!n) return;
+  if(!hasAccessToMuni(muniKey)){ nbBlockedLinkClick(); return; }
   const info = nbNormaLabel(muniKey, normaId); if(!info) return;
   n.links = n.links||[];
   if(n.links.some(l=>l.muniKey===muniKey && l.normaId===normaId)){ nbToast('Esa norma ya está vinculada'); return; }
   n.links.push({ id:nbUid(), muniKey, normaId, label:info.label, meta:info.meta });
   nbLogEvent('Vinculó norma', 'Nota', `${info.label} → "${n.titulo||'Nota sin título'}"`);
-  nbTouch(hasAccessToMuni(muniKey) ? 'Norma vinculada' : 'Norma vinculada (fuera de tu plan actual)');
+  nbTouch('Norma vinculada');
   document.getElementById('nbLinksWrap').innerHTML = nbLinksHTML(n);
   const box = document.getElementById('nbLinkSearch');
   if(box) box.classList.remove('open');
@@ -3135,10 +3172,13 @@ function nbAddLink(muniKey, normaId){
 function nbRemoveLink(lid){
   const n = nbActiveNote(); if(!n) return;
   const l = (n.links||[]).find(x=>x.id===lid);
-  n.links = (n.links||[]).filter(l=>l.id!==lid);
-  if(l) nbLogEvent('Quitó vínculo', 'Nota', `${l.label} — "${n.titulo||'Nota sin título'}"`);
-  nbTouch();
-  document.getElementById('nbLinksWrap').innerHTML = nbLinksHTML(n);
+  if(!l) return;
+  nbConfirm('¿Quitar esta norma?', `Se va a quitar "${l.label}" de esta nota. ¿Confirmás?`, ()=>{
+    n.links = (n.links||[]).filter(x=>x.id!==lid);
+    nbLogEvent('Quitó vínculo', 'Nota', `${l.label} — "${n.titulo||'Nota sin título'}"`);
+    nbTouch();
+    document.getElementById('nbLinksWrap').innerHTML = nbLinksHTML(n);
+  }, 'Sí, quitar', 'No, cancelar');
 }
 function nbOpenLink(muniKey, normaId){
   if(!MUNICIPIOS[muniKey]) return;
@@ -3163,6 +3203,65 @@ async function saveNormaToNotebook(muniKey, normaId){
   panel.classList.add('open');
   nbView = 'picker';
   nbRender();
+}
+let nbPickerProjectId = null;
+async function saveNormaToProject(muniKey, normaId){
+  await nbEnsureLoaded();
+  const info = nbNormaLabel(muniKey, normaId); if(!info) return;
+  nbPendingLink = { muniKey, normaId, label: info.label, meta: info.meta };
+  nbPickerProjectId = null;
+  const panel = document.getElementById('nbPanel');
+  const ai = document.getElementById('aiPanel');
+  if(ai) ai.classList.remove('open');
+  panel.classList.add('open');
+  nbView = 'picker-project';
+  nbRender();
+}
+function nbPickerProjectHTML(){
+  const l = nbPendingLink;
+  const projects = nbAllProjects().filter(p=>nbCanEdit(p));
+  let html = `<div class="nb-pick-banner">Vas a agregar <b>${nbEsc(l?l.label:'')}</b> a un proyecto.<br>Elegí en cuál.</div>`;
+  if(!projects.length){
+    html += `<div class="nb-empty"><span class="glyph">🗂</span>Todavía no tenés proyectos donde puedas escribir.<br>Volvé y creá uno con "＋ Proyecto".</div>`;
+    return html;
+  }
+  html += projects.map(p=>`
+    <div class="nb-item" onclick="nbOpenPickerProject('${p.id}')">
+      <div class="nb-ic">${p.visibility==='public'?'🌐':'🔒'}</div>
+      <div class="nb-it-body">
+        <div class="nb-it-title">${nbEsc(p.nombre)}</div>
+        <div class="nb-it-meta"><span>${rubroLabel(p.categoria)}</span><span>${p.notes.length} nota${p.notes.length===1?'':'s'}</span></div>
+      </div>
+    </div>`).join('');
+  return html;
+}
+function nbOpenPickerProject(pid){ nbPickerProjectId = pid; nbView = 'picker-project-notes'; nbRender(); }
+function nbPickerProjectNotesHTML(proj){
+  if(!proj) return `<div class="nb-empty">Proyecto no encontrado.</div>`;
+  if(!proj.notes.length) return `<div class="nb-empty"><span class="glyph">📝</span>Este proyecto todavía no tiene notas.<br>Creá la primera con el botón de arriba.</div>`;
+  const sorted = proj.notes.slice().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+  return sorted.map(n=>`
+    <div class="nb-item" onclick="nbPickNote('${proj.id}','${n.id}')">
+      <div class="nb-ic">📝</div>
+      <div class="nb-it-body">
+        <div class="nb-it-title">${nbEsc(n.titulo||'Nota sin título')}</div>
+        <div class="nb-it-meta"><span>${nbFecha(n.updatedAt)}</span></div>
+      </div>
+    </div>`).join('');
+}
+function nbPickerNewNoteInProject(){
+  const l = nbPendingLink;
+  if(!nbPickerProjectId) return;
+  NB.activeProjectId = nbPickerProjectId;
+  nbPendingLink = null;
+  nbNewNote();
+  const n = nbActiveNote();
+  if(n && l){
+    n.titulo = l.label;
+    const t = document.getElementById('nbNoteTitle'); if(t) t.value = l.label;
+    nbAddLink(l.muniKey, l.normaId);
+    nbRender();
+  }
 }
 function nbPickerHTML(){
   const l = nbPendingLink;
