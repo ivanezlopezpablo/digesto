@@ -80,6 +80,30 @@
   }
   .more-menu button:hover{background:var(--paper);}
 
+  .lang-wrap{position:relative;}
+  .lang-btn{
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:#fff; border-radius:20px;
+    padding:6px 10px; display:flex; align-items:center; gap:5px; cursor:pointer; font-size:15px;
+  }
+  .lang-btn:hover{background:rgba(255,255,255,.12);}
+  .lang-caret{font-size:9px; color:#c9d3da;}
+  .lang-menu{
+    position:absolute; right:0; top:44px; background:#fff; color:var(--text-main);
+    border-radius:10px; box-shadow:var(--shadow); min-width:220px; padding:6px; z-index:250;
+    display:none; border:1px solid var(--line); max-height:320px; overflow-y:auto;
+  }
+  .lang-menu.open{display:block;}
+  .lang-item{
+    width:100%; display:flex; align-items:center; gap:10px; background:none; border:none; padding:9px 10px;
+    font-size:13px; border-radius:7px; cursor:pointer; color:var(--text-main); text-align:left;
+  }
+  .lang-item:hover{background:var(--paper);}
+  .lang-item.active{background:var(--bronze-soft); color:var(--bronze); font-weight:600;}
+  .lang-item .flag{font-size:17px;}
+  .lang-item .lname{flex:1;}
+  .lang-item .check{color:var(--bronze); font-size:12px;}
+  @media(max-width:880px){ .lang-btn span:not(#langFlag){display:none;} .lang-btn{padding:6px 8px;} }
+
   @media(max-width:880px){
     nav.tabs{display:none;}
     header.topbar{height:54px;}
@@ -368,7 +392,7 @@
   @media(max-width:880px){ .nb-expand-btn{display:none;} }
 
   .nb-body{flex:1; overflow-y:auto; background:var(--paper); padding:12px;}
-  .nb-toolbar{display:flex; gap:7px; padding:9px 12px; border-bottom:1px solid var(--line); background:#fff; align-items:center;}
+  .nb-toolbar{display:flex; gap:7px; padding:9px 12px; border-bottom:1px solid var(--line); background:#fff; align-items:center; flex-wrap:wrap;}
   .nb-toolbar input.nb-find{
     flex:1; border:1px solid var(--line); border-radius:20px; padding:7px 12px; font-size:12.5px; outline:none; font-family:inherit;
   }
@@ -455,11 +479,11 @@
   .nb-linkres .r span{color:var(--text-muted); font-size:10.5px;}
   .nb-foot{
     padding:8px 12px; border-top:1px solid var(--line); background:#fff; display:flex; align-items:center;
-    justify-content:space-between; gap:8px; font-size:11px; color:var(--text-muted);
+    justify-content:space-between; gap:8px; font-size:11px; color:var(--text-muted); flex-wrap:wrap;
   }
   .nb-saved{display:flex; align-items:center; gap:6px;}
   .nb-saved .dot{width:7px;height:7px;border-radius:50%;background:#5fd08a;}
-  .nb-foot-actions{display:flex; gap:6px;}
+  .nb-foot-actions{display:flex; gap:6px; flex-wrap:wrap;}
 
   .nb-pick-banner{
     background:var(--bronze-soft); border:1px solid #e7d4b8; border-radius:var(--radius);
@@ -515,17 +539,23 @@
     <div class="brand-name">Modernización <span>Urbana</span></div>
   </div>
   <nav class="tabs" id="tabs">
-    <button data-page="digesto" class="active">Mi Digesto</button>
-    <button data-page="pais">País</button>
-    <button data-page="mundo">Mundo</button>
-    <button data-page="chatgpt">ChatGPT</button>
-    <button data-page="educacion">Educación</button>
+    <button data-page="digesto" class="active" data-i18n="nav_digesto">Mi Digesto</button>
+    <button data-page="pais" data-i18n="nav_pais">País</button>
+    <button data-page="mundo" data-i18n="nav_mundo">Mundo</button>
+    <button data-page="chatgpt" data-i18n="nav_chatgpt">ChatGPT</button>
+    <button data-page="educacion" data-i18n="nav_educacion">Educación</button>
   </nav>
   <div class="head-right">
+    <div class="lang-wrap">
+      <button class="lang-btn" id="langBtn" onclick="toggleLangMenu()">
+        <span id="langFlag">🇦🇷</span><span class="lang-caret">▾</span>
+      </button>
+      <div class="lang-menu" id="langMenu"></div>
+    </div>
     <div class="more-wrap">
       <div class="avatar" id="avatarBtn" onclick="toggleMore()">P</div>
       <div class="more-menu" id="moreMenu">
-        <button onclick="showPage('nosotros'); toggleMore()">Nosotros</button>
+        <button data-i18n="nav_nosotros" onclick="showPage('nosotros'); toggleMore()">Nosotros</button>
       </div>
     </div>
   </div>
@@ -550,61 +580,61 @@
 
   <!-- ================= CHATGPT ================= -->
   <section class="page" id="page-chatgpt">
-    <div class="section-eyebrow">Inteligencia Artificial Especializada</div>
-    <div class="section-title">Asistentes de análisis y redacción normativa</div>
+    <div class="section-eyebrow" data-i18n="chatgpt_eyebrow">Inteligencia Artificial Especializada</div>
+    <div class="section-title" data-i18n="chatgpt_title">Asistentes de análisis y redacción normativa</div>
     <div class="service-card">
       <div class="icon-box">◈</div>
-      <h3>IA de Análisis y Redacción Normativa</h3>
-      <p>Asistente especializado en el análisis técnico de las normas de tu digesto y en la elaboración de nuevos proyectos legislativos a partir de normas existentes.</p>
-      <div class="btn-row"><button class="btn-primary">Ir al Bot</button><button class="btn-secondary">Saber más</button></div>
+      <h3 data-i18n="chatgpt_card1_title">IA de Análisis y Redacción Normativa</h3>
+      <p data-i18n="chatgpt_card1_desc">Asistente especializado en el análisis técnico de las normas de tu digesto y en la elaboración de nuevos proyectos legislativos a partir de normas existentes.</p>
+      <div class="btn-row"><button class="btn-primary" data-i18n="btn_ir_bot">Ir al Bot</button><button class="btn-secondary" data-i18n="btn_saber_mas">Saber más</button></div>
     </div>
     <div class="service-card">
       <div class="icon-box">◈</div>
-      <h3>IA de Análisis Normativo Técnico</h3>
-      <p>Buscá documentos específicos entre las normas cargadas de tu municipio, con respuestas trazables a la ordenanza de origen.</p>
-      <div class="btn-row"><button class="btn-primary">Ir al Bot</button><button class="btn-secondary">Saber más</button></div>
+      <h3 data-i18n="chatgpt_card2_title">IA de Análisis Normativo Técnico</h3>
+      <p data-i18n="chatgpt_card2_desc">Buscá documentos específicos entre las normas cargadas de tu municipio, con respuestas trazables a la ordenanza de origen.</p>
+      <div class="btn-row"><button class="btn-primary" data-i18n="btn_ir_bot">Ir al Bot</button><button class="btn-secondary" data-i18n="btn_saber_mas">Saber más</button></div>
     </div>
   </section>
 
   <!-- ================= EDUCACIÓN ================= -->
   <section class="page" id="page-educacion">
-    <div class="section-eyebrow">Capacitación</div>
-    <div class="section-title">Cursos certificados</div>
+    <div class="section-eyebrow" data-i18n="edu_eyebrow">Capacitación</div>
+    <div class="section-title" data-i18n="edu_title">Cursos certificados</div>
     <div class="service-card">
       <div class="icon-box">✎</div>
-      <h3>IA de Análisis y Redacción Normativa</h3>
-      <p>Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.</p>
-      <div class="btn-row"><button class="btn-primary">Ir al Curso</button><button class="btn-secondary">Acerca del Curso</button></div>
+      <h3 data-i18n="edu_card_title">IA de Análisis y Redacción Normativa</h3>
+      <p data-i18n="edu_card_desc">Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.</p>
+      <div class="btn-row"><button class="btn-primary" data-i18n="btn_ir_curso">Ir al Curso</button><button class="btn-secondary" data-i18n="btn_acerca_curso">Acerca del Curso</button></div>
     </div>
   </section>
 
   <!-- ================= NOSOTROS ================= -->
   <section class="page" id="page-nosotros">
     <div class="about-copy">
-      <h2 class="serif">Nosotros</h2>
-      <p>Modernización Urbana reúne y ordena las normas de cada municipio a partir de trabajo propio de investigación, y las pone a disposición de concejos deliberantes y funcionarios para analizar normativa y comparar la evolución de cada comunidad.</p>
-      <p>El acceso a municipios y jurisdicciones depende del plan contratado: Municipio propio, País o Mundo.</p>
+      <h2 class="serif" data-i18n="nosotros_title">Nosotros</h2>
+      <p data-i18n="nosotros_p1">Modernización Urbana reúne y ordena las normas de cada municipio a partir de trabajo propio de investigación, y las pone a disposición de concejos deliberantes y funcionarios para analizar normativa y comparar la evolución de cada comunidad.</p>
+      <p data-i18n="nosotros_p2">El acceso a municipios y jurisdicciones depende del plan contratado: Municipio propio, País o Mundo.</p>
     </div>
   </section>
 
 </main>
 
 <div class="bottom-nav" id="bottomNav">
-  <button data-page="digesto" class="active"><span class="bic">🏛</span>Digesto</button>
-  <button data-page="pais"><span class="bic">🇦🇷</span>País</button>
-  <button data-page="mundo"><span class="bic">🌐</span>Mundo</button>
-  <button data-page="chatgpt"><span class="bic">◈</span>ChatGPT</button>
-  <button data-page="educacion"><span class="bic">✎</span>Educ.</button>
+  <button data-page="digesto" class="active"><span class="bic">🏛</span><span data-i18n="nav_digesto_short">Digesto</span></button>
+  <button data-page="pais"><span class="bic">🇦🇷</span><span data-i18n="nav_pais">País</span></button>
+  <button data-page="mundo"><span class="bic">🌐</span><span data-i18n="nav_mundo">Mundo</span></button>
+  <button data-page="chatgpt"><span class="bic">◈</span><span data-i18n="nav_chatgpt">ChatGPT</span></button>
+  <button data-page="educacion"><span class="bic">✎</span><span data-i18n="nav_educacion_short">Educ.</span></button>
 </div>
 
 <!-- FILTER MODAL -->
 <div class="overlay" id="filterOverlay">
   <div class="filter-sheet">
-    <div class="filter-sheet-head"><h3>Filtrar normas</h3><button onclick="closeFilter()">✕</button></div>
+    <div class="filter-sheet-head"><h3 data-i18n="filter_title">Filtrar normas</h3><button onclick="closeFilter()">✕</button></div>
     <div id="filterGroups"></div>
     <div class="filter-actions">
-      <button class="clear" onclick="clearFilters()">Borrar todo</button>
-      <button class="apply" onclick="closeFilter()">Listo</button>
+      <button class="clear" data-i18n="filter_clear" onclick="clearFilters()">Borrar todo</button>
+      <button class="apply" data-i18n="filter_done" onclick="closeFilter()">Listo</button>
     </div>
   </div>
 </div>
@@ -612,12 +642,12 @@
 <button class="ai-fab" id="aiFab" onclick="toggleAI()">✨</button>
 <div class="ai-panel" id="aiPanel">
   <div class="ai-head">
-    <div class="ai-head-title"><span class="dot"></span> Asistente del Digesto</div>
+    <div class="ai-head-title"><span class="dot"></span> <span data-i18n="ai_head">Asistente del Digesto</span></div>
     <button onclick="toggleAI()">✕</button>
   </div>
   <div class="ai-body" id="aiBody"></div>
   <div class="ai-foot">
-    <input type="text" id="aiInput" placeholder="Ej: normas sobre viviendas..." onkeydown="if(event.key==='Enter')submitAIQuery()">
+    <input type="text" id="aiInput" data-i18n-ph="ai_placeholder" placeholder="Ej: normas sobre viviendas..." onkeydown="if(event.key==='Enter')submitAIQuery()">
     <button onclick="submitAIQuery()">➤</button>
   </div>
 </div>
@@ -739,7 +769,166 @@ function goHome(){ showPage('digesto'); currentView='list'; renderDigesto(); }
 function toggleMore(){ document.getElementById('moreMenu').classList.toggle('open'); }
 document.addEventListener('click', e=>{
   if(!e.target.closest('.more-wrap')) document.getElementById('moreMenu').classList.remove('open');
+  if(!e.target.closest('.lang-wrap')) document.getElementById('langMenu').classList.remove('open');
 });
+
+/* ============ IDIOMA (selector visual, top 10) ============ */
+const LANGUAGES = [
+  { code:'es-AR', flag:'🇦🇷', name:'Español',    country:'Argentina' },
+  { code:'pt-BR', flag:'🇧🇷', name:'Português',   country:'Brasil' },
+  { code:'en-US', flag:'🇺🇸', name:'English',     country:'United States' },
+  { code:'fr-FR', flag:'🇫🇷', name:'Français',    country:'France' },
+  { code:'de-DE', flag:'🇩🇪', name:'Deutsch',     country:'Deutschland' },
+  { code:'it-IT', flag:'🇮🇹', name:'Italiano',    country:'Italia' },
+  { code:'zh-CN', flag:'🇨🇳', name:'中文',         country:'中国' },
+  { code:'ja-JP', flag:'🇯🇵', name:'日本語',       country:'日本' },
+  { code:'ar-SA', flag:'🇸🇦', name:'العربية',      country:'السعودية' },
+  { code:'ru-RU', flag:'🇷🇺', name:'Русский',      country:'Россия' }
+];
+let currentLangCode = 'es-AR';
+let langLoaded = false;
+
+const I18N = {
+  'es-AR': {
+    nav_digesto:'Mi Digesto', nav_pais:'País', nav_mundo:'Mundo', nav_chatgpt:'ChatGPT', nav_educacion:'Educación', nav_educacion_short:'Educ.', nav_digesto_short:'Digesto', nav_nosotros:'Nosotros',
+    search_digesto:'Buscar por número, tema, palabra clave...', search_scope:'Buscar en todo el digesto: número, tema, municipio, palabra clave...',
+    filtrar:'Filtrar', empty_normas:'No se encontraron normas con esos criterios.',
+    chatgpt_eyebrow:'Inteligencia Artificial Especializada', chatgpt_title:'Asistentes de análisis y redacción normativa',
+    chatgpt_card1_title:'IA de Análisis y Redacción Normativa', chatgpt_card1_desc:'Asistente especializado en el análisis técnico de las normas de tu digesto y en la elaboración de nuevos proyectos legislativos a partir de normas existentes.',
+    chatgpt_card2_title:'IA de Análisis Normativo Técnico', chatgpt_card2_desc:'Buscá documentos específicos entre las normas cargadas de tu municipio, con respuestas trazables a la ordenanza de origen.',
+    btn_ir_bot:'Ir al Bot', btn_saber_mas:'Saber más',
+    edu_eyebrow:'Capacitación', edu_title:'Cursos certificados', edu_card_title:'IA de Análisis y Redacción Normativa',
+    edu_card_desc:'Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.',
+    btn_ir_curso:'Ir al Curso', btn_acerca_curso:'Acerca del Curso',
+    nosotros_title:'Nosotros',
+    nosotros_p1:'Modernización Urbana reúne y ordena las normas de cada municipio a partir de trabajo propio de investigación, y las pone a disposición de concejos deliberantes y funcionarios para analizar normativa y comparar la evolución de cada comunidad.',
+    nosotros_p2:'El acceso a municipios y jurisdicciones depende del plan contratado: Municipio propio, País o Mundo.',
+    filter_title:'Filtrar normas', filter_clear:'Borrar todo', filter_done:'Listo',
+    ai_head:'Asistente del Digesto', ai_placeholder:'Ej: normas sobre viviendas...',
+    nb_title:'Mi anotador', nb_sub_default:'Proyectos y notas de trabajo',
+    nb_new_project:'＋ Proyecto', nb_new_note:'＋ Nota', nb_new_sub:'＋ Subnota',
+    nb_link_norm:'🔗 Vincular norma', nb_export_md:'⤓ .md', nb_export_word:'⤓ Word', nb_export_pdf:'⤓ PDF',
+    nb_delete_note:'🗑 Eliminar nota', nb_rename:'✎ Renombrar', nb_backup:'⤓ Respaldo', nb_restore:'⤒ Restaurar',
+    nb_empty_projects:'Todavía no tenés proyectos.<br>Creá el primero para empezar a tomar notas.',
+    nb_empty_notes:'Este proyecto todavía no tiene notas.',
+    nb_empty_hist:'Todavía no hay actividad registrada. Cada acción que hagas en tu anotador va a quedar anotada acá, con fecha y hora.',
+    nb_find_projects:'Buscar en mis notas…', nb_find_notes:'Buscar dentro del proyecto…', nb_find_hist:'Buscar en el historial…',
+    nb_clear_hist:'🗑 Vaciar historial', nb_only_you:'Solo vos podés ver esta actividad', nb_history_title:'Historial de cambios'
+  },
+  'en-US': {
+    nav_digesto:'My Digest', nav_pais:'Country', nav_mundo:'World', nav_chatgpt:'ChatGPT', nav_educacion:'Education', nav_educacion_short:'Educ.', nav_digesto_short:'Digest', nav_nosotros:'About Us',
+    search_digesto:'Search by number, topic, keyword...', search_scope:'Search the whole digest: number, topic, municipality, keyword...',
+    filtrar:'Filter', empty_normas:'No regulations found matching those criteria.',
+    chatgpt_eyebrow:'Specialized Artificial Intelligence', chatgpt_title:'Regulatory analysis and drafting assistants',
+    chatgpt_card1_title:'Regulatory Analysis & Drafting AI', chatgpt_card1_desc:'Assistant specialized in the technical analysis of your digest\'s regulations and in drafting new legislative projects based on existing ones.',
+    chatgpt_card2_title:'Technical Regulatory Analysis AI', chatgpt_card2_desc:'Search for specific documents among your municipality\'s loaded regulations, with answers traceable back to the source ordinance.',
+    btn_ir_bot:'Go to Bot', btn_saber_mas:'Learn more',
+    edu_eyebrow:'Training', edu_title:'Certified courses', edu_card_title:'Regulatory Analysis & Drafting AI',
+    edu_card_desc:'Certified course on using artificial intelligence for technical regulatory analysis and legislative drafting.',
+    btn_ir_curso:'Go to Course', btn_acerca_curso:'About the Course',
+    nosotros_title:'About Us',
+    nosotros_p1:'Modernización Urbana gathers and organizes each municipality\'s regulations through our own research work, and makes them available to city councils and officials to analyze regulations and track each community\'s evolution.',
+    nosotros_p2:'Access to municipalities and jurisdictions depends on the plan you have: Own Municipality, Country or World.',
+    filter_title:'Filter regulations', filter_clear:'Clear all', filter_done:'Done',
+    ai_head:'Digest Assistant', ai_placeholder:'E.g.: housing regulations...',
+    nb_title:'My Notebook', nb_sub_default:'Projects and work notes',
+    nb_new_project:'＋ Project', nb_new_note:'＋ Note', nb_new_sub:'＋ Sub-note',
+    nb_link_norm:'🔗 Link regulation', nb_export_md:'⤓ .md', nb_export_word:'⤓ Word', nb_export_pdf:'⤓ PDF',
+    nb_delete_note:'🗑 Delete note', nb_rename:'✎ Rename', nb_backup:'⤓ Backup', nb_restore:'⤒ Restore',
+    nb_empty_projects:'You don\'t have any projects yet.<br>Create your first one to start taking notes.',
+    nb_empty_notes:'This project doesn\'t have any notes yet.',
+    nb_empty_hist:'No activity recorded yet. Every action you take in your notebook will be logged here, with date and time.',
+    nb_find_projects:'Search my notes…', nb_find_notes:'Search within the project…', nb_find_hist:'Search history…',
+    nb_clear_hist:'🗑 Clear history', nb_only_you:'Only you can see this activity', nb_history_title:'Change history'
+  },
+  'pt-BR': {
+    nav_digesto:'Meu Digesto', nav_pais:'País', nav_mundo:'Mundo', nav_chatgpt:'ChatGPT', nav_educacion:'Educação', nav_educacion_short:'Educ.', nav_digesto_short:'Digesto', nav_nosotros:'Sobre Nós',
+    search_digesto:'Buscar por número, tema, palavra-chave...', search_scope:'Buscar em todo o digesto: número, tema, município, palavra-chave...',
+    filtrar:'Filtrar', empty_normas:'Nenhuma norma encontrada com esses critérios.',
+    chatgpt_eyebrow:'Inteligência Artificial Especializada', chatgpt_title:'Assistentes de análise e redação normativa',
+    chatgpt_card1_title:'IA de Análise e Redação Normativa', chatgpt_card1_desc:'Assistente especializado na análise técnica das normas do seu digesto e na elaboração de novos projetos legislativos a partir de normas existentes.',
+    chatgpt_card2_title:'IA de Análise Normativa Técnica', chatgpt_card2_desc:'Busque documentos específicos entre as normas carregadas do seu município, com respostas rastreáveis até a norma de origem.',
+    btn_ir_bot:'Ir ao Bot', btn_saber_mas:'Saiba mais',
+    edu_eyebrow:'Capacitação', edu_title:'Cursos certificados', edu_card_title:'IA de Análise e Redação Normativa',
+    edu_card_desc:'Curso certificado sobre o uso de inteligência artificial para análise técnica de normativas e elaboração de projetos legislativos.',
+    btn_ir_curso:'Ir ao Curso', btn_acerca_curso:'Sobre o Curso',
+    nosotros_title:'Sobre Nós',
+    nosotros_p1:'Modernización Urbana reúne e organiza as normas de cada município a partir de trabalho próprio de pesquisa, e as disponibiliza para câmaras municipais e funcionários analisarem normas e acompanharem a evolução de cada comunidade.',
+    nosotros_p2:'O acesso a municípios e jurisdições depende do plano contratado: Município próprio, País ou Mundo.',
+    filter_title:'Filtrar normas', filter_clear:'Limpar tudo', filter_done:'Concluído',
+    ai_head:'Assistente do Digesto', ai_placeholder:'Ex: normas sobre moradia...',
+    nb_title:'Meu Caderno', nb_sub_default:'Projetos e anotações de trabalho',
+    nb_new_project:'＋ Projeto', nb_new_note:'＋ Nota', nb_new_sub:'＋ Subnota',
+    nb_link_norm:'🔗 Vincular norma', nb_export_md:'⤓ .md', nb_export_word:'⤓ Word', nb_export_pdf:'⤓ PDF',
+    nb_delete_note:'🗑 Excluir nota', nb_rename:'✎ Renomear', nb_backup:'⤓ Backup', nb_restore:'⤒ Restaurar',
+    nb_empty_projects:'Você ainda não tem projetos.<br>Crie o primeiro para começar a fazer anotações.',
+    nb_empty_notes:'Este projeto ainda não tem notas.',
+    nb_empty_hist:'Ainda não há atividade registrada. Cada ação no seu caderno vai ficar registrada aqui, com data e hora.',
+    nb_find_projects:'Buscar nas minhas notas…', nb_find_notes:'Buscar dentro do projeto…', nb_find_hist:'Buscar no histórico…',
+    nb_clear_hist:'🗑 Limpar histórico', nb_only_you:'Só você pode ver esta atividade', nb_history_title:'Histórico de alterações'
+  }
+};
+function t(key){
+  const dict = I18N[currentLangCode] || I18N['es-AR'];
+  return (dict && dict[key]!==undefined) ? dict[key] : (I18N['es-AR'][key] !== undefined ? I18N['es-AR'][key] : key);
+}
+function applyStaticI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.innerHTML = t(el.getAttribute('data-i18n')); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder = t(el.getAttribute('data-i18n-ph')); });
+}
+
+async function ensureLangLoaded(){
+  if(langLoaded) return;
+  try{
+    const res = await window.storage.get('idioma_preferido', false);
+    if(res && res.value && LANGUAGES.some(l=>l.code===res.value)) currentLangCode = res.value;
+  }catch(e){ /* sin preferencia guardada todavía, se usa el valor por defecto */ }
+  langLoaded = true;
+  applyLangFlag();
+  applyStaticI18n();
+}
+function applyLangFlag(){
+  const l = LANGUAGES.find(x=>x.code===currentLangCode) || LANGUAGES[0];
+  const el = document.getElementById('langFlag');
+  if(el) el.textContent = l.flag;
+}
+async function toggleLangMenu(){
+  await ensureLangLoaded();
+  const menu = document.getElementById('langMenu');
+  if(!menu.classList.contains('open')) renderLangMenu();
+  menu.classList.toggle('open');
+}
+function renderLangMenu(){
+  const menu = document.getElementById('langMenu');
+  menu.innerHTML = LANGUAGES.map(l=>`
+    <button class="lang-item ${l.code===currentLangCode?'active':''}" onclick="selectLang('${l.code}')">
+      <span class="flag">${l.flag}</span>
+      <span class="lname">${l.name} <span style="opacity:.6; font-weight:400;">— ${l.country}</span></span>
+      ${l.code===currentLangCode?'<span class="check">✓</span>':''}
+    </button>
+  `).join('');
+}
+async function selectLang(code){
+  currentLangCode = code;
+  applyLangFlag();
+  document.getElementById('langMenu').classList.remove('open');
+  try{ await window.storage.set('idioma_preferido', code, false); }catch(e){ /* no se pudo guardar la preferencia */ }
+  applyStaticI18n();
+  refreshDynamicI18n();
+  if(!I18N[code]) nbToast('La traducción a este idioma todavía no está lista — mientras tanto se muestra en español.');
+}
+function refreshDynamicI18n(){
+  const activePage = document.querySelector('.page.active');
+  const activeId = activePage ? activePage.id.replace('page-','') : 'digesto';
+  if(activeId==='digesto') renderDigesto();
+  else if(activeId==='pais') renderScopePage('pais');
+  else if(activeId==='mundo') renderScopePage('mundo');
+  const ai = document.getElementById('aiPanel');
+  if(ai && ai.classList.contains('open')){ /* el saludo ya emitido queda como está; los próximos mensajes usan el nuevo idioma */ }
+  const nb = document.getElementById('nbPanel');
+  if(nb && nb.classList.contains('open')) nbRender();
+}
+ensureLangLoaded();
 
 /* ============ DATA HELPERS ============ */
 function flatNormas(keys){
@@ -779,9 +968,9 @@ function renderDigesto(){
     <div class="search-row">
       <div class="search-box">
         <span class="ic">🔍</span>
-        <input type="text" id="searchInput-digesto" placeholder="Buscar por número, tema, palabra clave..." value="${st.search}">
+        <input type="text" id="searchInput-digesto" placeholder="${t('search_digesto')}" value="${st.search}">
       </div>
-      <button class="btn-filter" onclick="openFilter('digesto')">⚙ Filtrar ${filterCount(st)>0?`<span class="filter-count">${filterCount(st)}</span>`:''}</button>
+      <button class="btn-filter" onclick="openFilter('digesto')">⚙ ${t('filtrar')} ${filterCount(st)>0?`<span class="filter-count">${filterCount(st)}</span>`:''}</button>
     </div>
     <div class="results-line">${filtered.length} norma${filtered.length===1?'':'s'} encontrada${filtered.length===1?'':'s'}</div>
     <div class="norma-list" id="normaList-digesto"></div>
@@ -821,9 +1010,9 @@ function renderScopePage(scope){
     <div class="search-row">
       <div class="search-box">
         <span class="ic">🔍</span>
-        <input type="text" id="searchInput-${scope}" placeholder="Buscar en todo el digesto: número, tema, municipio, palabra clave..." value="${st.search}">
+        <input type="text" id="searchInput-${scope}" placeholder="${t('search_scope')}" value="${st.search}">
       </div>
-      <button class="btn-filter" onclick="openFilter('${scope}')">⚙ Filtrar ${filterCount(st)>0?`<span class="filter-count">${filterCount(st)}</span>`:''}</button>
+      <button class="btn-filter" onclick="openFilter('${scope}')">⚙ ${t('filtrar')} ${filterCount(st)>0?`<span class="filter-count">${filterCount(st)}</span>`:''}</button>
     </div>
     <div class="results-line">${filtered.length.toLocaleString('es-AR')} norma${filtered.length===1?'':'s'} encontrada${filtered.length===1?'':'s'}</div>
     <div class="norma-list" id="normaList-${scope}"></div>
@@ -836,7 +1025,7 @@ function renderNormaList(containerId, list, scope){
   const listEl = document.getElementById(containerId);
   if(!listEl) return;
   if(list.length===0){
-    listEl.innerHTML = `<div class="empty-state"><div class="glyph">🗂</div>No se encontraron normas con esos criterios.</div>`;
+    listEl.innerHTML = `<div class="empty-state"><div class="glyph">🗂</div>${t('empty_normas')}</div>`;
     return;
   }
   const showMuni = scope !== false && scope !== undefined;
@@ -950,10 +1139,15 @@ function renderDetail(muniKey, id){
 }
 
 /* ============ FILTERS (genérico para los 3 contextos) ============ */
-const FACET_LABELS = {
-  tipoNorma:"Tipo de Norma", rama:"Rama de Derecho", subtema:"Subtema", anio:"Año", complejidad:"Nivel de complejidad",
-  municipio:"Municipio", provincia:"Provincia / Región", pais:"País"
+const FACET_LABELS_I18N = {
+  'es-AR': { tipoNorma:"Tipo de Norma", rama:"Rama de Derecho", subtema:"Subtema", anio:"Año", complejidad:"Nivel de complejidad", municipio:"Municipio", provincia:"Provincia / Región", pais:"País" },
+  'en-US': { tipoNorma:"Regulation Type", rama:"Legal Branch", subtema:"Subtopic", anio:"Year", complejidad:"Complexity Level", municipio:"Municipality", provincia:"Province / Region", pais:"Country" },
+  'pt-BR': { tipoNorma:"Tipo de Norma", rama:"Ramo do Direito", subtema:"Subtema", anio:"Ano", complejidad:"Nível de Complexidade", municipio:"Município", provincia:"Província / Região", pais:"País" }
 };
+function facetLabel(key){
+  const dict = FACET_LABELS_I18N[currentLangCode] || FACET_LABELS_I18N['es-AR'];
+  return dict[key] || FACET_LABELS_I18N['es-AR'][key] || key;
+}
 function buildFilterOptions(list, facetKeys){
   const uniq = arr => [...new Set(arr)].filter(Boolean).sort();
   const opts = {};
@@ -978,7 +1172,7 @@ function openFilter(scope){
   const st = scopeState[scope];
   const html = facetKeys.map((key,i)=>`
     <details class="filter-group" ${i===0?'open':''}>
-      <summary>${FACET_LABELS[key]}</summary>
+      <summary>${facetLabel(key)}</summary>
       <div class="filter-opts">
         ${(opts[key]||[]).map(v=>`<div class="chip ${st.filters[key].includes(v)?'sel':''}" onclick="toggleFilter('${key}','${String(v).replace(/'/g,"\\'")}')">${v}</div>`).join('')}
       </div>
@@ -1218,36 +1412,40 @@ function nbRender(){
   const n = nbActiveNote();
 
   if(nbView==='projects'){
-    titleBar.textContent = 'Mi anotador';
+    titleBar.textContent = t('nb_title');
     subBar.textContent = NB.projects.length + ' proyecto' + (NB.projects.length===1?'':'s') + ' · ' + NB.projects.reduce((a,x)=>a+x.notes.length,0) + ' nota(s)';
     toolbar.innerHTML = `
-      <input class="nb-find" id="nbFind" placeholder="Buscar en mis notas…" oninput="nbRenderSearch(this.value)">
+      <input class="nb-find" id="nbFind" placeholder="${t('nb_find_projects')}" oninput="nbRenderSearch(this.value)">
       <button class="nb-btn ghost" onclick="nbOpenHistorial()" title="Ver historial de cambios">🕘</button>
-      <button class="nb-btn" onclick="nbNewProject()">＋ Proyecto</button>`;
+      <button class="nb-btn" onclick="nbNewProject()">${t('nb_new_project')}</button>`;
     foot.innerHTML = `
-      <button class="nb-btn ghost tiny" onclick="nbExportBackup()">⤓ Respaldo</button>
-      <button class="nb-btn ghost tiny" onclick="document.getElementById('nbImportFile').click()">⤒ Restaurar</button>`;
+      <button class="nb-btn ghost tiny" onclick="nbExportBackup()">${t('nb_backup')}</button>
+      <button class="nb-btn ghost tiny" onclick="document.getElementById('nbImportFile').click()">${t('nb_restore')}</button>`;
     body.innerHTML = nbProjectsHTML();
   }
   else if(nbView==='notes' && p){
     titleBar.textContent = p.nombre;
     subBar.textContent = p.notes.length + ' nota' + (p.notes.length===1?'':'s') + ' · creado el ' + nbFecha(p.createdAt);
     toolbar.innerHTML = `
-      <input class="nb-find" id="nbFind" placeholder="Buscar dentro del proyecto…" oninput="nbRenderNotes(this.value)">
-      <button class="nb-btn" onclick="nbNewNote()">＋ Nota</button>`;
+      <input class="nb-find" id="nbFind" placeholder="${t('nb_find_notes')}" oninput="nbRenderNotes(this.value)">
+      <button class="nb-btn" onclick="nbNewNote()">${t('nb_new_note')}</button>`;
     foot.innerHTML = `
-      <button class="nb-btn ghost tiny" onclick="nbRenameProject()">✎ Renombrar</button>
-      <button class="nb-btn ghost tiny" onclick="nbExportProject()">⤓ Exportar</button>`;
+      <button class="nb-btn ghost tiny" onclick="nbRenameProject()">${t('nb_rename')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportProject()">${t('nb_export_md')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportProjectWord()">${t('nb_export_word')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportProjectPDF()">${t('nb_export_pdf')}</button>`;
     body.innerHTML = `<div id="nbNotesWrap">${nbNotesHTML(p, '')}</div>`;
   }
   else if(nbView==='editor' && p && n){
     titleBar.textContent = n.titulo || 'Nota sin título';
     subBar.textContent = p.nombre + ' · actualizada ' + nbFecha(n.updatedAt);
     toolbar.innerHTML = `
-      <button class="nb-btn tiny" onclick="nbAddSub()">＋ Subnota</button>
-      <button class="nb-btn ghost tiny" onclick="nbToggleLinkSearch()">🔗 Vincular norma</button>
-      <button class="nb-btn ghost tiny" onclick="nbExportNote()">⤓ Exportar</button>`;
-    foot.innerHTML = `<button class="nb-btn danger tiny" onclick="nbDeleteNote('${n.id}')">🗑 Eliminar nota</button>`;
+      <button class="nb-btn tiny" onclick="nbAddSub()">${t('nb_new_sub')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbToggleLinkSearch()">${t('nb_link_norm')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportNote()">${t('nb_export_md')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportNoteWord()">${t('nb_export_word')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportNotePDF()">${t('nb_export_pdf')}</button>`;
+    foot.innerHTML = `<button class="nb-btn danger tiny" onclick="nbDeleteNote('${n.id}')">${t('nb_delete_note')}</button>`;
     body.innerHTML = nbEditorHTML(n);
   }
   else if(nbView==='picker'){
@@ -1258,10 +1456,10 @@ function nbRender(){
     body.innerHTML = nbPickerHTML();
   }
   else if(nbView==='historial'){
-    titleBar.textContent = 'Historial de cambios';
-    subBar.textContent = 'Solo vos podés ver esta actividad';
-    toolbar.innerHTML = `<input class="nb-find" id="nbHistFind" placeholder="Buscar en el historial…" oninput="nbRenderHistorial(this.value)">`;
-    foot.innerHTML = `<button class="nb-btn ghost tiny" onclick="nbClearHistorialConfirm()">🗑 Vaciar historial</button>`;
+    titleBar.textContent = t('nb_history_title');
+    subBar.textContent = t('nb_only_you');
+    toolbar.innerHTML = `<input class="nb-find" id="nbHistFind" placeholder="${t('nb_find_hist')}" oninput="nbRenderHistorial(this.value)">`;
+    foot.innerHTML = `<button class="nb-btn ghost tiny" onclick="nbClearHistorialConfirm()">${t('nb_clear_hist')}</button>`;
     body.innerHTML = nbHistorialHTML('');
   }
   else { nbView='projects'; nbRender(); return; }
@@ -1757,6 +1955,131 @@ function nbExportProject(){
 function nbExportBackup(){
   nbDownload('anotador-respaldo-'+new Date().toISOString().slice(0,10)+'.json', JSON.stringify(NB,null,2), 'application/json');
   nbToast('Respaldo descargado');
+}
+
+/* ---- exportar a Word (.doc, abre en Microsoft Word / Google Docs / LibreOffice) ---- */
+function nbNoteBodyHTML(n, asSubHeading){
+  let html = asSubHeading ? `<h2>${nbEsc(n.titulo||'Nota sin título')}</h2>` : `<h1>${nbEsc(n.titulo||'Nota sin título')}</h1>`;
+  html += `<p style="color:#666;font-size:11px;">Actualizada: ${nbFecha(n.updatedAt)}</p>`;
+  if(n.cuerpo) html += `<p>${nbEsc(n.cuerpo).replace(/\n/g,'<br>')}</p>`;
+  if((n.links||[]).length){
+    html += `<h3>Normas vinculadas</h3><ul>`;
+    n.links.forEach(l=> html += `<li><b>${nbEsc(l.label)}</b> — ${nbEsc(l.meta)}</li>`);
+    html += `</ul>`;
+  }
+  if((n.subnotas||[]).length){
+    html += `<h3>Subnotas</h3>`;
+    n.subnotas.forEach((s,i)=>{
+      html += `<h4>${nbEsc(s.titulo || 'Subnota '+(i+1))}</h4><p>${nbEsc(s.texto||'').replace(/\n/g,'<br>')}</p>`;
+    });
+  }
+  html += `<hr>`;
+  return html;
+}
+function nbBuildWordHTML(title, bodyHtml){
+  return `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head><meta charset='utf-8'><title>${nbEsc(title)}</title></head>
+    <body style="font-family:Calibri,Arial,sans-serif; font-size:13px; color:#1a2733;">${bodyHtml}</body></html>`;
+}
+function nbDownloadWordDoc(filename, html){
+  const blob = new Blob(['\ufeff', html], {type:'application/msword'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+function nbExportNoteWord(){
+  const n = nbActiveNote(); if(!n) return;
+  const html = nbBuildWordHTML(n.titulo||'Nota sin título', nbNoteBodyHTML(n));
+  nbDownloadWordDoc(nbSlug(n.titulo)+'.doc', html);
+  nbLogEvent('Exportó', 'Nota', (n.titulo||'Nota sin título') + ' (Word)');
+  nbToast('Nota exportada a Word');
+}
+function nbExportProjectWord(){
+  const p = nbActiveProject(); if(!p) return;
+  let body = `<h1>${nbEsc(p.nombre)}</h1>`;
+  p.notes.forEach(n=> body += nbNoteBodyHTML(n, true));
+  nbDownloadWordDoc(nbSlug(p.nombre)+'.doc', nbBuildWordHTML(p.nombre, body));
+  nbLogEvent('Exportó', 'Proyecto', p.nombre + ' (Word)');
+  nbToast('Proyecto exportado a Word');
+}
+
+/* ---- exportar a PDF (via jsPDF, cargado bajo demanda) ---- */
+let nbJsPDFLoading = null;
+function nbLoadJsPDF(){
+  if(window.jspdf) return Promise.resolve();
+  if(nbJsPDFLoading) return nbJsPDFLoading;
+  nbJsPDFLoading = new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload = ()=>resolve();
+    s.onerror = ()=>reject(new Error('No se pudo cargar el generador de PDF'));
+    document.head.appendChild(s);
+  });
+  return nbJsPDFLoading;
+}
+function nbRenderNotePDF(doc, n, startY){
+  const marginX = 14; const pageWidth = doc.internal.pageSize.getWidth() - marginX*2;
+  let y = startY || 20;
+  doc.setFontSize(14); doc.setFont(undefined,'bold');
+  doc.text(n.titulo || 'Nota sin título', marginX, y); y += 7;
+  doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(120);
+  doc.text('Actualizada: '+nbFecha(n.updatedAt), marginX, y); y += 7;
+  doc.setTextColor(20);
+  if(n.cuerpo){
+    doc.setFontSize(11);
+    doc.splitTextToSize(n.cuerpo, pageWidth).forEach(line=>{
+      if(y>280){ doc.addPage(); y=20; }
+      doc.text(line, marginX, y); y += 6;
+    });
+    y += 3;
+  }
+  if((n.links||[]).length){
+    doc.setFontSize(11); doc.setFont(undefined,'bold'); doc.text('Normas vinculadas', marginX, y); y += 6; doc.setFont(undefined,'normal');
+    n.links.forEach(l=>{
+      doc.splitTextToSize('• '+l.label+' — '+l.meta, pageWidth).forEach(line=>{
+        if(y>280){ doc.addPage(); y=20; } doc.text(line, marginX, y); y += 6;
+      });
+    });
+    y += 3;
+  }
+  if((n.subnotas||[]).length){
+    doc.setFontSize(11); doc.setFont(undefined,'bold'); doc.text('Subnotas', marginX, y); y += 6; doc.setFont(undefined,'normal');
+    n.subnotas.forEach((s,i)=>{
+      if(y>280){ doc.addPage(); y=20; }
+      doc.setFont(undefined,'bold'); doc.text(s.titulo || ('Subnota '+(i+1)), marginX, y); y += 6; doc.setFont(undefined,'normal');
+      doc.splitTextToSize(s.texto||'', pageWidth).forEach(line=>{
+        if(y>280){ doc.addPage(); y=20; } doc.text(line, marginX, y); y += 6;
+      });
+      y += 2;
+    });
+  }
+  return y;
+}
+async function nbExportNotePDF(){
+  const n = nbActiveNote(); if(!n) return;
+  try{ await nbLoadJsPDF(); }catch(e){ nbToast('No se pudo generar el PDF (revisá tu conexión)'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  nbRenderNotePDF(doc, n);
+  doc.save(nbSlug(n.titulo)+'.pdf');
+  nbLogEvent('Exportó', 'Nota', (n.titulo||'Nota sin título') + ' (PDF)');
+  nbToast('Nota exportada a PDF');
+}
+async function nbExportProjectPDF(){
+  const p = nbActiveProject(); if(!p) return;
+  try{ await nbLoadJsPDF(); }catch(e){ nbToast('No se pudo generar el PDF (revisá tu conexión)'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(16); doc.text(p.nombre, 14, 18);
+  let y = 28;
+  p.notes.forEach((n,i)=>{
+    if(i>0){ doc.addPage(); y=20; }
+    y = nbRenderNotePDF(doc, n, y);
+  });
+  doc.save(nbSlug(p.nombre)+'.pdf');
+  nbLogEvent('Exportó', 'Proyecto', p.nombre + ' (PDF)');
+  nbToast('Proyecto exportado a PDF');
 }
 function nbImportBackup(ev){
   const file = ev.target.files && ev.target.files[0];
