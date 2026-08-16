@@ -38,6 +38,34 @@
   ::-webkit-scrollbar{width:8px;height:8px;}
   ::-webkit-scrollbar-thumb{background:#c7cfce;border-radius:8px;}
 
+  /* ---------- LOGIN ---------- */
+  .login-screen{
+    position:fixed; inset:0; z-index:5000; background:linear-gradient(150deg,var(--ink) 0%,var(--ink-soft) 55%,#1e3646 100%);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .login-card{
+    background:#fff; border-radius:18px; padding:34px 32px 28px; width:100%; max-width:380px;
+    box-shadow:0 24px 60px rgba(0,0,0,.35);
+  }
+  .login-brand{display:flex; align-items:center; gap:10px; margin-bottom:22px;}
+  .login-brand .brand-name{font-family:'Lora',serif; font-weight:600; font-size:16px; color:var(--ink);}
+  .login-brand .brand-name span{color:var(--bronze); font-style:italic; font-weight:500;}
+  .login-title{font-size:21px; font-weight:700; color:var(--ink); margin-bottom:4px;}
+  .login-sub{font-size:12.5px; color:var(--text-muted); margin-bottom:20px;}
+  .login-label{font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.4px; display:block; margin-bottom:5px;}
+  .login-input{
+    width:100%; border:1px solid var(--line); border-radius:9px; padding:11px 13px; font-size:13.5px;
+    font-family:inherit; outline:none; margin-bottom:14px; background:var(--paper);
+  }
+  .login-input:focus{border-color:var(--bronze); background:#fff;}
+  .login-error{color:var(--danger); font-size:12px; font-weight:600; min-height:16px; margin-bottom:6px;}
+  .login-btn{
+    width:100%; background:var(--ink); color:#fff; border:none; padding:12px; border-radius:10px;
+    font-size:14px; font-weight:700; cursor:pointer; margin-top:4px;
+  }
+  .login-btn:hover{background:var(--ink-soft);}
+  .login-hint{font-size:10.5px; color:var(--text-muted); text-align:center; margin-top:16px; line-height:1.5; background:var(--paper); border-radius:8px; padding:8px 10px;}
+
   /* ---------- HEADER ---------- */
   header.topbar{
     position:sticky; top:0; z-index:200;
@@ -521,6 +549,56 @@
   .nb-hist-ts{font-size:10.5px; color:var(--text-muted); font-family:'IBM Plex Mono'; white-space:nowrap;}
   .nb-hist-detail{font-size:12.5px; color:var(--text-main); line-height:1.4;}
   .nb-hist-motivo{font-size:11px; color:var(--bronze); margin-top:4px; font-weight:600;}
+  .nb-badge-pub{background:var(--slate-blue-soft); color:var(--slate-blue); font-size:9.5px; font-weight:700; padding:2px 6px; border-radius:8px; margin-left:5px; text-transform:uppercase; letter-spacing:.3px;}
+
+  /* ---------- GRUPOS DESGLOSABLES DE PROYECTOS ---------- */
+  .nb-group{border:1px solid var(--line); border-radius:12px; margin-bottom:10px; background:#fff; overflow:hidden;}
+  .nb-group summary{list-style:none; display:flex; align-items:center; padding:12px 14px; cursor:pointer; font-weight:700; font-size:13px; color:var(--ink);}
+  .nb-group summary::-webkit-details-marker{display:none;}
+  .nb-group summary::after{content:"›"; transform:rotate(90deg); color:var(--text-muted); font-size:15px; transition:.15s; margin-left:6px;}
+  .nb-group[open] summary::after{transform:rotate(270deg);}
+  .nb-group-count{background:var(--paper); color:var(--text-muted); font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:10px; margin-left:auto;}
+  .nb-group-body{border-top:1px solid var(--line); display:flex; flex-direction:column;}
+  .nb-group-body .nb-item{border-radius:0; border:none; border-bottom:1px solid var(--line); margin-bottom:0;}
+  .nb-group-body .nb-item:last-child{border-bottom:none;}
+  .role-badge{font-size:9.5px; font-weight:700; padding:2px 7px; border-radius:8px; margin-left:5px; text-transform:uppercase; letter-spacing:.3px;}
+  .role-badge.editor{background:var(--seal-green-soft); color:var(--seal-green);}
+  .role-badge.ver{background:#f1f0f5; color:#6b6280;}
+
+  .nb-share-row, .nb-share-search-row{
+    display:flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--line); border-radius:9px;
+    padding:9px 12px; margin-bottom:7px;
+  }
+  .nb-share-name{flex:1; font-size:13px; font-weight:600; color:var(--text-main);}
+  .nb-share-btns{display:flex; gap:6px;}
+
+  /* ---------- PANEL DE ESTADÍSTICAS (interno) ---------- */
+  .stats-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:16px;}
+  @media(max-width:760px){ .stats-grid{grid-template-columns:1fr;} }
+  .stats-card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px;}
+  .stats-card h4{font-size:13px; text-transform:uppercase; letter-spacing:.4px; color:var(--ink-soft); margin-bottom:14px;}
+  .stat-bar-row{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+  .stat-bar-label{width:34%; font-size:12px; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .stat-bar-track{flex:1; height:8px; background:var(--paper); border-radius:6px; overflow:hidden;}
+  .stat-bar-fill{height:100%; background:linear-gradient(90deg,var(--bronze),#c99a52); border-radius:6px;}
+  .stat-bar-count{width:30px; text-align:right; font-size:12px; font-weight:700; color:var(--ink);}
+  .stats-note{background:#fff; border:1px solid var(--line); border-left:4px solid var(--bronze); border-radius:12px; padding:14px 18px; font-size:12.5px; color:var(--text-muted); line-height:1.6;}
+
+  /* ---------- BLOQUEO POR PLAN ---------- */
+  .locked-wrap{position:relative; border-radius:14px; overflow:hidden; min-height:260px;}
+  .locked-blur{filter:blur(6px) saturate(.7); opacity:.75; pointer-events:none; user-select:none;}
+  .locked-overlay{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:24px; background:rgba(244,246,245,.55); backdrop-filter:blur(1px);
+  }
+  .locked-icon{font-size:34px; margin-bottom:8px;}
+  .locked-title{font-family:'Lora',serif; font-size:20px; font-weight:700; color:var(--ink); margin-bottom:8px; background:#fff; padding:4px 18px; border-radius:20px; box-shadow:var(--shadow);}
+  .locked-msg{font-size:13.5px; color:var(--text-main); background:#fff; padding:12px 18px; border-radius:12px; box-shadow:var(--shadow); max-width:360px; line-height:1.6;}
+  .lock-badge{
+    display:inline-flex; align-items:center; gap:4px; background:#f5e3e0; color:var(--danger); font-size:10px; font-weight:700;
+    padding:2px 8px; border-radius:20px; margin-left:6px; text-transform:uppercase; letter-spacing:.3px; vertical-align:middle;
+  }
+  .ai-result-card.locked, .r.locked{ opacity:.55; cursor:not-allowed; }
   .nb-toast{
     position:fixed; left:50%; transform:translateX(-50%); bottom:32px; z-index:900;
     background:var(--ink); color:#fff; padding:10px 16px; border-radius:22px; font-size:12.5px;
@@ -532,6 +610,25 @@
 </style>
 </head>
 <body>
+
+<!-- ================= LOGIN ================= -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-mark">MU</div>
+      <div class="brand-name">Modernización <span>Urbana</span></div>
+    </div>
+    <h1 class="serif login-title">Ingresá a tu cuenta</h1>
+    <p class="login-sub">Accedé con tu usuario para ver tu digesto normativo.</p>
+    <label class="login-label">Usuario</label>
+    <input type="text" id="loginUser" class="login-input" placeholder="Ej: admin" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+    <label class="login-label">Contraseña</label>
+    <input type="password" id="loginPass" class="login-input" placeholder="••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()">
+    <div class="login-error" id="loginError"></div>
+    <button class="login-btn" onclick="attemptLogin()">Ingresar</button>
+    <div class="login-hint">Demo de diseño — usuarios de prueba: <b>admin / 1234</b> (todo el digesto) · <b>admin1 / 1234</b> (solo tu municipio)</div>
+  </div>
+</div>
 
 <header class="topbar">
   <div class="brand" onclick="goHome()">
@@ -556,6 +653,7 @@
       <div class="avatar" id="avatarBtn" onclick="toggleMore()">P</div>
       <div class="more-menu" id="moreMenu">
         <button data-i18n="nav_nosotros" onclick="showPage('nosotros'); toggleMore()">Nosotros</button>
+        <button onclick="openStatsGate(); toggleMore()">📊 Estadísticas (equipo)</button>
       </div>
     </div>
   </div>
@@ -617,7 +715,24 @@
     </div>
   </section>
 
+  <!-- ================= ESTADÍSTICAS (interno, solo equipo) ================= -->
+  <section class="page" id="page-estadisticas">
+    <div id="statsRoot"></div>
+  </section>
+
 </main>
+
+<!-- GATE DE ACCESO AL PANEL DE ESTADÍSTICAS -->
+<div class="overlay" id="statsGateOverlay">
+  <div class="filter-sheet" style="max-width:340px;">
+    <div class="filter-sheet-head"><h3>Acceso interno</h3><button onclick="closeStatsGate()">✕</button></div>
+    <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">Panel exclusivo para el equipo de la consultora. No es visible para concejales ni asesores municipales.</p>
+    <input type="password" id="statsPass" placeholder="Contraseña"
+           style="width:100%; border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:13px; margin-bottom:12px; font-family:inherit;"
+           onkeydown="if(event.key==='Enter')checkStatsPass()">
+    <button class="btn-primary" style="width:100%;" onclick="checkStatsPass()">Ingresar</button>
+  </div>
+</div>
 
 <div class="bottom-nav" id="bottomNav">
   <button data-page="digesto" class="active"><span class="bic">🏛</span><span data-i18n="nav_digesto_short">Digesto</span></button>
@@ -744,6 +859,28 @@ let currentView = "list"; // list | detail
 let currentNormaId = null;
 let currentDetailMuniKey = null;
 
+/* Plan de suscripción del usuario actual: 'propio' | 'pais' | 'mundo'.
+   En producción esto viene de la cuenta del usuario en Supabase; acá queda fijo para la demo. */
+let currentUserPlan = 'propio';
+function hasAccessToMuni(muniKey){
+  if(muniKey === currentMunicipioKey) return true;
+  const home = MUNICIPIOS[currentMunicipioKey];
+  const m = MUNICIPIOS[muniKey];
+  if(!home || !m) return false;
+  if(currentUserPlan === 'mundo') return true;
+  if(currentUserPlan === 'pais') return m.pais === home.pais;
+  return false;
+}
+function scopeUnlocked(scope){
+  if(scope==='digesto') return true;
+  if(scope==='pais') return currentUserPlan==='pais' || currentUserPlan==='mundo';
+  if(scope==='mundo') return currentUserPlan==='mundo';
+  return false;
+}
+function planLabel(plan){
+  return plan==='mundo' ? 'Plan Mundo' : (plan==='pais' ? 'Plan País' : 'Plan Municipio propio');
+}
+
 const scopeState = {
   digesto: { search:'', filters:{tipoNorma:[],rama:[],subtema:[],anio:[],complejidad:[]} },
   pais:    { search:'', filters:{municipio:[],provincia:[],tipoNorma:[],rama:[],subtema:[],anio:[],complejidad:[]} },
@@ -766,6 +903,101 @@ function showPage(id){
   window.scrollTo({top:0, behavior:'smooth'});
 }
 function goHome(){ showPage('digesto'); currentView='list'; renderDigesto(); }
+
+/* ============ PANEL DE ESTADÍSTICAS (interno, equipo de la consultora) ============ */
+const STATS_PASSWORD = 'consultora2026';
+function openStatsGate(){
+  const ov = document.getElementById('statsGateOverlay');
+  ov.classList.add('open');
+  const input = document.getElementById('statsPass');
+  input.value = '';
+  setTimeout(()=>input.focus(), 50);
+}
+function closeStatsGate(){ document.getElementById('statsGateOverlay').classList.remove('open'); }
+async function checkStatsPass(){
+  const val = document.getElementById('statsPass').value;
+  if(val === STATS_PASSWORD){
+    closeStatsGate();
+    showPage('estadisticas');
+    await renderStatsPanel();
+  }else{
+    nbToast('Contraseña incorrecta');
+  }
+}
+async function renderStatsPanel(){
+  const root = document.getElementById('statsRoot');
+  root.innerHTML = `<div class="results-line">Cargando estadísticas…</div>`;
+  let events = [];
+  try{
+    const res = await window.storage.get('eventos_uso', true);
+    if(res && res.value) events = JSON.parse(res.value);
+  }catch(e){ events = []; }
+
+  const now = new Date();
+  const thisMonthKey = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const countBy = (arr, keyFn)=>{
+    const map = {};
+    arr.forEach(x=>{ const k = keyFn(x); if(!k) return; map[k] = (map[k]||0)+1; });
+    return Object.entries(map).sort((a,b)=>b[1]-a[1]);
+  };
+  const eventosEsteMes = events.filter(e=> (e.ts||'').slice(0,7) === thisMonthKey);
+  const porProvincia = countBy(events, e=>e.provincia);
+  const porPais = countBy(events, e=>e.pais);
+  const porUsuario = countBy(events, e=>e.usuario);
+  const porMes = countBy(events, e=>(e.ts||'').slice(0,7));
+  const publicosEstaProvincia = nbPublicProjects.length;
+
+  const barList = (rows, max)=> rows.slice(0,8).map(([label,count])=>{
+    const pct = max>0 ? Math.round((count/max)*100) : 0;
+    return `<div class="stat-bar-row">
+      <div class="stat-bar-label">${nbEsc(label)}</div>
+      <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%"></div></div>
+      <div class="stat-bar-count">${count}</div>
+    </div>`;
+  }).join('');
+  const maxProv = porProvincia[0] ? porProvincia[0][1] : 0;
+  const maxPais = porPais[0] ? porPais[0][1] : 0;
+  const maxUser = porUsuario[0] ? porUsuario[0][1] : 0;
+  const maxMes = porMes[0] ? porMes[0][1] : 0;
+
+  root.innerHTML = `
+    <div class="stats-hero">
+      <div class="section-eyebrow" style="color:#f0dcb3;">Panel interno · Equipo consultora</div>
+      <h1 class="serif">Estadísticas de uso del digesto</h1>
+      <div class="sub">Datos para asesorar a futuros clientes sobre la eficiencia real que aporta la plataforma.</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="num">${events.length.toLocaleString('es-AR')}</div><div class="lbl">Normas analizadas (total)</div></div>
+        <div class="stat-item"><div class="num">${eventosEsteMes.length.toLocaleString('es-AR')}</div><div class="lbl">Analizadas este mes</div></div>
+        <div class="stat-item"><div class="num">${porUsuario.length}</div><div class="lbl">Usuarios con actividad</div></div>
+        <div class="stat-item"><div class="num">${publicosEstaProvincia}</div><div class="lbl">Proyectos públicos activos (tu provincia)</div></div>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stats-card">
+        <h4>📅 Normas analizadas por mes</h4>
+        ${porMes.length ? barList(porMes.slice().reverse().slice(0,6).reverse(), maxMes) : '<div class="nb-empty">Todavía no hay actividad registrada.</div>'}
+      </div>
+      <div class="stats-card">
+        <h4>📍 Por provincia / región</h4>
+        ${porProvincia.length ? barList(porProvincia, maxProv) : '<div class="nb-empty">Sin datos todavía.</div>'}
+      </div>
+      <div class="stats-card">
+        <h4>🌎 Por país</h4>
+        ${porPais.length ? barList(porPais, maxPais) : '<div class="nb-empty">Sin datos todavía.</div>'}
+      </div>
+      <div class="stats-card">
+        <h4>👤 Usuarios con más actividad</h4>
+        ${porUsuario.length ? barList(porUsuario, maxUser) : '<div class="nb-empty">Sin datos todavía (los usuarios sin nombre cargado figuran como "Anónimo").</div>'}
+      </div>
+    </div>
+    <div class="stats-note">
+      ⚠️ Esta vista muestra actividad de <b>consulta de normas</b> (siempre, de cualquier usuario) y de <b>proyectos públicos</b> del anotador, porque ambos son datos compartidos.
+      Los proyectos <b>privados</b> de cada usuario no se incluyen acá — son personales, y así deben seguir siendo. Para un tablero real a escala (todos los municipios,
+      todos los usuarios, con roles de acceso), esto se calcula del lado del servidor en Supabase a partir de una tabla de eventos, no desde el navegador de cada persona.
+    </div>
+  `;
+}
+
 function toggleMore(){ document.getElementById('moreMenu').classList.toggle('open'); }
 document.addEventListener('click', e=>{
   if(!e.target.closest('.more-wrap')) document.getElementById('moreMenu').classList.remove('open');
@@ -954,16 +1186,20 @@ function renderDigesto(){
     return;
   }
   const st = scopeState.digesto;
-  const filtered = filterNormas(flatNormas([currentMunicipioKey]), st, {});
+  const own = flatNormas([currentMunicipioKey]);
+  const filtered = filterNormas(own, st, {});
+  const nTipos = new Set(own.map(n=>n.tipoNorma)).size;
+  const nRamas = new Set(own.map(n=>n.rama)).size;
   root.innerHTML = `
-    <div class="municipio-hero" style="background-image:url('${PORTADA_URL}');">
-      <div class="hero-overlay"></div>
-      <div class="municipio-seal">${m.nombre.slice(0,2).toUpperCase()}</div>
-      <div>
-        <h1 class="serif">${m.nombre}</h1>
-        <div class="sub">${m.provincia}, ${m.pais} · Concejo Deliberante</div>
+    <div class="stats-hero">
+      <div class="section-eyebrow" style="color:#f0dcb3;">Plan Digesto Propio</div>
+      <h1 class="serif">${m.nombre}</h1>
+      <div class="sub">${m.provincia}, ${m.pais} · Concejo Deliberante — Datos generales de las normas cargadas en tu municipio.</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="num">${own.length.toLocaleString('es-AR')}</div><div class="lbl">Normas cargadas</div></div>
+        <div class="stat-item"><div class="num">${nTipos}</div><div class="lbl">Tipos de norma</div></div>
+        <div class="stat-item"><div class="num">${nRamas}</div><div class="lbl">Ramas del derecho</div></div>
       </div>
-      <div class="badge-access">Plan: ${m.plan}</div>
     </div>
     <div class="search-row">
       <div class="search-box">
@@ -995,18 +1231,35 @@ function renderScopePage(scope){
   const nPais = new Set(all.map(n=>n.pais)).size;
   const label = scope==='pais' ? `Municipios de ${MUNICIPIOS[currentMunicipioKey].pais}` : 'Municipios y jurisdicciones del mundo';
   const eyebrow = scope==='pais' ? 'Plan País' : 'Plan Mundo';
-  root.innerHTML = `
+  const statsHeroHtml = `
     <div class="stats-hero">
       <div class="section-eyebrow" style="color:#f0dcb3;">${eyebrow}</div>
       <h1 class="serif">${label}</h1>
-      <div class="sub">Todo el digesto disponible en tu suscripción, en un solo listado.</div>
+      <div class="sub">Todo el digesto disponible en ese plan, en un solo listado.</div>
       <div class="stats-row">
         <div class="stat-item"><div class="num">${all.length.toLocaleString('es-AR')}</div><div class="lbl">Normas cargadas</div></div>
         <div class="stat-item"><div class="num">${nMunis}</div><div class="lbl">Municipios</div></div>
         <div class="stat-item"><div class="num">${nProv}</div><div class="lbl">Provincias / Regiones</div></div>
         ${scope==='mundo'?`<div class="stat-item"><div class="num">${nPais}</div><div class="lbl">Países</div></div>`:''}
       </div>
-    </div>
+    </div>`;
+
+  if(!scopeUnlocked(scope)){
+    const requiredPlan = scope==='pais' ? 'Plan País' : 'Plan Mundo';
+    root.innerHTML = statsHeroHtml + `
+      <div class="locked-wrap">
+        <div class="locked-blur">${normaListHTML(all.slice(0,8), scope)}</div>
+        <div class="locked-overlay">
+          <div class="locked-icon">🔒</div>
+          <div class="locked-title">Bloqueadas</div>
+          <div class="locked-msg">Estás en <b>${nbEsc(planLabel(currentUserPlan))}</b>.<br>Para acceder, mejorá tu Plan a <b>${requiredPlan}</b>${scope==='pais'?' o <b>Plan Mundo</b>':''}.</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  root.innerHTML = statsHeroHtml + `
     <div class="search-row">
       <div class="search-box">
         <span class="ic">🔍</span>
@@ -1021,15 +1274,12 @@ function renderScopePage(scope){
   renderNormaList('normaList-'+scope, filtered, scope);
 }
 
-function renderNormaList(containerId, list, scope){
-  const listEl = document.getElementById(containerId);
-  if(!listEl) return;
+function normaListHTML(list, scope){
   if(list.length===0){
-    listEl.innerHTML = `<div class="empty-state"><div class="glyph">🗂</div>${t('empty_normas')}</div>`;
-    return;
+    return `<div class="empty-state"><div class="glyph">🗂</div>${t('empty_normas')}</div>`;
   }
   const showMuni = scope !== false && scope !== undefined;
-  listEl.innerHTML = list.map(n=>`
+  return list.map(n=>`
     <div class="norma-card" onclick="openDetail('${n.muniKey}','${n.nro}_${n.anio}'${showMuni?`,'${scope}'`:''})">
       ${tipoIconHTML(n.tipoNorma,'tipo-icon','tipo-icon-fallback')}
       <div class="norma-body">
@@ -1045,6 +1295,11 @@ function renderNormaList(containerId, list, scope){
       </div>
     </div>
   `).join('');
+}
+function renderNormaList(containerId, list, scope){
+  const listEl = document.getElementById(containerId);
+  if(!listEl) return;
+  listEl.innerHTML = normaListHTML(list, scope);
 }
 
 function wireSearchInput(scope, rerender){
@@ -1087,6 +1342,25 @@ function openDetail(muniKey, id, fromScope){
   activeDetailScope = fromScope || 'digesto';
   if(activeDetailScope==='digesto') renderDigesto(); else renderScopePage(activeDetailScope);
   window.scrollTo({top:0, behavior:'smooth'});
+  logUsageEvent(muniKey, id);
+}
+async function logUsageEvent(muniKey, normaId){
+  try{
+    const m = MUNICIPIOS[muniKey]; if(!m) return;
+    const n = m.normas.find(x=>`${x.nro}_${x.anio}`===normaId); if(!n) return;
+    let events = [];
+    try{
+      const res = await window.storage.get('eventos_uso', true);
+      if(res && res.value) events = JSON.parse(res.value);
+    }catch(e){ events = []; }
+    events.unshift({
+      id:'ev'+Date.now()+Math.random().toString(36).slice(2,6), ts:new Date().toISOString(),
+      muniKey, muniNombre:m.nombre, provincia:m.provincia, pais:m.pais, tipoNorma:n.tipoNorma,
+      usuario: nbDisplayName || 'Anónimo'
+    });
+    if(events.length>3000) events = events.slice(0,3000);
+    await window.storage.set('eventos_uso', JSON.stringify(events), true);
+  }catch(e){ /* el registro estadístico es best-effort, nunca bloquea la navegación */ }
 }
 function backToList(){
   currentView='list';
@@ -1240,20 +1514,26 @@ function submitAIQuery(){
     addAIMessage('bot', 'No encontré normas relacionadas con eso todavía. Probá con otra palabra clave, una rama del derecho o un número de norma.');
     return;
   }
-  addAIMessage('bot', `Encontré ${results.length} norma${results.length===1?'':'s'} que podrían servirte:`);
+  const bloqueadas = results.filter(r=>!hasAccessToMuni(r.muniKey)).length;
+  addAIMessage('bot', `Encontré ${results.length} norma${results.length===1?'':'s'} que podrían servirte${bloqueadas>0?` (${bloqueadas} fuera de tu plan actual, marcadas abajo)`:''}:`);
   const wrap = document.createElement('div');
   wrap.className = 'ai-results';
-  wrap.innerHTML = results.map(r=>`
-    <div class="ai-result-card" onclick="goToAIResult('${r.muniKey}','${r.n.nro}_${r.n.anio}')">
+  wrap.innerHTML = results.map(r=>{
+    const ok = hasAccessToMuni(r.muniKey);
+    return `
+    <div class="ai-result-card ${ok?'':'locked'}" onclick="${ok?`goToAIResult('${r.muniKey}','${r.n.nro}_${r.n.anio}')`:`aiBlockedClick()`}">
       ${tipoIconHTML(r.n.tipoNorma,'tipo-icon','tipo-icon-fallback')}
       <div>
-        <div class="rtitle">${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio} — ${r.n.tema.length>90? r.n.tema.slice(0,90)+'…':r.n.tema}</div>
+        <div class="rtitle">${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio} — ${r.n.tema.length>90? r.n.tema.slice(0,90)+'…':r.n.tema} ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}</div>
         <div class="rmeta">${MUNICIPIOS[r.muniKey].nombre} · ${r.n.rama} · ${r.n.subtema}</div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
   body.appendChild(wrap);
   body.scrollTop = body.scrollHeight;
+}
+function aiBlockedClick(){
+  addAIMessage('bot', `Esa norma pertenece a un municipio fuera de tu plan actual (${planLabel(currentUserPlan)}). Para acceder, mejorá tu plan a Plan País o Plan Mundo.`);
 }
 function searchAllNormas(query){
   const q = query.toLowerCase().trim();
@@ -1274,6 +1554,7 @@ function searchAllNormas(query){
   return scored.sort((a,b)=>b.score-a.score);
 }
 function goToAIResult(muniKey, normaId){
+  if(!hasAccessToMuni(muniKey)){ aiBlockedClick(); return; }
   document.getElementById('aiPanel').classList.remove('open');
   openDetail(muniKey, normaId, 'mundo');
   showPage('mundo');
@@ -1283,21 +1564,30 @@ function goToAIResult(muniKey, normaId){
 /* ============ ANOTADOR / CUADERNO DE TRABAJO ============ */
 /* Cuaderno interno por usuario: Proyectos -> Notas -> Subnotas + accesos directos a normas.
    Persistencia mediante el almacenamiento propio del entorno (por usuario), con degradación a memoria si no está disponible.
+   Los proyectos PRIVADOS se guardan en almacenamiento personal (solo los ve quien los creó).
+   Los proyectos PÚBLICOS se guardan en un almacenamiento compartido por provincia, pero NO son visibles para
+   cualquiera: el dueño del proyecto autoriza explícitamente a cada persona (buscándola por nombre) y le asigna
+   un rol — Editor (puede sumar y modificar contenido) o Solo ver (puede leer pero no tocar nada).
    No genera ni interpreta contenido normativo: sólo guarda lo que el usuario escribe y los
    vínculos a normas ya cargadas en el digesto. */
 
 const NB_KEY = 'mu_anotador_v1';
 let NB = { projects: [], activeProjectId: null, activeNoteId: null };
-let nbView = 'projects';          // projects | notes | editor | picker
+let nbPublicProjects = [];        // proyectos públicos que ESTE usuario puede ver (es dueño o fue autorizado)
+let nbPublicProjectsAllCache = []; // última copia completa conocida del bucket de la provincia (para no pisar proyectos ajenos al guardar)
+let nbDirectorio = [];            // nombres de personas que alguna vez usaron la app (para buscar a quién autorizar)
+let nbView = 'projects';          // projects | notes | editor | picker | historial | proj-historial | proj-share
 let nbPendingLink = null;         // {muniKey, normaId, label, meta} cuando se guarda desde una norma
 let nbSaveTimer = null;
 let nbStorageOK = true;
+let nbDisplayName = '';           // nombre visible del usuario, para atribuir cambios y para autorización
 
 function nbUid(){ return 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 function nbNow(){ return new Date().toISOString(); }
 function nbEsc(s){
   return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+function nbEscAttr(s){ return String(s==null?'':s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
 function nbFecha(iso){
   if(!iso) return '';
   const d = new Date(iso);
@@ -1307,6 +1597,56 @@ function nbHora(iso){
   const d = iso ? new Date(iso) : new Date();
   return d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
 }
+function slugify(s){
+  return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function nbHomeProvincia(){ return (MUNICIPIOS[currentMunicipioKey] && MUNICIPIOS[currentMunicipioKey].provincia) || ''; }
+function nbPublicBucketKey(){ return 'proyectos_publicos_' + slugify(nbHomeProvincia()); }
+function nbAllProjects(){ return [...NB.projects, ...nbPublicProjects]; }
+function nbIsAuthorized(p){
+  if(!nbDisplayName) return false;
+  const owner = (p.ownerName||'').toLowerCase() === nbDisplayName.toLowerCase();
+  const collab = (p.colaboradores||[]).some(c=>c.nombre.toLowerCase()===nbDisplayName.toLowerCase());
+  return owner || collab;
+}
+function nbMyRoleIn(p){
+  if(!p) return null;
+  if(p.visibility!=='public') return 'owner'; // los privados son siempre 100% del dueño
+  if((p.ownerName||'').toLowerCase() === (nbDisplayName||'').toLowerCase()) return 'owner';
+  const c = (p.colaboradores||[]).find(c=>c.nombre.toLowerCase()===(nbDisplayName||'').toLowerCase());
+  return c ? c.rol : null; // null = no autorizado
+}
+function nbCanEdit(p){ const r = nbMyRoleIn(p); return r==='owner' || r==='editor'; }
+
+async function ensureDisplayName(){
+  if(nbDisplayName) return nbDisplayName;
+  try{
+    const res = await window.storage.get('perfil_nombre', false);
+    if(res && res.value) nbDisplayName = res.value;
+  }catch(e){ /* todavía no hay nombre guardado */ }
+  return nbDisplayName;
+}
+async function nbRegisterInDirectorio(nombre){
+  try{
+    const res = await window.storage.get('directorio_usuarios', true);
+    let dir = (res && res.value) ? JSON.parse(res.value) : [];
+    if(!dir.some(u=>u.nombre.toLowerCase()===nombre.toLowerCase())){
+      dir.push({ nombre, provincia: nbHomeProvincia() });
+      await window.storage.set('directorio_usuarios', JSON.stringify(dir), true);
+    }
+    nbDirectorio = dir;
+  }catch(e){ /* el directorio es best-effort */ }
+}
+function askDisplayName(cb){
+  nbPrompt('¿Cómo te llamás?', 'Este nombre se va a mostrar cuando trabajes en proyectos públicos, y es por el que tus colegas van a poder encontrarte para autorizarte a colaborar.', nbDisplayName, async nombre=>{
+    nombre = (nombre||'').trim();
+    if(!nombre) return;
+    nbDisplayName = nombre;
+    try{ await window.storage.set('perfil_nombre', nombre, false); }catch(e){ /* no se pudo guardar */ }
+    await nbRegisterInDirectorio(nombre);
+    if(cb) cb(nombre);
+  });
+}
 
 let nbLoaded = false;
 async function nbLoad(){
@@ -1314,22 +1654,55 @@ async function nbLoad(){
     const res = await window.storage.get(NB_KEY, false);
     if(res && res.value){ const parsed = JSON.parse(res.value); if(parsed && parsed.projects) NB = parsed; }
   }catch(e){ /* todavía no hay datos guardados */ }
-  if(!NB.projects || !NB.projects.length){
-    NB.projects = [{ id:nbUid(), nombre:'Proyecto general', createdAt:nbNow(), notes:[] }];
-  }
+  if(!NB.projects) NB.projects = [];
+  NB.projects.forEach(p=>{ p.visibility = p.visibility || 'private'; if(!p.historial) p.historial = []; if(!p.colaboradores) p.colaboradores = []; });
   if(!NB.historial) NB.historial = [];
+  await ensureDisplayName();
+  if(nbDisplayName) await nbRegisterInDirectorio(nbDisplayName);
+  try{
+    const dres = await window.storage.get('directorio_usuarios', true);
+    nbDirectorio = (dres && dres.value) ? JSON.parse(dres.value) : [];
+  }catch(e){ nbDirectorio = []; }
+  await nbLoadPublicProjects();
   nbLoaded = true;
+}
+async function nbLoadPublicProjects(){
+  try{
+    const res = await window.storage.get(nbPublicBucketKey(), true);
+    nbPublicProjectsAllCache = (res && res.value) ? JSON.parse(res.value) : [];
+  }catch(e){ nbPublicProjectsAllCache = []; }
+  nbPublicProjectsAllCache.forEach(p=>{ p.visibility = 'public'; if(!p.historial) p.historial = []; if(!p.colaboradores) p.colaboradores = []; });
+  nbPublicProjects = nbPublicProjectsAllCache.filter(nbIsAuthorized);
 }
 async function nbEnsureLoaded(){ if(!nbLoaded) await nbLoad(); }
 async function nbPersist(){
   try{ await window.storage.set(NB_KEY, JSON.stringify(NB), false); nbStorageOK = true; }
   catch(e){ nbStorageOK = false; }
+  try{
+    // Releemos el bucket de la provincia justo antes de guardar, para no pisar proyectos de otras
+    // personas que no puedo ver (soy autorizado solo a los míos), y solo reemplazamos esos.
+    let fresh = [];
+    try{
+      const res = await window.storage.get(nbPublicBucketKey(), true);
+      fresh = (res && res.value) ? JSON.parse(res.value) : [];
+    }catch(e){ fresh = []; }
+    const myIds = new Set(nbPublicProjects.map(p=>p.id));
+    const ajenos = fresh.filter(p=>!myIds.has(p.id));
+    nbPublicProjectsAllCache = ajenos.concat(nbPublicProjects);
+    await window.storage.set(nbPublicBucketKey(), JSON.stringify(nbPublicProjectsAllCache), true);
+  }catch(e){ /* la copia pública es best-effort, no bloquea el guardado personal */ }
 }
 let nbPendingLog = null;
-function nbLogEvent(accion, entidad, detalle, motivo){
+function nbLogEvent(accion, entidad, detalle, motivo, targetProject){
   NB.historial = NB.historial || [];
   NB.historial.unshift({ id:nbUid(), ts:nbNow(), accion, entidad, detalle, motivo: motivo||null });
   if(NB.historial.length>500) NB.historial = NB.historial.slice(0,500);
+  const p = targetProject || nbActiveProject();
+  if(p && p.visibility==='public'){
+    p.historial = p.historial || [];
+    p.historial.unshift({ id:nbUid(), ts:nbNow(), usuario: nbDisplayName||'Sin nombre', accion, entidad, detalle, motivo: motivo||null });
+    if(p.historial.length>300) p.historial = p.historial.slice(0,300);
+  }
 }
 function nbTouch(msg, logInfo){
   const note = nbActiveNote();
@@ -1358,7 +1731,7 @@ function nbToast(msg){
   t._tm = setTimeout(()=>t.classList.remove('show'), 2200);
 }
 function nbUpdateBadge(){
-  const total = NB.projects.reduce((a,p)=>a+p.notes.length,0);
+  const total = nbAllProjects().reduce((a,p)=>a+p.notes.length,0);
   const b = document.getElementById('nbBadge');
   if(!b) return;
   if(total>0){ b.textContent = total>99?'99+':total; b.classList.add('show'); }
@@ -1366,7 +1739,7 @@ function nbUpdateBadge(){
 }
 
 /* ---- acceso a entidades ---- */
-function nbActiveProject(){ return NB.projects.find(p=>p.id===NB.activeProjectId) || null; }
+function nbActiveProject(){ return nbAllProjects().find(p=>p.id===NB.activeProjectId) || null; }
 function nbActiveNote(){
   const p = nbActiveProject();
   if(!p) return null;
@@ -1394,6 +1767,8 @@ function nbGoBack(){
   else if(nbView==='notes'){ NB.activeProjectId=null; nbView='projects'; }
   else if(nbView==='picker'){ nbPendingLink=null; nbView='projects'; }
   else if(nbView==='historial'){ nbView='projects'; }
+  else if(nbView==='proj-historial'){ nbView='notes'; }
+  else if(nbView==='proj-share'){ nbView='notes'; }
   nbRender();
 }
 
@@ -1413,7 +1788,7 @@ function nbRender(){
 
   if(nbView==='projects'){
     titleBar.textContent = t('nb_title');
-    subBar.textContent = NB.projects.length + ' proyecto' + (NB.projects.length===1?'':'s') + ' · ' + NB.projects.reduce((a,x)=>a+x.notes.length,0) + ' nota(s)';
+    subBar.textContent = NB.projects.length + ' privado(s) · ' + nbPublicProjects.length + ' público(s) · ' + nbAllProjects().reduce((a,x)=>a+x.notes.length,0) + ' nota(s) en total';
     toolbar.innerHTML = `
       <input class="nb-find" id="nbFind" placeholder="${t('nb_find_projects')}" oninput="nbRenderSearch(this.value)">
       <button class="nb-btn ghost" onclick="nbOpenHistorial()" title="Ver historial de cambios">🕘</button>
@@ -1424,29 +1799,41 @@ function nbRender(){
     body.innerHTML = nbProjectsHTML();
   }
   else if(nbView==='notes' && p){
-    titleBar.textContent = p.nombre;
-    subBar.textContent = p.notes.length + ' nota' + (p.notes.length===1?'':'s') + ' · creado el ' + nbFecha(p.createdAt);
+    const role = nbMyRoleIn(p);
+    const canEdit = nbCanEdit(p);
+    titleBar.textContent = (p.visibility==='public'?'🌐 ':'🔒 ') + p.nombre;
+    subBar.textContent = p.notes.length + ' nota' + (p.notes.length===1?'':'s') + ' · creado el ' + nbFecha(p.createdAt) + (p.visibility==='public' ? (' · por ' + (p.ownerName||'—')) : '');
     toolbar.innerHTML = `
       <input class="nb-find" id="nbFind" placeholder="${t('nb_find_notes')}" oninput="nbRenderNotes(this.value)">
-      <button class="nb-btn" onclick="nbNewNote()">${t('nb_new_note')}</button>`;
+      ${p.visibility==='public'?`<button class="nb-btn ghost tiny" onclick="nbOpenProjectHistorial()" title="Ver quién hizo qué en este proyecto">👥 Actividad</button>`:''}
+      ${(p.visibility==='public' && role==='owner')?`<button class="nb-btn ghost tiny" onclick="nbOpenProjectShare()" title="Elegir quién puede ver o editar">🔗 Compartir</button>`:''}
+      ${canEdit?`<button class="nb-btn" onclick="nbNewNote()">${t('nb_new_note')}</button>`:''}`;
     foot.innerHTML = `
-      <button class="nb-btn ghost tiny" onclick="nbRenameProject()">${t('nb_rename')}</button>
+      ${canEdit?`<button class="nb-btn ghost tiny" onclick="nbRenameProject()">${t('nb_rename')}</button>`:''}
       <button class="nb-btn ghost tiny" onclick="nbExportProject()">${t('nb_export_md')}</button>
       <button class="nb-btn ghost tiny" onclick="nbExportProjectWord()">${t('nb_export_word')}</button>
       <button class="nb-btn ghost tiny" onclick="nbExportProjectPDF()">${t('nb_export_pdf')}</button>`;
-    body.innerHTML = `<div id="nbNotesWrap">${nbNotesHTML(p, '')}</div>`;
+    const banner = p.visibility==='public'
+      ? `<div class="nb-pick-banner">🌐 Proyecto público, de <b>${nbEsc(p.ownerName||'—')}</b>. ${role==='owner' ? 'Vos decidís quién más puede verlo o editarlo con el botón "🔗 Compartir".' : (role==='editor' ? 'Te autorizaron como <b>Editor</b>: podés sumar y modificar contenido.' : 'Te autorizaron solo para <b>ver</b>: podés leer, pero no modificar.')}</div>`
+      : '';
+    body.innerHTML = banner + `<div id="nbNotesWrap">${nbNotesHTML(p, '')}</div>`;
   }
   else if(nbView==='editor' && p && n){
+    const canEdit = nbCanEdit(p);
     titleBar.textContent = n.titulo || 'Nota sin título';
-    subBar.textContent = p.nombre + ' · actualizada ' + nbFecha(n.updatedAt);
-    toolbar.innerHTML = `
+    subBar.textContent = p.nombre + ' · actualizada ' + nbFecha(n.updatedAt) + (canEdit?'':' · solo lectura');
+    toolbar.innerHTML = canEdit ? `
       <button class="nb-btn tiny" onclick="nbAddSub()">${t('nb_new_sub')}</button>
       <button class="nb-btn ghost tiny" onclick="nbToggleLinkSearch()">${t('nb_link_norm')}</button>
       <button class="nb-btn ghost tiny" onclick="nbExportNote()">${t('nb_export_md')}</button>
       <button class="nb-btn ghost tiny" onclick="nbExportNoteWord()">${t('nb_export_word')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportNotePDF()">${t('nb_export_pdf')}</button>` : `
+      <span class="lock-badge" style="margin-left:0;">👁 Solo ver</span>
+      <button class="nb-btn ghost tiny" onclick="nbExportNote()">${t('nb_export_md')}</button>
+      <button class="nb-btn ghost tiny" onclick="nbExportNoteWord()">${t('nb_export_word')}</button>
       <button class="nb-btn ghost tiny" onclick="nbExportNotePDF()">${t('nb_export_pdf')}</button>`;
-    foot.innerHTML = `<button class="nb-btn danger tiny" onclick="nbDeleteNote('${n.id}')">${t('nb_delete_note')}</button>`;
-    body.innerHTML = nbEditorHTML(n);
+    foot.innerHTML = canEdit ? `<button class="nb-btn danger tiny" onclick="nbDeleteNote('${n.id}')">${t('nb_delete_note')}</button>` : '';
+    body.innerHTML = nbEditorHTML(n, !canEdit);
   }
   else if(nbView==='picker'){
     titleBar.textContent = 'Guardar acceso directo';
@@ -1462,6 +1849,20 @@ function nbRender(){
     foot.innerHTML = `<button class="nb-btn ghost tiny" onclick="nbClearHistorialConfirm()">${t('nb_clear_hist')}</button>`;
     body.innerHTML = nbHistorialHTML('');
   }
+  else if(nbView==='proj-share' && p){
+    titleBar.textContent = 'Compartir — ' + p.nombre;
+    subBar.textContent = 'Elegí quién puede ver o editar este proyecto';
+    toolbar.innerHTML = '';
+    foot.innerHTML = '';
+    body.innerHTML = nbShareHTML(p);
+  }
+  else if(nbView==='proj-historial' && p){
+    titleBar.textContent = 'Actividad — ' + p.nombre;
+    subBar.textContent = 'Visible para todo el equipo autorizado en ' + (p.provincia || nbHomeProvincia());
+    toolbar.innerHTML = '';
+    foot.innerHTML = '';
+    body.innerHTML = nbProjectHistorialHTML(p);
+  }
   else { nbView='projects'; nbRender(); return; }
 
   nbUpdateBadge();
@@ -1470,21 +1871,43 @@ function nbRender(){
 
 /* ---- vista: proyectos ---- */
 function nbProjectsHTML(){
-  if(!NB.projects.length){
+  const privados = NB.projects;
+  const publicos = nbPublicProjects;
+  if(!privados.length && !publicos.length){
     return `<div class="nb-empty"><span class="glyph">🗂</span>Todavía no tenés proyectos.<br>Creá el primero para empezar a tomar notas.</div>`;
   }
-  return `<div class="nb-sec-label">Proyectos</div>` + NB.projects.map(p=>`
+  const card = (p)=>{
+    const role = nbMyRoleIn(p);
+    const roleBadge = (p.visibility==='public' && role && role!=='owner')
+      ? `<span class="role-badge ${role}">${role==='editor'?'✎ Editor':'👁 Solo ver'}</span>` : '';
+    const puedeEliminar = role==='owner' || p.visibility==='private';
+    return `
     <div class="nb-item" onclick="nbOpenProject('${p.id}')">
-      <div class="nb-ic">🗂</div>
+      <div class="nb-ic">${p.visibility==='public'?'🌐':'🔒'}</div>
       <div class="nb-it-body">
-        <div class="nb-it-title">${nbEsc(p.nombre)}</div>
+        <div class="nb-it-title">${nbEsc(p.nombre)} ${p.visibility==='public'?'<span class="nb-badge-pub">Público</span>':''} ${roleBadge}</div>
         <div class="nb-it-meta">
           <span>${p.notes.length} nota${p.notes.length===1?'':'s'}</span>
           <span>${p.notes.reduce((a,n)=>a+(n.links||[]).length,0)} norma(s) vinculada(s)</span>
+          ${p.visibility==='public'?`<span>👤 ${nbEsc(p.ownerName||'—')}</span>`:''}
+          ${(p.visibility==='public' && role==='owner')?`<span>👥 ${(p.colaboradores||[]).length} autorizado(s)</span>`:''}
         </div>
       </div>
-      <button class="nb-del" onclick="event.stopPropagation();nbDeleteProject('${p.id}')" title="Eliminar proyecto">✕</button>
-    </div>`).join('');
+      ${puedeEliminar?`<button class="nb-del" onclick="event.stopPropagation();nbDeleteProject('${p.id}')" title="Eliminar proyecto">✕</button>`:''}
+    </div>`;
+  };
+  const privadosBody = privados.length ? privados.map(card).join('') : `<div class="nb-empty" style="padding:12px;">Todavía no creaste ningún proyecto privado.</div>`;
+  const publicosBody = publicos.length ? publicos.map(card).join('') : `<div class="nb-empty" style="padding:12px;">Nadie te autorizó a ver un proyecto todavía, y vos tampoco compartiste ninguno. Un proyecto público solo lo ven las personas que su dueño elige explícitamente.</div>`;
+  return `
+    <details class="nb-group" open>
+      <summary>🔒 Tus proyectos privados <span class="nb-group-count">${privados.length}</span></summary>
+      <div class="nb-group-body">${privadosBody}</div>
+    </details>
+    <details class="nb-group" open>
+      <summary>🌐 Proyectos compartidos conmigo <span class="nb-group-count">${publicos.length}</span></summary>
+      <div class="nb-group-body">${publicosBody}</div>
+    </details>
+  `;
 }
 
 /* ---- búsqueda global en notas ---- */
@@ -1493,7 +1916,7 @@ function nbRenderSearch(q){
   const term = (q||'').trim().toLowerCase();
   if(!term){ body.innerHTML = nbProjectsHTML(); return; }
   const hits = [];
-  NB.projects.forEach(p=>{
+  nbAllProjects().forEach(p=>{
     p.notes.forEach(n=>{
       const hay = [n.titulo, n.cuerpo, ...(n.subnotas||[]).map(s=>s.titulo+' '+s.texto), ...(n.links||[]).map(l=>l.label)]
         .join(' ').toLowerCase();
@@ -1547,6 +1970,94 @@ function nbClearHistorialConfirm(){
   }, 'Sí, vaciar');
 }
 
+/* ---- vista: compartir proyecto público (buscar persona, asignar rol) ---- */
+function nbOpenProjectShare(){
+  const p = nbActiveProject(); if(!p) return;
+  if(nbMyRoleIn(p)!=='owner'){ nbToast('Solo quien creó el proyecto puede elegir con quién compartirlo.'); return; }
+  nbView = 'proj-share'; nbRender();
+}
+function nbShareHTML(p){
+  const colaboradores = p.colaboradores || [];
+  return `
+    <div class="nb-sec-label">Buscar persona para autorizar</div>
+    <input id="nbShareQuery" placeholder="Ej: María González" oninput="nbRenderShareResults(this.value)"
+           style="width:100%; border:1px solid var(--line); border-radius:8px; padding:9px 12px; font-size:13px; font-family:inherit; outline:none; margin-bottom:6px;">
+    <div id="nbShareResults"></div>
+    <div class="nb-sec-label" style="margin-top:16px;">Personas autorizadas</div>
+    ${colaboradores.length ? colaboradores.map(c=>`
+      <div class="nb-share-row">
+        <span class="nb-share-name">${nbEsc(c.nombre)}</span>
+        <span class="role-badge ${c.rol}">${c.rol==='editor'?'✎ Editor':'👁 Solo ver'}</span>
+        <button class="nb-del" onclick="nbRemoveColaborador('${nbEscAttr(c.nombre)}')" title="Quitar autorización">✕</button>
+      </div>`).join('') : `<div class="nb-empty" style="padding:12px;">Todavía no autorizaste a nadie. Sos vos, ${nbEsc(p.ownerName||'')}, quien decide con quién compartir este proyecto.</div>`}
+  `;
+}
+function nbRenderShareResults(q){
+  const cont = document.getElementById('nbShareResults'); if(!cont) return;
+  const term = (q||'').trim().toLowerCase();
+  if(!term){ cont.innerHTML = ''; return; }
+  const p = nbActiveProject(); if(!p) return;
+  const yaAutorizados = (p.colaboradores||[]).map(c=>c.nombre.toLowerCase());
+  const ownerLower = (p.ownerName||'').toLowerCase();
+  const matches = nbDirectorio.filter(u=>{
+    const nl = u.nombre.toLowerCase();
+    return nl.includes(term) && nl!==ownerLower && !yaAutorizados.includes(nl);
+  }).slice(0,6);
+  if(!matches.length){
+    cont.innerHTML = `<div class="nb-empty" style="padding:10px;">Nadie coincide con ese nombre. Pedile a esa persona que ingrese una vez a la app y cargue su nombre para que aparezca acá.</div>`;
+    return;
+  }
+  cont.innerHTML = matches.map(u=>`
+    <div class="nb-share-search-row">
+      <span class="nb-share-name">${nbEsc(u.nombre)}</span>
+      <div class="nb-share-btns">
+        <button class="nb-btn tiny" onclick="nbAddColaborador('${nbEscAttr(u.nombre)}','editor')">+ Editor</button>
+        <button class="nb-btn ghost tiny" onclick="nbAddColaborador('${nbEscAttr(u.nombre)}','ver')">+ Solo ver</button>
+      </div>
+    </div>`).join('');
+}
+function nbAddColaborador(nombre, rol){
+  const p = nbActiveProject(); if(!p) return;
+  if(nbMyRoleIn(p)!=='owner') return;
+  p.colaboradores = p.colaboradores || [];
+  if(p.colaboradores.some(c=>c.nombre.toLowerCase()===nombre.toLowerCase())) return;
+  p.colaboradores.push({ nombre, rol });
+  nbLogEvent('Autorizó', 'Proyecto', `${nombre} (${rol==='editor'?'Editor':'Solo ver'})`, null, p);
+  nbTouch('Persona autorizada');
+  const input = document.getElementById('nbShareQuery'); if(input) input.value = '';
+  nbRender();
+}
+function nbRemoveColaborador(nombre){
+  const p = nbActiveProject(); if(!p) return;
+  if(nbMyRoleIn(p)!=='owner') return;
+  p.colaboradores = (p.colaboradores||[]).filter(c=>c.nombre.toLowerCase()!==nombre.toLowerCase());
+  nbLogEvent('Quitó autorización', 'Proyecto', nombre, null, p);
+  nbTouch('Autorización quitada');
+  nbRender();
+}
+
+/* ---- vista: actividad colaborativa de un proyecto público (quién hizo qué) ---- */
+function nbOpenProjectHistorial(){
+  const p = nbActiveProject(); if(!p) return;
+  nbView = 'proj-historial'; nbRender();
+}
+function nbProjectHistorialHTML(p){
+  const list = p.historial || [];
+  if(!list.length){
+    return `<div class="nb-empty"><span class="glyph">👥</span>Todavía no hay actividad registrada en este proyecto.</div>`;
+  }
+  return list.map(h=>`
+    <div class="nb-hist-item">
+      <div class="nb-hist-top">
+        <span class="nb-hist-accion ${h.accion==='Eliminó'?'del':''}">${nbEsc(h.accion)} · ${nbEsc(h.entidad)}</span>
+        <span class="nb-hist-ts">${nbFecha(h.ts)} · ${nbHora(h.ts)}</span>
+      </div>
+      <div class="nb-hist-detail">${nbEsc(h.detalle||'')}</div>
+      <div class="nb-hist-motivo" style="color:var(--slate-blue);">👤 ${nbEsc(h.usuario||'Sin nombre')}</div>
+      ${h.motivo?`<div class="nb-hist-motivo">Motivo: ${nbEsc(h.motivo)}</div>`:''}
+    </div>`).join('');
+}
+
 /* ---- vista: notas de un proyecto ---- */
 function nbNotesHTML(p, q){
   const term = (q||'').trim().toLowerCase();
@@ -1580,48 +2091,51 @@ function nbRenderNotes(q){
 }
 
 /* ---- vista: editor de nota ---- */
-function nbEditorHTML(n){
+function nbEditorHTML(n, readOnly){
   return `
   <div class="nb-editor">
     <input class="nb-title-input" id="nbNoteTitle" value="${nbEsc(n.titulo)}" placeholder="Título de la nota"
-           oninput="nbEditNote('titulo', this.value)">
+           ${readOnly?'readonly':''} oninput="nbEditNote('titulo', this.value)">
     <textarea class="nb-textarea" id="nbNoteBody" placeholder="Escribí acá tus apuntes, recordatorios, borradores…"
-              oninput="nbEditNote('cuerpo', this.value)">${nbEsc(n.cuerpo)}</textarea>
+              ${readOnly?'readonly':''} oninput="nbEditNote('cuerpo', this.value)">${nbEsc(n.cuerpo)}</textarea>
 
     <div class="nb-sec-label">Accesos directos a normas</div>
-    <div class="nb-linksearch" id="nbLinkSearch">
+    ${readOnly ? '' : `<div class="nb-linksearch" id="nbLinkSearch">
       <input id="nbLinkQuery" placeholder="Buscar norma por número, tema o palabra clave…" oninput="nbRenderLinkResults(this.value)">
       <div class="nb-linkres" id="nbLinkResults"></div>
-    </div>
-    <div id="nbLinksWrap">${nbLinksHTML(n)}</div>
+    </div>`}
+    <div id="nbLinksWrap">${nbLinksHTML(n, readOnly)}</div>
 
     <div class="nb-sec-label">Subnotas</div>
-    <div id="nbSubsWrap">${nbSubsHTML(n)}</div>
+    <div id="nbSubsWrap">${nbSubsHTML(n, readOnly)}</div>
   </div>`;
 }
-function nbLinksHTML(n){
+function nbLinksHTML(n, readOnly){
   const links = n.links||[];
   if(!links.length) return `<div class="nb-empty" style="padding:12px;">Sin normas vinculadas todavía.</div>`;
-  return links.map(l=>`
-    <div class="nb-link-chip" onclick="nbOpenLink('${l.muniKey}','${l.normaId}')">
+  return links.map(l=>{
+    const ok = hasAccessToMuni(l.muniKey);
+    return `
+    <div class="nb-link-chip ${ok?'':'locked'}" onclick="nbOpenLink('${l.muniKey}','${l.normaId}')">
       <div class="lk-ic">🔖</div>
       <div class="lk-txt">
-        <div class="lk-t">${nbEsc(l.label)}</div>
+        <div class="lk-t">${nbEsc(l.label)} ${ok?'':'<span class="lock-badge">🔒</span>'}</div>
         <div class="lk-m">${nbEsc(l.meta||'')}</div>
       </div>
-      <button class="nb-del" onclick="event.stopPropagation();nbRemoveLink('${l.id}')" title="Quitar vínculo">✕</button>
-    </div>`).join('');
+      ${readOnly?'':`<button class="nb-del" onclick="event.stopPropagation();nbRemoveLink('${l.id}')" title="Quitar vínculo">✕</button>`}
+    </div>`;
+  }).join('');
 }
-function nbSubsHTML(n){
+function nbSubsHTML(n, readOnly){
   const subs = n.subnotas||[];
   if(!subs.length) return `<div class="nb-empty" style="padding:12px;">Sin subnotas. Usalas para separar temas, audiencias o etapas del expediente.</div>`;
   return subs.map((s,i)=>`
     <div class="nb-sub">
       <div class="nb-sub-head">
-        <input value="${nbEsc(s.titulo)}" placeholder="Subnota ${i+1}" oninput="nbEditSub('${s.id}','titulo',this.value)">
-        <button class="nb-del" onclick="nbDeleteSub('${s.id}')" title="Eliminar subnota">✕</button>
+        <input value="${nbEsc(s.titulo)}" placeholder="Subnota ${i+1}" ${readOnly?'readonly':''} oninput="nbEditSub('${s.id}','titulo',this.value)">
+        ${readOnly?'':`<button class="nb-del" onclick="nbDeleteSub('${s.id}')" title="Eliminar subnota">✕</button>`}
       </div>
-      <textarea placeholder="Detalle de la subnota…" oninput="nbEditSub('${s.id}','texto',this.value)">${nbEsc(s.texto)}</textarea>
+      <textarea placeholder="Detalle de la subnota…" ${readOnly?'readonly':''} oninput="nbEditSub('${s.id}','texto',this.value)">${nbEsc(s.texto)}</textarea>
     </div>`).join('');
 }
 
@@ -1717,28 +2231,65 @@ function nbReasonConfirm(){
 
 /* ---- CRUD ---- */
 function nbNewProject(){
-  nbPrompt('Nuevo proyecto', 'Ej.: "Expediente pavimento B° 173" o "Dictamen zonificación".', '', nombre=>{
-    const nombreFinal = (nombre||'').trim() || 'Proyecto sin título';
-    const p = { id:nbUid(), nombre: nombreFinal, createdAt:nbNow(), notes:[] };
+  const openDialog = ()=>{
+    const m = document.getElementById('nbModal'); if(!m) return;
+    m.innerHTML = `<div class="nb-modal-box">
+        <h4>Nuevo proyecto</h4>
+        <p>Ej.: "Expediente pavimento B° 173" o "Dictamen zonificación".</p>
+        <input id="nbNewProjName" placeholder="Nombre del proyecto" onkeydown="if(event.key==='Enter')nbCreateProjectConfirm()">
+        <div class="nb-reason-list" style="margin-top:10px;">
+          <label class="nb-reason-opt"><input type="radio" name="nbVis" value="private" checked><span>🔒 Privado — solo vos lo ves</span></label>
+          <label class="nb-reason-opt"><input type="radio" name="nbVis" value="public"><span>🌐 Público — vos elegís después a qué colegas autorizar, y con qué rol</span></label>
+        </div>
+        <div class="nb-modal-actions">
+          <button class="nb-btn ghost tiny" onclick="nbModalClose()">Cancelar</button>
+          <button class="nb-btn tiny" onclick="nbCreateProjectConfirm()">Crear</button>
+        </div>
+      </div>`;
+    m.classList.add('open');
+    setTimeout(()=>{ const i=document.getElementById('nbNewProjName'); if(i) i.focus(); }, 50);
+  };
+  openDialog();
+}
+async function nbCreateProjectConfirm(){
+  const nameEl = document.getElementById('nbNewProjName');
+  const visEl = document.querySelector('input[name="nbVis"]:checked');
+  const nombreFinal = (nameEl && nameEl.value.trim()) || 'Proyecto sin título';
+  const visibility = visEl ? visEl.value : 'private';
+  nbModalClose();
+  if(visibility==='public' && !nbDisplayName){
+    await new Promise(resolve=> askDisplayName(()=>resolve()));
+    if(!nbDisplayName) return; // el usuario canceló el nombre, no se crea el proyecto público
+  }
+  const p = {
+    id:nbUid(), nombre:nombreFinal, createdAt:nbNow(), notes:[], visibility,
+    provincia: nbHomeProvincia(), ownerName: nbDisplayName || null, historial:[], colaboradores:[]
+  };
+  if(visibility==='public'){
+    nbPublicProjects.unshift(p);
+    nbLogEvent('Creó', 'Proyecto', nombreFinal + ' (Público)', null, p);
+  }else{
     NB.projects.unshift(p);
-    NB.activeProjectId = p.id; NB.activeNoteId = null; nbView = 'notes';
-    nbLogEvent('Creó', 'Proyecto', nombreFinal);
-    nbTouch('Proyecto creado'); nbRender();
-  });
+    nbLogEvent('Creó', 'Proyecto', nombreFinal + ' (Privado)');
+  }
+  NB.activeProjectId = p.id; NB.activeNoteId = null; nbView = 'notes';
+  nbTouch(visibility==='public' ? 'Proyecto público creado' : 'Proyecto creado');
+  nbRender();
 }
 function nbRenameProject(){
   const p = nbActiveProject(); if(!p) return;
   const nombreAnterior = p.nombre;
   nbPrompt('Renombrar proyecto', '', p.nombre, nombre=>{
     p.nombre = (nombre||'').trim() || p.nombre;
-    if(p.nombre!==nombreAnterior) nbLogEvent('Renombró', 'Proyecto', `"${nombreAnterior}" → "${p.nombre}"`);
+    if(p.nombre!==nombreAnterior) nbLogEvent('Renombró', 'Proyecto', `"${nombreAnterior}" → "${p.nombre}"`, null, p);
     nbTouch(); nbRender();
   });
 }
 function nbDeleteProject(id){
-  const p = NB.projects.find(x=>x.id===id); if(!p) return;
+  const p = nbAllProjects().find(x=>x.id===id); if(!p) return;
   nbConfirmReason('Eliminar proyecto', `Se eliminará "${p.nombre}" y sus ${p.notes.length} nota(s). Contanos por qué lo eliminás:`, motivo=>{
-    NB.projects = NB.projects.filter(x=>x.id!==id);
+    if(p.visibility==='public'){ nbPublicProjects = nbPublicProjects.filter(x=>x.id!==id); }
+    else{ NB.projects = NB.projects.filter(x=>x.id!==id); }
     if(NB.activeProjectId===id){ NB.activeProjectId=null; NB.activeNoteId=null; nbView='projects'; }
     nbLogEvent('Eliminó', 'Proyecto', p.nombre, motivo);
     nbTouch('Proyecto eliminado'); nbRender();
@@ -1757,13 +2308,13 @@ function nbNewNote(){
 function nbOpenNote(pid, nid){ NB.activeProjectId=pid; NB.activeNoteId=nid; nbView='editor'; nbRender(); }
 function nbDeleteNote(id){
   let p = nbActiveProject();
-  if(!p || !p.notes.some(x=>x.id===id)) p = NB.projects.find(x=>x.notes.some(y=>y.id===id));
+  if(!p || !p.notes.some(x=>x.id===id)) p = nbAllProjects().find(x=>x.notes.some(y=>y.id===id));
   if(!p) return;
   const n = p.notes.find(x=>x.id===id); if(!n) return;
   nbConfirmReason('Eliminar nota', `Se eliminará "${n.titulo||'nota sin título'}" con sus subnotas y vínculos. Contanos por qué la eliminás:`, motivo=>{
     p.notes = p.notes.filter(x=>x.id!==id);
     if(NB.activeNoteId===id){ NB.activeNoteId=null; nbView='notes'; }
-    nbLogEvent('Eliminó', 'Nota', n.titulo || 'Nota sin título', motivo);
+    nbLogEvent('Eliminó', 'Nota', n.titulo || 'Nota sin título', motivo, p);
     nbTouch('Nota eliminada'); nbRender();
   });
 }
@@ -1826,11 +2377,14 @@ function nbRenderLinkResults(q){
   if(!term){ cont.innerHTML = `<div class="nb-empty" style="padding:10px;">Escribí un número, tema o palabra clave.</div>`; return; }
   const res = searchAllNormas(term).slice(0,8);
   if(!res.length){ cont.innerHTML = `<div class="nb-empty" style="padding:10px;">Sin coincidencias en el digesto.</div>`; return; }
-  cont.innerHTML = res.map(r=>`
-    <div class="r" onclick="nbAddLink('${r.muniKey}','${r.n.nro}_${r.n.anio}')">
-      <b>${nbEsc(r.n.tipoNorma)} N° ${nbEsc(r.n.nro)}/${r.n.anio}</b>
+  cont.innerHTML = res.map(r=>{
+    const ok = hasAccessToMuni(r.muniKey);
+    return `
+    <div class="r ${ok?'':'locked'}" onclick="nbAddLink('${r.muniKey}','${r.n.nro}_${r.n.anio}')">
+      <b>${nbEsc(r.n.tipoNorma)} N° ${nbEsc(r.n.nro)}/${r.n.anio}</b> ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}
       <span>${nbEsc(MUNICIPIOS[r.muniKey].nombre)} · ${nbEsc(r.n.tema.slice(0,80))}${r.n.tema.length>80?'…':''}</span>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function nbAddLink(muniKey, normaId){
   const n = nbActiveNote(); if(!n) return;
@@ -1839,7 +2393,7 @@ function nbAddLink(muniKey, normaId){
   if(n.links.some(l=>l.muniKey===muniKey && l.normaId===normaId)){ nbToast('Esa norma ya está vinculada'); return; }
   n.links.push({ id:nbUid(), muniKey, normaId, label:info.label, meta:info.meta });
   nbLogEvent('Vinculó norma', 'Nota', `${info.label} → "${n.titulo||'Nota sin título'}"`);
-  nbTouch('Norma vinculada');
+  nbTouch(hasAccessToMuni(muniKey) ? 'Norma vinculada' : 'Norma vinculada (fuera de tu plan actual)');
   document.getElementById('nbLinksWrap').innerHTML = nbLinksHTML(n);
   const box = document.getElementById('nbLinkSearch');
   if(box) box.classList.remove('open');
@@ -1854,6 +2408,10 @@ function nbRemoveLink(lid){
 }
 function nbOpenLink(muniKey, normaId){
   if(!MUNICIPIOS[muniKey]) return;
+  if(!hasAccessToMuni(muniKey)){
+    nbToast(`Esa norma está fuera de tu plan actual (${planLabel(currentUserPlan)}). Mejorá tu plan para acceder.`);
+    return;
+  }
   document.getElementById('nbPanel').classList.remove('open');
   const scope = (muniKey === currentMunicipioKey) ? 'digesto' : 'mundo';
   openDetail(muniKey, normaId, scope);
@@ -1876,7 +2434,7 @@ function nbPickerHTML(){
   const l = nbPendingLink;
   let html = `<div class="nb-pick-banner">Vas a guardar <b>${nbEsc(l?l.label:'')}</b> como acceso directo.<br>Elegí en qué nota querés dejarlo.</div>`;
   const notes = [];
-  NB.projects.forEach(p=> p.notes.forEach(n=> notes.push({p,n})));
+  nbAllProjects().forEach(p=> p.notes.forEach(n=> notes.push({p,n})));
   notes.sort((a,b)=> (b.n.updatedAt||'').localeCompare(a.n.updatedAt||''));
   if(!notes.length){
     html += `<div class="nb-empty"><span class="glyph">📝</span>Todavía no tenés notas.<br>Creá una nota nueva con esta norma adentro.</div>`;
@@ -1884,7 +2442,7 @@ function nbPickerHTML(){
   }
   html += `<div class="nb-sec-label">Tus notas</div>` + notes.map(x=>`
     <div class="nb-item" onclick="nbPickNote('${x.p.id}','${x.n.id}')">
-      <div class="nb-ic">📝</div>
+      <div class="nb-ic">${x.p.visibility==='public'?'🌐':'📝'}</div>
       <div class="nb-it-body">
         <div class="nb-it-title">${nbEsc(x.n.titulo||'Nota sin título')}</div>
         <div class="nb-it-meta"><span>${nbEsc(x.p.nombre)}</span><span>${nbFecha(x.n.updatedAt)}</span></div>
@@ -1900,7 +2458,14 @@ function nbPickNote(pid, nid){
 }
 function nbPickerNewNote(){
   const l = nbPendingLink;
-  if(!NB.activeProjectId) NB.activeProjectId = NB.projects[0].id;
+  if(!NB.activeProjectId || !nbAllProjects().some(p=>p.id===NB.activeProjectId)){
+    if(!NB.projects.length){
+      const p = { id:nbUid(), nombre:'Proyecto general', createdAt:nbNow(), notes:[], visibility:'private', provincia:nbHomeProvincia(), ownerName:nbDisplayName||null, historial:[] };
+      NB.projects.unshift(p);
+      nbLogEvent('Creó', 'Proyecto', p.nombre + ' (Privado)');
+    }
+    NB.activeProjectId = NB.projects[0].id;
+  }
   nbPendingLink = null;
   nbView = 'notes';
   nbNewNote();
@@ -2100,11 +2665,32 @@ function nbImportBackup(ev){
   reader.readAsText(file);
 }
 
-/* ---- init anotador ---- */
-nbEnsureLoaded().then(()=>{ nbUpdateBadge(); });
-
-/* ============ INIT ============ */
-renderDigesto();
+/* ============ LOGIN ============ */
+const DEMO_ACCOUNTS = {
+  'admin':  { password:'1234', plan:'mundo',  label:'Acceso completo al digesto' },
+  'admin1': { password:'1234', plan:'propio', label:'Solo tu municipio' }
+};
+function attemptLogin(){
+  const userEl = document.getElementById('loginUser');
+  const passEl = document.getElementById('loginPass');
+  const errEl = document.getElementById('loginError');
+  const user = (userEl.value||'').trim().toLowerCase();
+  const pass = passEl.value||'';
+  const account = DEMO_ACCOUNTS[user];
+  if(!account || account.password !== pass){
+    errEl.textContent = 'Usuario o contraseña incorrectos.';
+    passEl.value=''; passEl.focus();
+    return;
+  }
+  errEl.textContent = '';
+  currentUserPlan = account.plan;
+  document.getElementById('loginScreen').style.display = 'none';
+  initApp();
+}
+function initApp(){
+  renderDigesto();
+  nbEnsureLoaded().then(()=>{ nbUpdateBadge(); });
+}
 </script>
 </body>
 </html>
