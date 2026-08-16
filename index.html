@@ -1659,10 +1659,13 @@ async function nbLoad(){
   if(!NB.historial) NB.historial = [];
   await ensureDisplayName();
   if(nbDisplayName) await nbRegisterInDirectorio(nbDisplayName);
+  await nbSeedDirectorio(nbDisplayName);
   try{
     const dres = await window.storage.get('directorio_usuarios', true);
     nbDirectorio = (dres && dres.value) ? JSON.parse(dres.value) : [];
   }catch(e){ nbDirectorio = []; }
+  if(!nbDirectorio.some(u=>u.nombre==='María González')) nbDirectorio.push({nombre:'María González', provincia:nbHomeProvincia()});
+  if(!nbDirectorio.some(u=>u.nombre==='Juan Pérez'))     nbDirectorio.push({nombre:'Juan Pérez',     provincia:nbHomeProvincia()});
   await nbLoadPublicProjects();
   nbLoaded = true;
 }
@@ -2247,9 +2250,11 @@ function nbNewProject(){
         <input id="nbNewProjName" placeholder="Nombre del proyecto" onkeydown="if(event.key==='Enter')nbCreateProjectConfirm()">
         <details class="nb-group" style="margin-top:12px;">
           <summary>Visibilidad <span class="nb-group-count" id="nbVisSummary">🔒 Privado</span></summary>
-          <div class="nb-group-body" style="padding:10px; gap:8px; display:flex; flex-direction:column;">
-            <label class="nb-reason-opt"><input type="radio" name="nbVis" value="private" checked onchange="nbVisChanged(this)"><span>🔒 Privado — solo vos lo ves</span></label>
-            <label class="nb-reason-opt"><input type="radio" name="nbVis" value="public" onchange="nbVisChanged(this)"><span>🌐 Público — vos elegís después a qué colegas autorizar, y con qué rol</span></label>
+          <div class="nb-group-body" style="padding:10px;">
+            <select id="nbVisSelect" class="nb-reason-select" onchange="nbVisChanged(this)">
+              <option value="private">🔒 Privado — solo vos lo ves</option>
+              <option value="public">🌐 Público — vos elegís después a qué colegas autorizar, y con qué rol</option>
+            </select>
           </div>
         </details>
         <div class="nb-modal-actions">
@@ -2268,7 +2273,7 @@ function nbVisChanged(el){
 }
 async function nbCreateProjectConfirm(){
   const nameEl = document.getElementById('nbNewProjName');
-  const visEl = document.querySelector('input[name="nbVis"]:checked');
+  const visEl = document.getElementById('nbVisSelect');
   const nombreFinal = (nameEl && nameEl.value.trim()) || 'Proyecto sin título';
   const visibility = visEl ? visEl.value : 'private';
   nbModalClose();
