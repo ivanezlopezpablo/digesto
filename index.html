@@ -524,7 +524,7 @@
   .nb-modal.open{display:flex;}
   .nb-modal-box{
     background:#fff; border-radius:12px; padding:16px; width:100%; max-width:340px;
-    box-shadow:0 14px 36px rgba(19,34,52,.3);
+    box-shadow:0 14px 36px rgba(19,34,52,.3); max-height:100%; overflow-y:auto;
   }
   .nb-modal-box h4{font-family:'Lora',serif; font-size:14.5px; color:var(--ink); margin-bottom:4px;}
   .nb-modal-box p{font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:11px;}
@@ -572,6 +572,21 @@
   .nb-share-name{flex:1; font-size:13px; font-weight:600; color:var(--text-main);}
   .nb-share-btns{display:flex; gap:6px;}
 
+  .nb-info-btn{
+    background:var(--slate-blue-soft); color:var(--slate-blue); border:none; width:30px; height:30px; border-radius:8px;
+    font-size:14px; font-weight:700; cursor:pointer; flex-shrink:0;
+  }
+  .nb-rubro-info{
+    background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin-top:8px;
+    font-size:11px; color:var(--text-muted); line-height:1.6; max-height:160px; overflow-y:auto;
+  }
+  .nb-rubro-options{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; max-height:150px; overflow-y:auto;}
+  .nb-rubro-opt{
+    border:1px solid var(--line); border-radius:20px; padding:6px 12px; font-size:11.5px; cursor:pointer; background:#fff;
+  }
+  .nb-rubro-opt:hover{border-color:var(--slate-blue);}
+  .nb-rubro-opt.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
+
   /* ---------- PANEL DE ESTADÍSTICAS (interno) ---------- */
   .stats-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:16px;}
   @media(max-width:760px){ .stats-grid{grid-template-columns:1fr;} }
@@ -583,6 +598,30 @@
   .stat-bar-fill{height:100%; background:linear-gradient(90deg,var(--bronze),#c99a52); border-radius:6px;}
   .stat-bar-count{width:30px; text-align:right; font-size:12px; font-weight:700; color:var(--ink);}
   .stats-note{background:#fff; border:1px solid var(--line); border-left:4px solid var(--bronze); border-radius:12px; padding:14px 18px; font-size:12.5px; color:var(--text-muted); line-height:1.6;}
+  .stats-filters{display:flex; align-items:flex-end; gap:14px; flex-wrap:wrap; margin-bottom:16px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+  .stats-filters label{display:flex; flex-direction:column; gap:4px; font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.3px;}
+  .stats-filters select{font-family:inherit; font-size:13px; font-weight:500; text-transform:none; letter-spacing:0; border:1px solid var(--line); border-radius:8px; padding:8px 10px; background:#fff; color:var(--text-main); min-width:170px;}
+  .stats-mini-row{display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap;}
+  .stats-mini-row div{background:var(--paper); border-radius:9px; padding:8px 12px; text-align:center; min-width:64px;}
+  .stats-mini-row b{display:block; font-family:'Lora'; font-size:18px; color:var(--ink);}
+  .stats-mini-row span{font-size:9.5px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.3px;}
+  .stats-locality-row{border-bottom:1px solid var(--line); padding:10px 0;}
+  .stats-locality-row:last-child{border-bottom:none;}
+  .stats-locality-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; font-size:13px; margin-bottom:5px; flex-wrap:wrap;}
+  .stats-locality-head span{font-size:11.5px; color:var(--text-muted); font-weight:500;}
+  .stats-locality-warn{font-size:11.5px; color:var(--danger); background:#fbeceb; padding:6px 10px; border-radius:7px;}
+  .stats-locality-ok{font-size:11.5px; color:var(--seal-green); background:var(--seal-green-soft); padding:6px 10px; border-radius:7px;}
+  .stats-chart-wrap{position:relative; height:190px;}
+  .stats-filters label span[title]{cursor:help; color:var(--bronze); font-weight:400; text-transform:none; margin-left:2px;}
+  .stats-informe-table{width:100%; border-collapse:collapse; font-size:12px; margin-top:6px;}
+  .stats-informe-table th{text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.3px; color:var(--text-muted); padding:8px 10px; border-bottom:2px solid var(--line);}
+  .stats-informe-table td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  .stats-informe-table tr.sin-conectar td{background:#fbeceb;}
+  .stats-rubro-tag{display:inline-block; background:var(--bronze-soft); color:var(--bronze); font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:8px; margin-left:4px;}
+  .star-row{font-size:30px; line-height:1; color:var(--line); user-select:none;}
+  .star-row .star{cursor:pointer; margin-right:4px; transition:.1s; display:inline-block;}
+  .star-row .star:hover{transform:scale(1.1);}
+  .star-row .star.sel{color:#e0a530;}
 
   /* ---------- BLOQUEO POR PLAN ---------- */
   .locked-wrap{position:relative; border-radius:14px; overflow:hidden; min-height:260px;}
@@ -626,7 +665,7 @@
     <input type="password" id="loginPass" class="login-input" placeholder="••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()">
     <div class="login-error" id="loginError"></div>
     <button class="login-btn" onclick="attemptLogin()">Ingresar</button>
-    <div class="login-hint">Demo de diseño — usuarios de prueba: <b>admin / 1234</b> (todo el digesto) · <b>admin1 / 1234</b> (solo tu municipio)<br>Para probar "Compartir" en el Anotador, ya están cargadas <b>María González</b> y <b>Juan Pérez</b>.</div>
+    <div class="login-hint">Demo de diseño — usuarios de prueba: <b>admin / 1234</b> (Centenario, Neuquén · todo el digesto) · <b>admin1 / 1234</b> (Bahía Blanca, Buenos Aires · solo su municipio)<br>Para probar "Compartir" en el Anotador, ya están cargadas <b>María González</b> y <b>Juan Pérez</b>.</div>
   </div>
 </div>
 
@@ -653,7 +692,9 @@
       <div class="avatar" id="avatarBtn" onclick="toggleMore()">P</div>
       <div class="more-menu" id="moreMenu">
         <button data-i18n="nav_nosotros" onclick="showPage('nosotros'); toggleMore()">Nosotros</button>
-        <button onclick="openStatsGate(); toggleMore()">📊 Estadísticas (equipo)</button>
+        <button onclick="showPage('soporte'); renderSoportePage(); toggleMore()">🛟 Ayuda y soporte</button>
+        <button onclick="openStatsGate('estadisticas'); toggleMore()">📊 Estadísticas (equipo)</button>
+        <button onclick="openStatsGate('soporte-admin'); toggleMore()">📬 Soporte y encuestas (equipo)</button>
       </div>
     </div>
   </div>
@@ -718,6 +759,16 @@
   <!-- ================= ESTADÍSTICAS (interno, solo equipo) ================= -->
   <section class="page" id="page-estadisticas">
     <div id="statsRoot"></div>
+  </section>
+
+  <!-- ================= AYUDA Y SOPORTE (todos los usuarios) ================= -->
+  <section class="page" id="page-soporte">
+    <div id="soporteRoot"></div>
+  </section>
+
+  <!-- ================= SOPORTE Y ENCUESTAS (interno, solo equipo) ================= -->
+  <section class="page" id="page-soporte-admin">
+    <div id="soporteAdminRoot"></div>
   </section>
 
 </main>
@@ -906,7 +957,9 @@ function goHome(){ showPage('digesto'); currentView='list'; renderDigesto(); }
 
 /* ============ PANEL DE ESTADÍSTICAS (interno, equipo de la consultora) ============ */
 const STATS_PASSWORD = 'consultora2026';
-function openStatsGate(){
+let statsGateTarget = 'estadisticas';
+function openStatsGate(target){
+  statsGateTarget = target || 'estadisticas';
   const ov = document.getElementById('statsGateOverlay');
   ov.classList.add('open');
   const input = document.getElementById('statsPass');
@@ -918,47 +971,317 @@ async function checkStatsPass(){
   const val = document.getElementById('statsPass').value;
   if(val === STATS_PASSWORD){
     closeStatsGate();
-    showPage('estadisticas');
-    await renderStatsPanel();
+    showPage(statsGateTarget);
+    if(statsGateTarget==='soporte-admin') renderSoporteAdmin();
+    else await renderStatsPanel();
   }else{
     nbToast('Contraseña incorrecta');
   }
 }
+let statsFilter = { provincia:'', pais:'' };
+let statsLastSnapshot = null;
+async function fetchSharedJSON(key){
+  try{
+    const res = await window.storage.get(key, true);
+    return (res && res.value) ? JSON.parse(res.value) : [];
+  }catch(e){ return []; }
+}
+/* ============ CHART.JS (gráficos interactivos, bajo demanda) ============ */
+let statsChartJsLoading = null;
+function ensureChartJs(){
+  if(window.Chart) return Promise.resolve();
+  if(statsChartJsLoading) return statsChartJsLoading;
+  statsChartJsLoading = new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js';
+    s.onload = ()=>resolve();
+    s.onerror = ()=>reject(new Error('No se pudo cargar la librería de gráficos'));
+    document.head.appendChild(s);
+  });
+  return statsChartJsLoading;
+}
+let statsChartInstances = {};
+function destroyStatsCharts(){
+  Object.values(statsChartInstances).forEach(c=>{ try{ c.destroy(); }catch(e){} });
+  statsChartInstances = {};
+}
+function drawChart(canvasId, type, labels, data, label, color){
+  const el = document.getElementById(canvasId);
+  if(!el || !window.Chart) return;
+  statsChartInstances[canvasId] = new Chart(el, {
+    type,
+    data:{ labels, datasets:[{ label, data, borderColor:color, backgroundColor: type==='line' ? color+'26' : color, borderWidth:2, tension:.35, fill: type==='line', borderRadius: type==='bar'?6:0, maxBarThickness:34 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false }, tooltip:{ mode:'index', intersect:false } },
+      scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } }, x:{ grid:{ display:false } } }
+    }
+  });
+}
+
+/* ============ INFORME POR LOCALIDAD (descargable, para clientes) ============ */
+/* Etiquetas de partido genéricas — pensadas para segmentar el informe antes de
+   entregarlo, no para exponer esta info entre usuarios comunes de la app. */
+function fetchRawPublicProjects(provincia){ return fetchSharedJSON('proyectos_publicos_' + slugify(provincia)); }
+
+async function statsRenderInforme(){
+  const cont = document.getElementById('statsInformeBody');
+  if(!cont) return;
+  const muniSel = document.getElementById('statsInformeMuni');
+  const partidoSel = document.getElementById('statsInformePartido');
+  const periodoSel = document.getElementById('statsInformePeriodo');
+  const muniKey = muniSel ? muniSel.value : '';
+  const partido = partidoSel ? partidoSel.value : '';
+  const periodo = periodoSel ? periodoSel.value : 'total';
+  if(!muniKey){ cont.innerHTML = `<div class="nb-empty">Elegí una localidad para armar su informe.</div>`; return; }
+
+  const m = MUNICIPIOS[muniKey]; if(!m) return;
+  cont.innerHTML = `<div class="results-line">Armando informe de ${nbEsc(m.nombre)}…</div>`;
+
+  const [eventosLogin, eventosProyectos, rawProyectos] = await Promise.all([
+    fetchSharedJSON('eventos_login'), fetchSharedJSON('eventos_proyectos'), fetchRawPublicProjects(m.provincia)
+  ]);
+
+  let registrados = [];
+  Object.keys(DEMO_ACCOUNTS).forEach(u=>{
+    const acc = DEMO_ACCOUNTS[u];
+    const home = MUNICIPIOS[acc.municipioKey] || MUNICIPIOS[currentMunicipioKey];
+    registrados.push({ nombre:acc.nombre, provincia:home.provincia, pais:home.pais, municipio:home.nombre, partido:acc.partido||'' });
+  });
+  nbDirectorio.forEach(u=>{
+    if(!registrados.some(r=>r.nombre.toLowerCase()===u.nombre.toLowerCase())){
+      registrados.push({ nombre:u.nombre, provincia:u.provincia||'', pais:u.pais||'Argentina', municipio:u.municipio||'', partido:u.partido||'' });
+    }
+  });
+
+  let equipo = registrados.filter(r=> r.provincia === m.provincia);
+  if(partido) equipo = equipo.filter(r=> r.partido === partido);
+
+  const now = new Date();
+  const dentroDelPeriodo = (iso)=>{
+    if(periodo==='total') return true;
+    const d = new Date(iso);
+    if(periodo==='dia')    return (iso||'').slice(0,10) === now.toISOString().slice(0,10);
+    if(periodo==='semana') return d >= new Date(now.getTime()-7*86400000);
+    if(periodo==='mes')    return (iso||'').slice(0,7) === (now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'));
+    if(periodo==='anio')   return (iso||'').slice(0,4) === String(now.getFullYear());
+    return true;
+  };
+  const loginsLocalidad = eventosLogin.filter(e=> e.provincia===m.provincia && dentroDelPeriodo(e.ts));
+
+  const participaciones = {}; // nombre -> [{proyecto, rubro}]
+  rawProyectos.forEach(p=>{
+    const gente = [p.ownerName, ...((p.colaboradores||[]).map(c=>c.nombre))].filter(Boolean);
+    gente.forEach(nombre=>{
+      participaciones[nombre] = participaciones[nombre] || [];
+      participaciones[nombre].push({ proyecto:p.nombre, rubro:rubroLabel(p.categoria) });
+    });
+  });
+
+  const filasEquipo = equipo.map(r=>{
+    const conexiones = loginsLocalidad.filter(e=>e.usuario===r.nombre).length;
+    const proyectos = participaciones[r.nombre] || [];
+    return { ...r, conexiones, proyectos };
+  }).sort((a,b)=>b.conexiones-a.conexiones);
+
+  const noConectados = filasEquipo.filter(f=>f.conexiones===0);
+
+  const proyectosLocalidad = eventosProyectos.filter(e=> e.municipio===m.nombre && (!partido) );
+  const porRubroLocalidad = {};
+  proyectosLocalidad.forEach(e=>{ porRubroLocalidad[e.categoriaLabel] = (porRubroLocalidad[e.categoriaLabel]||0)+1; });
+  const rubroRows = Object.entries(porRubroLocalidad).sort((a,b)=>b[1]-a[1]);
+
+  statsInformeSnapshot = { municipio:m, partido, periodo, filasEquipo, noConectados, rubroRows, totalProyectos: proyectosLocalidad.length };
+
+  const periodoLabel = {dia:'hoy', semana:'últimos 7 días', mes:'este mes', anio:'este año', total:'histórico'}[periodo];
+  cont.innerHTML = `
+    <div class="stats-mini-row">
+      <div><b>${equipo.length}</b><span>Registrados</span></div>
+      <div><b>${equipo.length-noConectados.length}</b><span>Conectados (${nbEsc(periodoLabel)})</span></div>
+      <div><b>${noConectados.length}</b><span>Sin conectar</span></div>
+      <div><b>${proyectosLocalidad.length}</b><span>Proyectos (histórico)</span></div>
+    </div>
+    <table class="stats-informe-table">
+      <thead><tr><th>Persona</th>${partido?'':'<th>Partido</th>'}<th>Conexiones (${nbEsc(periodoLabel)})</th><th>Proyectos en los que participa</th></tr></thead>
+      <tbody>
+        ${filasEquipo.map(f=>`
+          <tr class="${f.conexiones===0?'sin-conectar':''}">
+            <td><b>${nbEsc(f.nombre)}</b></td>
+            ${partido?'':`<td>${nbEsc(f.partido||'—')}</td>`}
+            <td>${f.conexiones}</td>
+            <td>${f.proyectos.length ? f.proyectos.map(p=>`${nbEsc(p.proyecto)} <span class="stats-rubro-tag">${nbEsc(p.rubro)}</span>`).join('<br>') : '<span style="color:var(--text-muted);">Sin proyectos</span>'}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    <div class="stats-card" style="margin-top:14px;">
+      <h4>🗂️ Proyectos por rubro en ${nbEsc(m.nombre)}</h4>
+      ${rubroRows.length ? rubroRows.map(([label,count])=>`<div class="stat-bar-row"><div class="stat-bar-label">${nbEsc(label)}</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.round(count/rubroRows[0][1]*100)}%"></div></div><div class="stat-bar-count">${count}</div></div>`).join('') : '<div class="nb-empty">Todavía no se registraron proyectos en esta localidad.</div>'}
+    </div>
+    <button class="nb-btn tiny" style="margin-top:14px;" onclick="statsExportInformePDF()">⤓ Descargar informe de ${nbEsc(m.nombre)} en PDF</button>
+    ${partido?'':'<div class="stats-note" style="margin-top:10px;">💡 Si filtrás por partido político antes de descargar, el PDF solo va a incluir a las personas de ese espacio — así evitás compartir datos de un espacio con otro al entregar el informe.</div>'}
+  `;
+}
+async function statsExportInformePDF(){
+  const s = statsInformeSnapshot;
+  if(!s){ nbToast('Armá el informe primero.'); return; }
+  try{ await nbLoadJsPDF(); }catch(e){ nbToast('No se pudo generar el PDF (revisá tu conexión)'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const marginX = 14; const pageWidth = doc.internal.pageSize.getWidth() - marginX*2;
+  let y = 20;
+  doc.setFontSize(16); doc.setFont(undefined,'bold');
+  doc.text(`Informe de equipo — ${s.municipio.nombre}, ${s.municipio.provincia}`, marginX, y); y+=8;
+  doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(120);
+  const periodoLabel = {dia:'hoy', semana:'últimos 7 días', mes:'este mes', anio:'este año', total:'histórico'}[s.periodo];
+  doc.text(`Generado el ${nbFecha(new Date().toISOString())} a las ${nbHora()}  ·  Conexiones: ${periodoLabel}${s.partido?('  ·  Partido: '+s.partido):''}`, marginX, y); y+=10;
+  doc.setTextColor(20);
+
+  doc.setFontSize(11); doc.setFont(undefined,'bold');
+  doc.text(`Registrados: ${s.filasEquipo.length}   ·   Sin conectar: ${s.noConectados.length}   ·   Proyectos histórico: ${s.totalProyectos}`, marginX, y); y+=10;
+  doc.setFont(undefined,'normal');
+
+  doc.setFontSize(12); doc.setFont(undefined,'bold'); doc.text('Equipo', marginX, y); y+=7; doc.setFont(undefined,'normal'); doc.setFontSize(10);
+  s.filasEquipo.forEach(f=>{
+    if(y>270){ doc.addPage(); y=20; }
+    doc.setFont(undefined,'bold'); doc.text(`${f.nombre}${f.partido?(' — '+f.partido):''}`, marginX, y); y+=6; doc.setFont(undefined,'normal');
+    doc.text(`Conexiones (${periodoLabel}): ${f.conexiones}`, marginX, y); y+=6;
+    const proyTxt = f.proyectos.length ? f.proyectos.map(p=>`${p.proyecto} (${p.rubro})`).join(', ') : 'Sin proyectos asignados';
+    doc.splitTextToSize('Proyectos: '+proyTxt, pageWidth).forEach(line=>{ if(y>280){doc.addPage();y=20;} doc.text(line, marginX, y); y+=6; });
+    y+=3;
+  });
+
+  if(y>250){ doc.addPage(); y=20; }
+  doc.setFontSize(12); doc.setFont(undefined,'bold'); doc.text('Proyectos por rubro', marginX, y); y+=7; doc.setFont(undefined,'normal'); doc.setFontSize(10);
+  if(!s.rubroRows.length){ doc.text('Sin datos.', marginX, y); y+=6; }
+  s.rubroRows.forEach(([label,count])=>{ if(y>280){doc.addPage();y=20;} doc.text(`${label}: ${count}`, marginX, y); y+=6; });
+
+  doc.save(`informe-${slugify(s.municipio.nombre)}-${new Date().toISOString().slice(0,10)}.pdf`);
+  nbToast('Informe de localidad descargado');
+}
+let statsInformeSnapshot = null;
+
 async function renderStatsPanel(){
   const root = document.getElementById('statsRoot');
   root.innerHTML = `<div class="results-line">Cargando estadísticas…</div>`;
-  let events = [];
-  try{
-    const res = await window.storage.get('eventos_uso', true);
-    if(res && res.value) events = JSON.parse(res.value);
-  }catch(e){ events = []; }
+  const [eventosNormas, eventosProyectos, eventosLogin] = await Promise.all([
+    fetchSharedJSON('eventos_uso'), fetchSharedJSON('eventos_proyectos'), fetchSharedJSON('eventos_login')
+  ]);
+  let registrados = [];
+  Object.keys(DEMO_ACCOUNTS).forEach(u=>{
+    const acc = DEMO_ACCOUNTS[u];
+    const home = MUNICIPIOS[acc.municipioKey] || MUNICIPIOS[currentMunicipioKey];
+    registrados.push({ nombre:acc.nombre, provincia:home.provincia, pais:home.pais, municipio:home.nombre, partido:acc.partido||'' });
+  });
+  nbDirectorio.forEach(u=>{
+    if(!registrados.some(r=>r.nombre.toLowerCase()===u.nombre.toLowerCase())){
+      registrados.push({ nombre:u.nombre, provincia:u.provincia||'', pais:u.pais||'Argentina', municipio:u.municipio||'', partido:u.partido||'' });
+    }
+  });
+  statsRenderWithData(eventosNormas, eventosProyectos, eventosLogin, registrados);
+}
+function statsAplicarFiltro(){
+  const provSel = document.getElementById('statsFiltroProvincia');
+  const paisSel = document.getElementById('statsFiltroPais');
+  const muniSel = document.getElementById('statsFiltroMunicipio');
+  const mesSel = document.getElementById('statsFiltroMes');
+  const partidoSel = document.getElementById('statsFiltroPartido');
+  statsFilter.provincia = provSel ? provSel.value : '';
+  statsFilter.pais = paisSel ? paisSel.value : '';
+  statsFilter.municipio = muniSel ? muniSel.value : '';
+  statsFilter.mes = mesSel ? mesSel.value : '';
+  statsFilter.partido = partidoSel ? partidoSel.value : '';
+  renderStatsPanel();
+}
+function statsLimpiarFiltro(){ statsFilter = { provincia:'', pais:'', municipio:'', mes:'', partido:'' }; renderStatsPanel(); }
+
+function statsRenderWithData(eventosNormas, eventosProyectos, eventosLogin, registrados){
+  const root = document.getElementById('statsRoot');
+  destroyStatsCharts();
+  const nombreToPartido = {};
+  registrados.forEach(r=>{ if(r.partido) nombreToPartido[r.nombre.toLowerCase()] = r.partido; });
+  const partidoDe = (nombre)=> nombreToPartido[(nombre||'').toLowerCase()] || null;
+
+  const provinciasDisponibles = [...new Set([
+    ...eventosNormas.map(e=>e.provincia), ...eventosProyectos.map(e=>e.provincia),
+    ...eventosLogin.map(e=>e.provincia), ...registrados.map(r=>r.provincia)
+  ].filter(Boolean))].sort();
+  const paisesDisponibles = [...new Set([
+    ...eventosNormas.map(e=>e.pais), ...eventosProyectos.map(e=>e.pais),
+    ...eventosLogin.map(e=>e.pais), ...registrados.map(r=>r.pais)
+  ].filter(Boolean))].sort();
+  const municipiosDisponibles = [...new Set([
+    ...eventosNormas.map(e=>e.muniNombre), ...eventosProyectos.map(e=>e.municipio),
+    ...eventosLogin.map(e=>e.municipio), ...registrados.map(r=>r.municipio)
+  ].filter(Boolean))].sort();
+  const mesesDisponibles = [...new Set([
+    ...eventosNormas.map(e=>(e.ts||'').slice(0,7)), ...eventosProyectos.map(e=>(e.ts||'').slice(0,7)),
+    ...eventosLogin.map(e=>(e.ts||'').slice(0,7))
+  ].filter(Boolean))].sort().reverse();
+  const partidosDisponibles = [...new Set(registrados.map(r=>r.partido).filter(Boolean))].sort();
+
+  const matchesFilter = (o)=>{
+    if(statsFilter.provincia && o.provincia !== statsFilter.provincia) return false;
+    if(statsFilter.pais && o.pais !== statsFilter.pais) return false;
+    if(statsFilter.municipio && (o.municipio||o.muniNombre) !== statsFilter.municipio) return false;
+    if(statsFilter.mes && (o.ts||'').slice(0,7) !== statsFilter.mes) return false;
+    if(statsFilter.partido){
+      const nombre = o.usuario || o.ownerName;
+      if(partidoDe(nombre) !== statsFilter.partido) return false;
+    }
+    return true;
+  };
+  const normasF = eventosNormas.filter(matchesFilter);
+  const proyectosF = eventosProyectos.filter(matchesFilter);
+  const loginF = eventosLogin.filter(matchesFilter);
+  const registradosF = registrados.filter(r=>{
+    if(statsFilter.provincia && r.provincia !== statsFilter.provincia) return false;
+    if(statsFilter.pais && r.pais !== statsFilter.pais) return false;
+    if(statsFilter.municipio && r.municipio !== statsFilter.municipio) return false;
+    if(statsFilter.partido && r.partido !== statsFilter.partido) return false;
+    return true;
+  });
 
   const now = new Date();
   const thisMonthKey = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const todayKey = now.toISOString().slice(0,10);
+  const weekAgo = new Date(now.getTime()-7*86400000);
+  const yearKey = String(now.getFullYear());
+
   const countBy = (arr, keyFn)=>{
-    const map = {};
-    arr.forEach(x=>{ const k = keyFn(x); if(!k) return; map[k] = (map[k]||0)+1; });
+    const map={}; arr.forEach(x=>{ const k=keyFn(x); if(!k) return; map[k]=(map[k]||0)+1; });
     return Object.entries(map).sort((a,b)=>b[1]-a[1]);
   };
-  const eventosEsteMes = events.filter(e=> (e.ts||'').slice(0,7) === thisMonthKey);
-  const porProvincia = countBy(events, e=>e.provincia);
-  const porPais = countBy(events, e=>e.pais);
-  const porUsuario = countBy(events, e=>e.usuario);
-  const porMes = countBy(events, e=>(e.ts||'').slice(0,7));
-  const publicosEstaProvincia = nbPublicProjects.length;
+  const maxOf = rows => rows[0] ? rows[0][1] : 0;
 
-  const barList = (rows, max)=> rows.slice(0,8).map(([label,count])=>{
-    const pct = max>0 ? Math.round((count/max)*100) : 0;
-    return `<div class="stat-bar-row">
-      <div class="stat-bar-label">${nbEsc(label)}</div>
-      <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%"></div></div>
-      <div class="stat-bar-count">${count}</div>
-    </div>`;
-  }).join('');
-  const maxProv = porProvincia[0] ? porProvincia[0][1] : 0;
-  const maxPais = porPais[0] ? porPais[0][1] : 0;
-  const maxUser = porUsuario[0] ? porUsuario[0][1] : 0;
-  const maxMes = porMes[0] ? porMes[0][1] : 0;
+  const normasEsteMes = normasF.filter(e=>(e.ts||'').slice(0,7)===thisMonthKey);
+  const porProvincia = countBy(normasF, e=>e.provincia);
+  const porPais = countBy(normasF, e=>e.pais);
+  const porUsuario = countBy(normasF, e=>e.usuario);
+  const porMes = countBy(normasF, e=>(e.ts||'').slice(0,7)).slice().reverse().slice(0,6).reverse();
+  const porRubro = countBy(proyectosF, e=>e.categoriaLabel);
+
+  const loginHoy = loginF.filter(e=>(e.ts||'').slice(0,10)===todayKey).length;
+  const loginSemana = loginF.filter(e=> new Date(e.ts) >= weekAgo).length;
+  const loginMes = loginF.filter(e=>(e.ts||'').slice(0,7)===thisMonthKey).length;
+  const loginAnio = loginF.filter(e=>(e.ts||'').slice(0,4)===yearKey).length;
+  const porDiaLogin = countBy(loginF, e=>(e.ts||'').slice(0,10)).slice().sort((a,b)=>a[0]<b[0]?-1:1).slice(-14);
+
+  const usuariosConectadosSet = new Set(loginF.map(e=>(e.usuario||'').toLowerCase()));
+  const porLocalidad = {};
+  registradosF.forEach(r=>{
+    const key = r.provincia||'Sin dato';
+    if(!porLocalidad[key]) porLocalidad[key] = { registrados:[], conectados:[], noConectados:[] };
+    porLocalidad[key].registrados.push(r.nombre);
+    if(usuariosConectadosSet.has(r.nombre.toLowerCase())) porLocalidad[key].conectados.push(r.nombre);
+    else porLocalidad[key].noConectados.push(r.nombre);
+  });
+
+  statsLastSnapshot = {
+    totalNormas: normasF.length, normasEsteMes: normasEsteMes.length, totalProyectos: proyectosF.length, totalRegistrados: registradosF.length,
+    porMes, porProvincia, porPais, porUsuario, porRubro, porDiaLogin, porLocalidad
+  };
+
+  const municipioOptions = Object.keys(MUNICIPIOS).map(k=>MUNICIPIOS[k]).filter((m,i,arr)=>arr.findIndex(x=>x.nombre===m.nombre)===i);
 
   root.innerHTML = `
     <div class="stats-hero">
@@ -966,36 +1289,353 @@ async function renderStatsPanel(){
       <h1 class="serif">Estadísticas de uso del digesto</h1>
       <div class="sub">Datos para asesorar a futuros clientes sobre la eficiencia real que aporta la plataforma.</div>
       <div class="stats-row">
-        <div class="stat-item"><div class="num">${events.length.toLocaleString('es-AR')}</div><div class="lbl">Normas analizadas (total)</div></div>
-        <div class="stat-item"><div class="num">${eventosEsteMes.length.toLocaleString('es-AR')}</div><div class="lbl">Analizadas este mes</div></div>
-        <div class="stat-item"><div class="num">${porUsuario.length}</div><div class="lbl">Usuarios con actividad</div></div>
-        <div class="stat-item"><div class="num">${publicosEstaProvincia}</div><div class="lbl">Proyectos públicos activos (tu provincia)</div></div>
+        <div class="stat-item"><div class="num">${normasF.length.toLocaleString('es-AR')}</div><div class="lbl">Normas analizadas (total)</div></div>
+        <div class="stat-item"><div class="num">${normasEsteMes.length.toLocaleString('es-AR')}</div><div class="lbl">Analizadas este mes</div></div>
+        <div class="stat-item"><div class="num">${proyectosF.length.toLocaleString('es-AR')}</div><div class="lbl">Proyectos creados (histórico)</div></div>
+        <div class="stat-item"><div class="num">${registradosF.length}</div><div class="lbl">Personas registradas</div></div>
       </div>
     </div>
+
+    <div class="stats-filters">
+      <label>Provincia / región
+        <select id="statsFiltroProvincia" onchange="statsAplicarFiltro()">
+          <option value="">Todas</option>
+          ${provinciasDisponibles.map(p=>`<option value="${nbEscAttr(p)}" ${statsFilter.provincia===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
+        </select>
+      </label>
+      <label>País
+        <select id="statsFiltroPais" onchange="statsAplicarFiltro()">
+          <option value="">Todos</option>
+          ${paisesDisponibles.map(p=>`<option value="${nbEscAttr(p)}" ${statsFilter.pais===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
+        </select>
+      </label>
+      <label>Localidad
+        <select id="statsFiltroMunicipio" onchange="statsAplicarFiltro()">
+          <option value="">Todas</option>
+          ${municipiosDisponibles.map(p=>`<option value="${nbEscAttr(p)}" ${statsFilter.municipio===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
+        </select>
+      </label>
+      <label>Mes
+        <select id="statsFiltroMes" onchange="statsAplicarFiltro()">
+          <option value="">Todos</option>
+          ${mesesDisponibles.map(p=>`<option value="${nbEscAttr(p)}" ${statsFilter.mes===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
+        </select>
+      </label>
+      <label>Partido político <span title="Filtro sensible: usalo para no mezclar datos de espacios distintos al armar un informe para entregar.">ⓘ</span>
+        <select id="statsFiltroPartido" onchange="statsAplicarFiltro()">
+          <option value="">Todos</option>
+          ${partidosDisponibles.map(p=>`<option value="${nbEscAttr(p)}" ${statsFilter.partido===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
+        </select>
+      </label>
+      <button class="nb-btn ghost tiny" onclick="statsLimpiarFiltro()">Limpiar filtros</button>
+      <button class="nb-btn tiny" onclick="statsExportPDF()" style="margin-left:auto;">⤓ Descargar informe general en PDF</button>
+    </div>
+
     <div class="stats-grid">
       <div class="stats-card">
-        <h4>📅 Normas analizadas por mes</h4>
-        ${porMes.length ? barList(porMes.slice().reverse().slice(0,6).reverse(), maxMes) : '<div class="nb-empty">Todavía no hay actividad registrada.</div>'}
+        <h4>📈 Crecimiento — normas analizadas por mes</h4>
+        <div class="stats-chart-wrap">${porMes.length ? '<canvas id="chartNormasMes"></canvas>' : '<div class="nb-empty">Todavía no hay actividad registrada.</div>'}</div>
       </div>
       <div class="stats-card">
-        <h4>📍 Por provincia / región</h4>
-        ${porProvincia.length ? barList(porProvincia, maxProv) : '<div class="nb-empty">Sin datos todavía.</div>'}
+        <h4>📈 Crecimiento — inicios de sesión por día</h4>
+        <div class="stats-chart-wrap">${porDiaLogin.length ? '<canvas id="chartLoginDia"></canvas>' : '<div class="nb-empty">Sin inicios de sesión registrados.</div>'}</div>
+        <div class="stats-mini-row">
+          <div><b>${loginHoy}</b><span>Hoy</span></div>
+          <div><b>${loginSemana}</b><span>7 días</span></div>
+          <div><b>${loginMes}</b><span>Este mes</span></div>
+          <div><b>${loginAnio}</b><span>Este año</span></div>
+        </div>
       </div>
       <div class="stats-card">
-        <h4>🌎 Por país</h4>
-        ${porPais.length ? barList(porPais, maxPais) : '<div class="nb-empty">Sin datos todavía.</div>'}
+        <h4>📍 Normas por provincia</h4>
+        <div class="stats-chart-wrap">${porProvincia.length ? '<canvas id="chartProvincia"></canvas>' : '<div class="nb-empty">Sin datos todavía.</div>'}</div>
+      </div>
+      <div class="stats-card">
+        <h4>🗂️ Proyectos por rubro / temática</h4>
+        <div class="stats-chart-wrap">${porRubro.length ? '<canvas id="chartRubro"></canvas>' : '<div class="nb-empty">Todavía no se creó ningún proyecto.</div>'}</div>
+      </div>
+      <div class="stats-card">
+        <h4>🌎 Normas por país</h4>
+        ${porPais.length ? porPais.map(([l,c])=>`<div class="stat-bar-row"><div class="stat-bar-label">${nbEsc(l)}</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.round(c/maxOf(porPais)*100)}%"></div></div><div class="stat-bar-count">${c}</div></div>`).join('') : '<div class="nb-empty">Sin datos todavía.</div>'}
       </div>
       <div class="stats-card">
         <h4>👤 Usuarios con más actividad</h4>
-        ${porUsuario.length ? barList(porUsuario, maxUser) : '<div class="nb-empty">Sin datos todavía (los usuarios sin nombre cargado figuran como "Anónimo").</div>'}
+        ${porUsuario.length ? porUsuario.map(([l,c])=>`<div class="stat-bar-row"><div class="stat-bar-label">${nbEsc(l)}</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.round(c/maxOf(porUsuario)*100)}%"></div></div><div class="stat-bar-count">${c}</div></div>`).join('') : '<div class="nb-empty">Sin datos todavía.</div>'}
       </div>
     </div>
+
+    <div class="stats-card" style="margin-bottom:16px;">
+      <h4>👥 Personas registradas vs. conectadas, por provincia</h4>
+      ${Object.keys(porLocalidad).length ? Object.entries(porLocalidad).map(([loc, d])=>`
+        <div class="stats-locality-row">
+          <div class="stats-locality-head">
+            <b>${nbEsc(loc)}</b>
+            <span>${d.registrados.length} registrado(s) · ${d.conectados.length} conectado(s) recientemente</span>
+          </div>
+          ${d.noConectados.length ? `<div class="stats-locality-warn">⚠️ No se conectaron: ${d.noConectados.map(x=>nbEsc(x)).join(', ')}</div>` : `<div class="stats-locality-ok">✔ Todos los registrados se conectaron.</div>`}
+        </div>
+      `).join('') : '<div class="nb-empty">Sin personas registradas todavía.</div>'}
+    </div>
+
+    <div class="stats-card" id="statsInformeCard">
+      <h4>📄 Informe descargable por localidad <span style="font-weight:400; color:var(--text-muted); font-size:11px;">— para entregar a tus clientes</span></h4>
+      <div class="stats-filters" style="padding:0; border:none; margin-bottom:10px;">
+        <label>Localidad
+          <select id="statsInformeMuni" onchange="statsRenderInforme()">
+            <option value="">Elegí una localidad…</option>
+            ${municipioOptions.map(m=>{
+              const key = Object.keys(MUNICIPIOS).find(k=>MUNICIPIOS[k].nombre===m.nombre);
+              return `<option value="${key}">${nbEsc(m.nombre)}, ${nbEsc(m.provincia)}</option>`;
+            }).join('')}
+          </select>
+        </label>
+        <label>Partido político
+          <select id="statsInformePartido" onchange="statsRenderInforme()">
+            <option value="">Todos (uso interno)</option>
+            ${partidosDisponibles.map(p=>`<option value="${nbEscAttr(p)}">${nbEsc(p)}</option>`).join('')}
+          </select>
+        </label>
+        <label>Conexiones
+          <select id="statsInformePeriodo" onchange="statsRenderInforme()">
+            <option value="total">Histórico</option>
+            <option value="dia">Hoy</option>
+            <option value="semana">Últimos 7 días</option>
+            <option value="mes">Este mes</option>
+            <option value="anio">Este año</option>
+          </select>
+        </label>
+      </div>
+      <div id="statsInformeBody"><div class="nb-empty">Elegí una localidad para armar su informe.</div></div>
+    </div>
+
     <div class="stats-note">
-      ⚠️ Esta vista muestra actividad de <b>consulta de normas</b> (siempre, de cualquier usuario) y de <b>proyectos públicos</b> del anotador, porque ambos son datos compartidos.
-      Los proyectos <b>privados</b> de cada usuario no se incluyen acá — son personales, y así deben seguir siendo. Para un tablero real a escala (todos los municipios,
-      todos los usuarios, con roles de acceso), esto se calcula del lado del servidor en Supabase a partir de una tabla de eventos, no desde el navegador de cada persona.
+      ⚠️ Esta vista muestra actividad compartida: <b>consultas de normas</b>, <b>proyectos creados</b> (con su rubro — queda registrado aunque el proyecto se borre después) e <b>inicios de sesión</b>. Los proyectos <b>privados</b> siguen siendo privados en su contenido, solo aportan el número y el rubro a esta estadística. El partido político es un dato sensible: acá se usa únicamente para que el equipo de la consultora arme informes sin mezclar datos entre espacios antes de entregarlos — nunca para restringir qué ve un usuario común de la app. "Personas registradas" hoy se arma con las cuentas de demo + el directorio de nombres; a escala real esto sale directo de la tabla de usuarios de Supabase.
     </div>
   `;
+  ensureChartJs().then(()=>{
+    if(porMes.length) drawChart('chartNormasMes', 'line', porMes.map(x=>x[0]), porMes.map(x=>x[1]), 'Normas analizadas', '#a9752f');
+    if(porDiaLogin.length) drawChart('chartLoginDia', 'line', porDiaLogin.map(x=>x[0].slice(5)), porDiaLogin.map(x=>x[1]), 'Inicios de sesión', '#3a6a86');
+    if(porProvincia.length) drawChart('chartProvincia', 'bar', porProvincia.slice(0,8).map(x=>x[0]), porProvincia.slice(0,8).map(x=>x[1]), 'Normas', '#2f5c46');
+    if(porRubro.length) drawChart('chartRubro', 'bar', porRubro.slice(0,8).map(x=>x[0]), porRubro.slice(0,8).map(x=>x[1]), 'Proyectos', '#a9752f');
+  });
+}
+
+async function statsExportPDF(){
+  if(!statsLastSnapshot){ nbToast('Esperá a que carguen las estadísticas.'); return; }
+  try{ await nbLoadJsPDF(); }catch(e){ nbToast('No se pudo generar el PDF (revisá tu conexión)'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const s = statsLastSnapshot;
+  const marginX = 14; const pageWidth = doc.internal.pageSize.getWidth() - marginX*2;
+  let y = 20;
+  doc.setFontSize(16); doc.setFont(undefined,'bold');
+  doc.text('Modernización Urbana — Informe interno de estadísticas', marginX, y); y+=8;
+  doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(120);
+  const filtros = [];
+  if(statsFilter.provincia) filtros.push('Provincia: '+statsFilter.provincia);
+  if(statsFilter.pais) filtros.push('País: '+statsFilter.pais);
+  if(statsFilter.municipio) filtros.push('Localidad: '+statsFilter.municipio);
+  if(statsFilter.mes) filtros.push('Mes: '+statsFilter.mes);
+  if(statsFilter.partido) filtros.push('Partido: '+statsFilter.partido);
+  const filtroTxt = filtros.length ? filtros.join(' · ') : 'Sin filtro (todo el digesto)';
+  doc.text(`Generado el ${nbFecha(new Date().toISOString())} a las ${nbHora()}  ·  ${filtroTxt}`, marginX, y); y+=10;
+  doc.setTextColor(20);
+
+  doc.setFontSize(11); doc.setFont(undefined,'bold');
+  doc.text(`Normas analizadas: ${s.totalNormas}   ·   Este mes: ${s.normasEsteMes}   ·   Proyectos creados: ${s.totalProyectos}   ·   Personas registradas: ${s.totalRegistrados}`, marginX, y);
+  y += 10; doc.setFont(undefined,'normal');
+
+  function seccion(titulo, rows){
+    if(y>260){ doc.addPage(); y=20; }
+    doc.setFontSize(12); doc.setFont(undefined,'bold'); doc.text(titulo, marginX, y); y+=7;
+    doc.setFontSize(10); doc.setFont(undefined,'normal');
+    if(!rows.length){ doc.text('Sin datos.', marginX, y); y+=8; return; }
+    rows.forEach(([label,count])=>{
+      if(y>280){ doc.addPage(); y=20; }
+      doc.text(`${label}: ${count}`, marginX, y); y+=6;
+    });
+    y+=4;
+  }
+  seccion('Normas analizadas por mes', s.porMes);
+  seccion('Normas analizadas por provincia', s.porProvincia);
+  seccion('Normas analizadas por país', s.porPais);
+  seccion('Usuarios con más actividad', s.porUsuario);
+  seccion('Proyectos por rubro', s.porRubro);
+  seccion('Inicios de sesión por día (últimos 14 días con datos)', s.porDiaLogin);
+
+  if(y>250){ doc.addPage(); y=20; }
+  doc.setFontSize(12); doc.setFont(undefined,'bold'); doc.text('Personas registradas por provincia', marginX, y); y+=7;
+  doc.setFontSize(10); doc.setFont(undefined,'normal');
+  const localEntries = Object.entries(s.porLocalidad);
+  if(!localEntries.length){ doc.text('Sin datos.', marginX, y); y+=6; }
+  localEntries.forEach(([loc,d])=>{
+    if(y>270){ doc.addPage(); y=20; }
+    doc.setFont(undefined,'bold'); doc.text(loc, marginX, y); y+=6; doc.setFont(undefined,'normal');
+    doc.text(`${d.registrados.length} registrado(s) · ${d.conectados.length} conectado(s)`, marginX, y); y+=6;
+    if(d.noConectados.length){
+      doc.splitTextToSize('No se conectaron: '+d.noConectados.join(', '), pageWidth).forEach(line=>{
+        if(y>280){ doc.addPage(); y=20; } doc.text(line, marginX, y); y+=6;
+      });
+    }
+    y+=3;
+  });
+
+  doc.save('estadisticas-modernizacion-urbana-'+new Date().toISOString().slice(0,10)+'.pdf');
+  nbToast('Informe descargado');
+}
+
+/* ============ AYUDA, SOPORTE Y ENCUESTAS DE SATISFACCIÓN ============ */
+function renderSoportePage(){
+  const root = document.getElementById('soporteRoot');
+  root.innerHTML = `
+    <div class="stats-hero">
+      <div class="section-eyebrow" style="color:#f0dcb3;">Estamos para ayudarte</div>
+      <h1 class="serif">Ayuda y soporte</h1>
+      <div class="sub">Reportá un problema, hacenos una consulta o contanos qué te gustaría que mejoremos y por qué.</div>
+    </div>
+    <div class="stats-card">
+      <h4>✏️ Nuevo mensaje</h4>
+      <label class="login-label">Tipo</label>
+      <select id="soporteTipo" class="nb-reason-select" style="margin-bottom:12px;" onchange="soporteActualizarPlaceholder()">
+        <option value="Reportar un problema">🐞 Reportar un problema</option>
+        <option value="Sugerir una mejora">💡 Sugerir una mejora</option>
+        <option value="Consulta / contacto">✉️ Consulta / contacto con soporte</option>
+      </select>
+      <label class="login-label">Asunto</label>
+      <input id="soporteAsunto" class="login-input" placeholder="Resumen breve">
+      <label class="login-label" id="soporteDescLabel">Contanos qué pasó, con el detalle que puedas</label>
+      <textarea id="soporteDesc" class="nb-textarea" style="min-height:100px;" placeholder="Describí el problema, paso a paso si podés..."></textarea>
+      <button class="nb-btn" style="margin-top:10px;" onclick="submitTicket()">Enviar</button>
+    </div>
+    <div class="stats-card" style="margin-top:16px;">
+      <h4>📋 Mis mensajes</h4>
+      <div id="misTicketsBody"><div class="nb-empty">Cargando…</div></div>
+    </div>
+    <div class="stats-card" style="margin-top:16px;">
+      <h4>⭐ Encuesta rápida de satisfacción</h4>
+      <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:10px;">Tu opinión nos ayuda a mejorar el servicio. Te la vamos a pedir cada tanto — también podés dejarla cuando quieras acá.</p>
+      <div class="star-row" id="starRow">
+        ${[1,2,3,4,5].map(n=>`<span class="star" data-val="${n}" onclick="setEncuestaPuntaje(${n})">★</span>`).join('')}
+      </div>
+      <input type="hidden" id="encuestaPuntaje" value="">
+      <textarea id="encuestaComentario" class="nb-textarea" style="min-height:70px; margin-top:10px;" placeholder="¿Algo que quieras contarnos? (opcional)"></textarea>
+      <button class="nb-btn ghost" style="margin-top:10px;" onclick="submitEncuesta()">Enviar encuesta</button>
+    </div>
+  `;
+  renderMisTickets();
+}
+function soporteActualizarPlaceholder(){
+  const tipo = document.getElementById('soporteTipo').value;
+  const label = document.getElementById('soporteDescLabel');
+  const desc = document.getElementById('soporteDesc');
+  if(tipo==='Sugerir una mejora'){
+    label.textContent = '¿Qué te gustaría que agreguemos o cambiemos, y por qué te serviría?';
+    desc.placeholder = 'Ej: que se pueda ordenar el listado por fecha, porque...';
+  }else if(tipo==='Consulta / contacto'){
+    label.textContent = 'Contanos tu consulta';
+    desc.placeholder = 'Escribí tu consulta acá...';
+  }else{
+    label.textContent = 'Contanos qué pasó, con el detalle que puedas';
+    desc.placeholder = 'Describí el problema, paso a paso si podés...';
+  }
+}
+async function submitTicket(){
+  const tipo = document.getElementById('soporteTipo').value;
+  const asunto = document.getElementById('soporteAsunto').value.trim();
+  const desc = document.getElementById('soporteDesc').value.trim();
+  if(!asunto || !desc){ nbToast('Completá el asunto y la descripción.'); return; }
+  const home = MUNICIPIOS[currentMunicipioKey];
+  let tickets = await fetchSharedJSON('tickets_soporte');
+  tickets.unshift({
+    id:'tk'+Date.now()+Math.random().toString(36).slice(2,6), ts:new Date().toISOString(),
+    tipo, asunto, descripcion:desc, usuario:nbDisplayName||'Anónimo',
+    municipio:home.nombre, provincia:home.provincia, pais:home.pais, estado:'Enviado'
+  });
+  if(tickets.length>2000) tickets = tickets.slice(0,2000);
+  try{ await window.storage.set('tickets_soporte', JSON.stringify(tickets), true); }
+  catch(e){ nbToast('No se pudo enviar. Probá de nuevo.'); return; }
+  nbToast('¡Gracias! Lo recibimos.');
+  document.getElementById('soporteAsunto').value=''; document.getElementById('soporteDesc').value='';
+  renderMisTickets();
+}
+async function renderMisTickets(){
+  const body = document.getElementById('misTicketsBody'); if(!body) return;
+  const tickets = await fetchSharedJSON('tickets_soporte');
+  const mios = tickets.filter(t=>t.usuario===nbDisplayName);
+  if(!mios.length){ body.innerHTML = `<div class="nb-empty">Todavía no enviaste ningún mensaje.</div>`; return; }
+  body.innerHTML = mios.map(t=>`
+    <div class="stats-locality-row">
+      <div class="stats-locality-head"><b>${nbEsc(t.asunto)}</b><span>${nbFecha(t.ts)} · ${nbEsc(t.tipo)}</span></div>
+      <div style="font-size:12px; color:var(--text-main); margin-bottom:5px;">${nbEsc(t.descripcion)}</div>
+      <span class="role-badge editor">${nbEsc(t.estado)}</span>
+    </div>
+  `).join('');
+}
+function setEncuestaPuntaje(n){
+  document.getElementById('encuestaPuntaje').value = n;
+  document.querySelectorAll('#starRow .star').forEach(s=> s.classList.toggle('sel', Number(s.dataset.val)<=n));
+}
+async function submitEncuesta(){
+  const puntaje = document.getElementById('encuestaPuntaje').value;
+  if(!puntaje){ nbToast('Elegí un puntaje de 1 a 5 estrellas.'); return; }
+  const comentario = document.getElementById('encuestaComentario').value.trim();
+  const home = MUNICIPIOS[currentMunicipioKey];
+  let encuestas = await fetchSharedJSON('encuestas_satisfaccion');
+  encuestas.unshift({
+    id:'en'+Date.now()+Math.random().toString(36).slice(2,6), ts:new Date().toISOString(),
+    puntaje:Number(puntaje), comentario, usuario:nbDisplayName||'Anónimo',
+    municipio:home.nombre, provincia:home.provincia, pais:home.pais
+  });
+  if(encuestas.length>3000) encuestas = encuestas.slice(0,3000);
+  try{ await window.storage.set('encuestas_satisfaccion', JSON.stringify(encuestas), true); }
+  catch(e){ nbToast('No se pudo enviar. Probá de nuevo.'); return; }
+  nbToast('¡Gracias por tu opinión!');
+  document.getElementById('encuestaComentario').value = '';
+}
+
+/* ---- vista interna (equipo): buzón de soporte + resumen de encuestas ---- */
+function renderSoporteAdmin(){
+  const root = document.getElementById('soporteAdminRoot');
+  root.innerHTML = `<div class="results-line">Cargando…</div>`;
+  Promise.all([fetchSharedJSON('tickets_soporte'), fetchSharedJSON('encuestas_satisfaccion')]).then(([tickets, encuestas])=>{
+    const promedio = encuestas.length ? (encuestas.reduce((a,e)=>a+Number(e.puntaje||0),0)/encuestas.length).toFixed(1) : '—';
+    const porTipo = {};
+    tickets.forEach(t=> porTipo[t.tipo]=(porTipo[t.tipo]||0)+1);
+    const porTipoRows = Object.entries(porTipo).sort((a,b)=>b[1]-a[1]);
+    const maxTipo = porTipoRows[0] ? porTipoRows[0][1] : 0;
+    root.innerHTML = `
+      <div class="stats-hero">
+        <div class="section-eyebrow" style="color:#f0dcb3;">Panel interno · Equipo consultora</div>
+        <h1 class="serif">Soporte y encuestas</h1>
+        <div class="sub">Todo lo que reportaron o sugirieron los usuarios, y cómo evalúan el servicio.</div>
+        <div class="stats-row">
+          <div class="stat-item"><div class="num">${tickets.length}</div><div class="lbl">Mensajes recibidos</div></div>
+          <div class="stat-item"><div class="num">${encuestas.length}</div><div class="lbl">Encuestas respondidas</div></div>
+          <div class="stat-item"><div class="num">${promedio}</div><div class="lbl">Satisfacción promedio (de 5)</div></div>
+        </div>
+      </div>
+      <div class="stats-card" style="margin-bottom:16px;">
+        <h4>📊 Mensajes por tipo</h4>
+        ${porTipoRows.length ? porTipoRows.map(([l,c])=>`<div class="stat-bar-row"><div class="stat-bar-label">${nbEsc(l)}</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.round(c/maxTipo*100)}%"></div></div><div class="stat-bar-count">${c}</div></div>`).join('') : '<div class="nb-empty">Sin datos todavía.</div>'}
+      </div>
+      <div class="stats-card" style="margin-bottom:16px;">
+        <h4>📬 Mensajes de los usuarios</h4>
+        ${tickets.length ? tickets.map(t=>`
+          <div class="stats-locality-row">
+            <div class="stats-locality-head"><b>${nbEsc(t.tipo)} — ${nbEsc(t.asunto)}</b><span>${nbFecha(t.ts)} · ${nbEsc(t.usuario)} · ${nbEsc(t.municipio)}</span></div>
+            <div style="font-size:12px;">${nbEsc(t.descripcion)}</div>
+          </div>`).join('') : '<div class="nb-empty">Todavía no llegó ningún mensaje.</div>'}
+      </div>
+      <div class="stats-card">
+        <h4>⭐ Encuestas de satisfacción</h4>
+        ${encuestas.length ? encuestas.map(e=>`
+          <div class="stats-locality-row">
+            <div class="stats-locality-head"><b>${'★'.repeat(Number(e.puntaje||0))}${'☆'.repeat(5-Number(e.puntaje||0))}</b><span>${nbFecha(e.ts)} · ${nbEsc(e.usuario||'Anónimo')} · ${nbEsc(e.municipio||'')}</span></div>
+            ${e.comentario?`<div style="font-size:12px;">${nbEsc(e.comentario)}</div>`:''}
+          </div>`).join('') : '<div class="nb-empty">Todavía no hay respuestas.</div>'}
+      </div>
+    `;
+  });
 }
 
 function toggleMore(){ document.getElementById('moreMenu').classList.toggle('open'); }
@@ -1601,6 +2241,7 @@ function slugify(s){
   return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 }
 function nbHomeProvincia(){ return (MUNICIPIOS[currentMunicipioKey] && MUNICIPIOS[currentMunicipioKey].provincia) || ''; }
+function nbHomePais(){ return (MUNICIPIOS[currentMunicipioKey] && MUNICIPIOS[currentMunicipioKey].pais) || ''; }
 function nbPublicBucketKey(){ return 'proyectos_publicos_' + slugify(nbHomeProvincia()); }
 function nbAllProjects(){ return [...NB.projects, ...nbPublicProjects]; }
 function nbIsAuthorized(p){
@@ -1631,7 +2272,7 @@ async function nbRegisterInDirectorio(nombre){
     const res = await window.storage.get('directorio_usuarios', true);
     let dir = (res && res.value) ? JSON.parse(res.value) : [];
     if(!dir.some(u=>u.nombre.toLowerCase()===nombre.toLowerCase())){
-      dir.push({ nombre, provincia: nbHomeProvincia() });
+      dir.push({ nombre, provincia: nbHomeProvincia(), pais: nbHomePais(), municipio: MUNICIPIOS[currentMunicipioKey].nombre });
       await window.storage.set('directorio_usuarios', JSON.stringify(dir), true);
     }
     nbDirectorio = dir;
@@ -1891,6 +2532,7 @@ function nbProjectsHTML(){
       <div class="nb-it-body">
         <div class="nb-it-title">${nbEsc(p.nombre)} ${p.visibility==='public'?'<span class="nb-badge-pub">Público</span>':''} ${roleBadge}</div>
         <div class="nb-it-meta">
+          <span>${rubroLabel(p.categoria)}</span>
           <span>${p.notes.length} nota${p.notes.length===1?'':'s'}</span>
           <span>${p.notes.reduce((a,n)=>a+(n.links||[]).length,0)} norma(s) vinculada(s)</span>
           ${p.visibility==='public'?`<span>👤 ${nbEsc(p.ownerName||'—')}</span>`:''}
@@ -2241,6 +2883,20 @@ function nbReasonConfirm(){
 }
 
 /* ---- CRUD ---- */
+const RUBROS = [
+  {id:'alumbrado',        label:'💡 Alumbrado público',          info:'Iluminación de calles, plazas y espacios públicos.'},
+  {id:'veredas',          label:'🚶 Veredas y accesibilidad',     info:'Estado, construcción y accesibilidad de veredas y rampas.'},
+  {id:'creditos_carbono', label:'🌍 Créditos de carbono',         info:'Proyectos de compensación y mercado de carbono.'},
+  {id:'residuos',         label:'🗑️ Residuos y limpieza',         info:'Recolección, tratamiento y disposición de residuos urbanos.'},
+  {id:'espacios_verdes',  label:'🌳 Espacios verdes',             info:'Plazas, parques, arbolado urbano y forestación.'},
+  {id:'transito',         label:'🚦 Tránsito y movilidad',        info:'Ordenamiento vehicular, transporte público y movilidad urbana.'},
+  {id:'vivienda',         label:'🏠 Vivienda',                    info:'Planes habitacionales, regularización dominial y acceso a la vivienda.'},
+  {id:'presupuesto',      label:'💰 Presupuesto y finanzas',      info:'Cálculo de recursos, gastos y finanzas municipales.'},
+  {id:'zonificacion',     label:'🗺️ Zonificación y uso del suelo',info:'Planeamiento urbano, delimitación de zonas y usos permitidos.'},
+  {id:'agua_gas',         label:'🚰 Agua, gas y redes',           info:'Infraestructura de redes de agua potable, cloacas y gas natural.'},
+  {id:'otro',             label:'📌 Otro / General',              info:'Cualquier otro tema que no encaje en las categorías anteriores.'}
+];
+function rubroLabel(id){ const r = RUBROS.find(x=>x.id===id); return r ? r.label : 'Sin categorizar'; }
 function nbNewProject(){
   const openDialog = ()=>{
     const m = document.getElementById('nbModal'); if(!m) return;
@@ -2248,7 +2904,24 @@ function nbNewProject(){
         <h4>Nuevo proyecto</h4>
         <p>Ej.: "Expediente pavimento B° 173" o "Dictamen zonificación".</p>
         <input id="nbNewProjName" placeholder="Nombre del proyecto" onkeydown="if(event.key==='Enter')nbCreateProjectConfirm()">
-        <details class="nb-group" style="margin-top:12px;">
+
+        <details class="nb-group" open style="margin-top:12px;">
+          <summary>Rubro / categoría <span class="nb-group-count" id="nbRubroSummary">📌 Otro / General</span></summary>
+          <div class="nb-group-body" style="padding:10px;">
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input id="nbRubroSearch" placeholder="Buscar rubro…" oninput="nbRenderRubroOptions(this.value)"
+                     style="flex:1; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:12.5px; font-family:inherit; outline:none;">
+              <button type="button" class="nb-info-btn" onclick="nbToggleRubroInfo()" title="Qué incluye cada categoría">ⓘ</button>
+            </div>
+            <div id="nbRubroInfoBox" class="nb-rubro-info" style="display:none;">
+              ${RUBROS.map(r=>`<div><b>${r.label}</b>: ${r.info}</div>`).join('')}
+            </div>
+            <div id="nbRubroOptions" class="nb-rubro-options"></div>
+            <input type="hidden" id="nbRubroSelect" value="otro">
+          </div>
+        </details>
+
+        <details class="nb-group" style="margin-top:10px;">
           <summary>Visibilidad <span class="nb-group-count" id="nbVisSummary">🔒 Privado</span></summary>
           <div class="nb-group-body" style="padding:10px;">
             <select id="nbVisSelect" class="nb-reason-select" onchange="nbVisChanged(this)">
@@ -2257,15 +2930,36 @@ function nbNewProject(){
             </select>
           </div>
         </details>
+
         <div class="nb-modal-actions">
           <button class="nb-btn ghost tiny" onclick="nbModalClose()">Cancelar</button>
           <button class="nb-btn tiny" onclick="nbCreateProjectConfirm()">Crear</button>
         </div>
       </div>`;
     m.classList.add('open');
+    nbRenderRubroOptions('');
     setTimeout(()=>{ const i=document.getElementById('nbNewProjName'); if(i) i.focus(); }, 50);
   };
   openDialog();
+}
+function nbToggleRubroInfo(){
+  const box = document.getElementById('nbRubroInfoBox');
+  if(box) box.style.display = box.style.display==='none' ? 'block' : 'none';
+}
+function nbRenderRubroOptions(q){
+  const cont = document.getElementById('nbRubroOptions'); if(!cont) return;
+  const term = (q||'').trim().toLowerCase();
+  const list = term ? RUBROS.filter(r=>r.label.toLowerCase().includes(term)) : RUBROS;
+  const current = document.getElementById('nbRubroSelect').value;
+  cont.innerHTML = list.map(r=>`
+    <div class="nb-rubro-opt ${r.id===current?'sel':''}" onclick="nbPickRubro('${r.id}')" title="${nbEscAttr(r.info)}">${r.label}</div>
+  `).join('') || `<div class="nb-empty" style="padding:8px;">Sin coincidencias.</div>`;
+}
+function nbPickRubro(id){
+  document.getElementById('nbRubroSelect').value = id;
+  const summary = document.getElementById('nbRubroSummary');
+  if(summary) summary.textContent = rubroLabel(id);
+  nbRenderRubroOptions(document.getElementById('nbRubroSearch').value);
 }
 function nbVisChanged(el){
   const summary = document.getElementById('nbVisSummary');
@@ -2274,27 +2968,47 @@ function nbVisChanged(el){
 async function nbCreateProjectConfirm(){
   const nameEl = document.getElementById('nbNewProjName');
   const visEl = document.getElementById('nbVisSelect');
+  const rubroEl = document.getElementById('nbRubroSelect');
   const nombreFinal = (nameEl && nameEl.value.trim()) || 'Proyecto sin título';
   const visibility = visEl ? visEl.value : 'private';
+  const categoria = rubroEl ? rubroEl.value : 'otro';
   nbModalClose();
   if(visibility==='public' && !nbDisplayName){
     nbToast('No se pudo identificar tu usuario. Volvé a iniciar sesión.');
     return;
   }
   const p = {
-    id:nbUid(), nombre:nombreFinal, createdAt:nbNow(), notes:[], visibility,
-    provincia: nbHomeProvincia(), ownerName: nbDisplayName || null, historial:[], colaboradores:[]
+    id:nbUid(), nombre:nombreFinal, createdAt:nbNow(), notes:[], visibility, categoria,
+    provincia: nbHomeProvincia(), municipio: MUNICIPIOS[currentMunicipioKey].nombre, ownerName: nbDisplayName || null, historial:[], colaboradores:[]
   };
   if(visibility==='public'){
     nbPublicProjects.unshift(p);
-    nbLogEvent('Creó', 'Proyecto', nombreFinal + ' (Público)', null, p);
+    nbLogEvent('Creó', 'Proyecto', nombreFinal + ' (Público) — ' + rubroLabel(categoria), null, p);
   }else{
     NB.projects.unshift(p);
-    nbLogEvent('Creó', 'Proyecto', nombreFinal + ' (Privado)');
+    nbLogEvent('Creó', 'Proyecto', nombreFinal + ' (Privado) — ' + rubroLabel(categoria));
   }
   NB.activeProjectId = p.id; NB.activeNoteId = null; nbView = 'notes';
   nbTouch(visibility==='public' ? 'Proyecto público creado' : 'Proyecto creado');
+  logProjectEvent(p); // registro permanente para estadísticas: sobrevive aunque el proyecto se borre después
   nbRender();
+}
+async function logProjectEvent(p){
+  try{
+    const home = MUNICIPIOS[currentMunicipioKey];
+    let events = [];
+    try{
+      const res = await window.storage.get('eventos_proyectos', true);
+      if(res && res.value) events = JSON.parse(res.value);
+    }catch(e){ events = []; }
+    events.unshift({
+      id:'evp'+Date.now()+Math.random().toString(36).slice(2,6), ts:new Date().toISOString(),
+      nombre:p.nombre, categoria:p.categoria, categoriaLabel:rubroLabel(p.categoria), visibility:p.visibility,
+      provincia:home.provincia, pais:home.pais, municipio:home.nombre, ownerName:p.ownerName||nbDisplayName||'Anónimo'
+    });
+    if(events.length>3000) events = events.slice(0,3000);
+    await window.storage.set('eventos_proyectos', JSON.stringify(events), true);
+  }catch(e){ /* best-effort, no bloquea la creación del proyecto */ }
 }
 function nbRenameProject(){
   const p = nbActiveProject(); if(!p) return;
@@ -2687,11 +3401,12 @@ function nbImportBackup(ev){
 
 /* ============ LOGIN ============ */
 const DEMO_ACCOUNTS = {
-  'admin':  { password:'1234', plan:'mundo',  nombre:'Ana Rodríguez',    label:'Acceso completo al digesto' },
-  'admin1': { password:'1234', plan:'propio', nombre:'Bruno Fernández', label:'Solo tu municipio' }
+  'admin':  { password:'1234', plan:'mundo',  nombre:'Ana Rodríguez',    municipioKey:'centenario',  partido:'Bloque A', label:'Acceso completo al digesto' },
+  'admin1': { password:'1234', plan:'propio', nombre:'Bruno Fernández', municipioKey:'bahiaBlanca', partido:'Bloque B', label:'Solo tu municipio' }
 };
 /* Nombres de prueba precargados en el directorio, para poder probar el buscador de "Compartir" sin pasos extra. */
 const DIRECTORIO_DEMO = ['María González', 'Juan Pérez'];
+const DIRECTORIO_DEMO_PARTIDO = { 'María González':'Bloque A', 'Juan Pérez':'Bloque B' };
 async function nbSeedDirectorio(nombrePropio){
   try{
     const res = await window.storage.get('directorio_usuarios', true);
@@ -2700,13 +3415,29 @@ async function nbSeedDirectorio(nombrePropio){
     let changed = false;
     nombres.forEach(nombre=>{
       if(!dir.some(u=>u.nombre.toLowerCase()===nombre.toLowerCase())){
-        dir.push({ nombre, provincia: nbHomeProvincia() });
+        dir.push({ nombre, provincia: nbHomeProvincia(), pais: nbHomePais(), municipio: MUNICIPIOS[currentMunicipioKey].nombre, partido: DIRECTORIO_DEMO_PARTIDO[nombre]||'' });
         changed = true;
       }
     });
     if(changed) await window.storage.set('directorio_usuarios', JSON.stringify(dir), true);
     nbDirectorio = dir;
   }catch(e){ /* el directorio es best-effort */ }
+}
+async function logLoginEvent(usuarioLogin){
+  try{
+    const home = MUNICIPIOS[currentMunicipioKey];
+    let events = [];
+    try{
+      const res = await window.storage.get('eventos_login', true);
+      if(res && res.value) events = JSON.parse(res.value);
+    }catch(e){ events = []; }
+    events.unshift({
+      id:'evl'+Date.now()+Math.random().toString(36).slice(2,6), ts:new Date().toISOString(),
+      usuario:nbDisplayName, usuarioLogin, provincia:home.provincia, pais:home.pais, municipio:home.nombre
+    });
+    if(events.length>5000) events = events.slice(0,5000);
+    await window.storage.set('eventos_login', JSON.stringify(events), true);
+  }catch(e){ /* best-effort, no bloquea el ingreso */ }
 }
 async function attemptLogin(){
   const userEl = document.getElementById('loginUser');
@@ -2722,11 +3453,26 @@ async function attemptLogin(){
   }
   errEl.textContent = '';
   currentUserPlan = account.plan;
+  if(account.municipioKey && MUNICIPIOS[account.municipioKey]) currentMunicipioKey = account.municipioKey;
   nbDisplayName = account.nombre; // viene del login: ya no se le pregunta el nombre al usuario
   document.getElementById('loginScreen').style.display = 'none';
   try{ await window.storage.set('perfil_nombre', nbDisplayName, false); }catch(e){ /* no bloqueante */ }
   await nbSeedDirectorio(nbDisplayName);
+  await logLoginEvent(user);
   initApp();
+  checkEncuestaPeriodica();
+}
+async function checkEncuestaPeriodica(){
+  try{
+    const res = await window.storage.get('logins_desde_encuesta', false);
+    let count = (res && res.value) ? parseInt(res.value, 10) : 0;
+    count += 1;
+    if(count >= 5){
+      count = 0;
+      setTimeout(()=> nbToast('💬 ¿Nos regalás 30 segundos? Contanos qué te parece el servicio en "Ayuda y soporte" (menú ⋯).'), 1500);
+    }
+    await window.storage.set('logins_desde_encuesta', String(count), false);
+  }catch(e){ /* no bloqueante */ }
 }
 function initApp(){
   renderDigesto();
