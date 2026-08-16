@@ -558,6 +558,30 @@
   }
   .nb-item .nb-it-body{flex:1; min-width:0;}
   .nb-item .nb-it-title{font-size:13.5px; font-weight:600; color:var(--text-main); margin-bottom:2px; word-break:break-word;}
+
+  /* ---------- SISTEMA DE ÍCONOS SVG ---------- */
+  .ic{ width:1em; height:1em; display:inline-block; vertical-align:-0.15em; flex-shrink:0; }
+  .rubro-ic{ width:13px; height:13px; margin-right:4px; vertical-align:-2px; }
+  .rubro-ink{ color:var(--ink-soft); }
+  .rubro-bronze{ color:var(--bronze); }
+  .rubro-slate{ color:var(--slate-blue); }
+  .rubro-green{ color:var(--seal-green); }
+  .rubro-danger{ color:var(--danger); }
+
+  /* ---------- MENÚ DESPLEGABLE DE PERFIL ---------- */
+  .perfil-menu-item{
+    display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:9px; cursor:pointer;
+    font-size:13.5px; font-weight:600; color:var(--text-main); transition:.12s;
+  }
+  .perfil-menu-item:hover{ background:var(--paper); }
+  .perfil-menu-item + .perfil-menu-item{ border-top:1px solid var(--line); }
+  .perfil-menu-item .ic:first-child{ width:18px; height:18px; color:var(--ink-soft); flex-shrink:0; }
+  .perfil-menu-item span{ flex:1; }
+  .perfil-menu-chevron{ width:15px; height:15px; color:var(--text-muted); transform:rotate(-90deg); }
+  .perfil-menu-item.danger .ic:first-child{ color:var(--danger); }
+  .perfil-menu-item.danger span{ color:var(--danger); }
+
+
   .nb-item .nb-it-meta{font-size:11px; color:var(--text-muted); display:flex; gap:8px; flex-wrap:wrap;}
   .nb-item .nb-it-prev{font-size:11.5px; color:var(--text-muted); margin-top:4px; line-height:1.45;
     display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
@@ -777,7 +801,7 @@
 <div class="plan-lock-overlay" id="planLockOverlay">
   <div class="plan-lock-card">
     <div class="plan-lock-head">
-      <div class="plan-lock-icon">🔒</div>
+      <div class="plan-lock-icon" id="planLockIconEl">🔒</div>
       <h3>Esta sección está bloqueada</h3>
       <p id="planLockIntro">Estás en <b>Plan Municipio Propio</b>.</p>
     </div>
@@ -930,14 +954,6 @@
   </section>
 
   <!-- ================= NOSOTROS ================= -->
-  <section class="page" id="page-nosotros">
-    <div class="about-copy">
-      <h2 class="serif" data-i18n="nosotros_title">Nosotros</h2>
-      <p data-i18n="nosotros_p1">Modernización Urbana reúne y ordena las normas de cada municipio a partir de trabajo propio de investigación, y las pone a disposición de concejos deliberantes y funcionarios para analizar normativa y comparar la evolución de cada comunidad.</p>
-      <p data-i18n="nosotros_p2">El acceso a municipios y jurisdicciones depende del plan contratado: Municipio propio, País o Mundo.</p>
-    </div>
-  </section>
-
   <!-- ================= ESTADÍSTICAS (interno, solo equipo) ================= -->
   <section class="page" id="page-estadisticas">
     <div id="statsRoot"></div>
@@ -1017,13 +1033,13 @@
 </div>
 
 <div class="bottom-nav" id="bottomNav">
-  <button data-page="digesto" class="active"><span class="bic">🏛</span><span data-i18n="nav_digesto_short">Digesto</span></button>
-  <button data-page="pais"><span class="bic">🇦🇷</span><span data-i18n="nav_pais">País</span></button>
-  <button data-page="mundo"><span class="bic">🌐</span><span data-i18n="nav_mundo">Mundo</span></button>
-  <button data-page="chatgpt"><span class="bic">◈</span><span data-i18n="nav_chatgpt">ChatGPT</span></button>
-  <button data-page="educacion"><span class="bic">✎</span><span data-i18n="nav_educacion_short">Educ.</span></button>
-  <button data-page="anteproyectos"><span class="bic">📑</span><span>Modelos</span></button>
-  <button data-page="consultora" class="consultora-only" style="display:none;"><span class="bic">🏢</span><span>Consultora</span></button>
+  <button data-page="digesto" class="active"><span class="bic" id="bicDigesto">🏛</span><span data-i18n="nav_digesto_short">Digesto</span></button>
+  <button data-page="pais"><span class="bic" id="bicPais">🇦🇷</span><span data-i18n="nav_pais">País</span></button>
+  <button data-page="mundo"><span class="bic" id="bicMundo">🌐</span><span data-i18n="nav_mundo">Mundo</span></button>
+  <button data-page="chatgpt"><span class="bic" id="bicChatgpt">◈</span><span data-i18n="nav_chatgpt">ChatGPT</span></button>
+  <button data-page="educacion"><span class="bic" id="bicEducacion">✎</span><span data-i18n="nav_educacion_short">Educ.</span></button>
+  <button data-page="anteproyectos"><span class="bic" id="bicAnteproyectos">📑</span><span>Modelos</span></button>
+  <button data-page="consultora" class="consultora-only" style="display:none;"><span class="bic" id="bicConsultora">🏢</span><span>Consultora</span></button>
 </div>
 
 <!-- FILTER MODAL -->
@@ -1223,6 +1239,7 @@ const PLAN_LOCK_FOMO = {
 };
 function openPlanLockPopup(scope){
   const ov = document.getElementById('planLockOverlay'); if(!ov) return;
+  const iconEl = document.getElementById('planLockIconEl'); if(iconEl) iconEl.innerHTML = ic('lock');
   document.getElementById('planLockIntro').innerHTML = `Estás en <b>${nbEsc(planLabel(currentUserPlan))}</b>. Para acceder a esta sección necesitás mejorar tu plan.`;
   const list = document.getElementById('planLockList');
   list.innerHTML = (PLAN_LOCK_FOMO[scope]||[]).map(t=>`<li>${nbEsc(t)}</li>`).join('');
@@ -1239,7 +1256,8 @@ async function renderPerfilPage(){
   await nbEnsureLoaded();
   const root = document.getElementById('perfilRoot');
   const m = MUNICIPIOS[currentMunicipioKey];
-  const historial = (NB.historial||[]).slice(0,30);
+  const historialFull = NB.historial||[];
+  const historial = historialFull.slice(0,2);
   root.innerHTML = `
     <div class="stats-hero">
       <div class="section-eyebrow" style="color:#f0dcb3;">Mi cuenta</div>
@@ -1250,7 +1268,7 @@ async function renderPerfilPage(){
       <div class="sub">${misDigestoPendiente ? nbEsc(municipioPendienteNombre)+' (en proceso de carga)' : nbEsc(m.nombre)+', '+nbEsc(m.provincia)}${nbCargo?' · '+nbEsc(nbCargo):''}</div>
     </div>
     <div class="stats-card" style="margin-bottom:16px;">
-      <h4>👤 Datos</h4>
+      <h4>${ic('user')} Datos</h4>
       <div class="stats-mini-row" style="justify-content:flex-start;">
         <div style="min-width:150px; text-align:left;"><b style="display:block; font-family:'Lora'; font-size:15px; color:var(--ink);">${nbEsc(nbDisplayName||'—')}</b><span>Nombre</span></div>
         <div style="min-width:150px; text-align:left;"><b style="display:block; font-family:'Lora'; font-size:15px; color:var(--ink);">${nbEsc(planLabel(currentUserPlan))}</b><span>Plan</span></div>
@@ -1263,27 +1281,31 @@ async function renderPerfilPage(){
       </select>
     </div>
     <div class="stats-card" style="margin-bottom:16px;">
-      <h4>🕘 Mi historial de actividad</h4>
-      ${historial.length ? historial.map(h=>`
-        <div class="nb-hist-item">
-          <div class="nb-hist-top">
-            <span class="nb-hist-accion ${h.accion==='Eliminó'?'del':''}">${nbEsc(h.accion)} · ${nbEsc(h.entidad)}</span>
-            <span class="nb-hist-ts">${nbFecha(h.ts)} · ${nbHora(h.ts)}</span>
-          </div>
-          <div class="nb-hist-detail">${nbEsc(h.detalle||'')}</div>
-          ${h.motivo?`<div class="nb-hist-motivo">Motivo: ${nbEsc(h.motivo)}</div>`:''}
-        </div>`).join('') : '<div class="nb-empty">Todavía no hay actividad registrada en tu anotador.</div>'}
-    </div>
-    <div class="stats-card">
-      <h4>⚙️ Más opciones</h4>
-      <div class="btn-row" style="flex-wrap:wrap;">
-        <button class="btn-secondary" onclick="showPage('soporte'); renderSoportePage();">🛟 Ayuda y soporte</button>
-        <button class="btn-secondary" onclick="showPage('nosotros')">ℹ️ Nosotros</button>
-        <button class="btn-secondary" onclick="startTour()">🧭 Ver recorrido guiado</button>
-        <button class="btn-secondary" onclick="logout()">🚪 Cerrar sesión</button>
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <h4 style="margin-bottom:0;">${ic('clock')} Mi historial de actividad</h4>
+        ${historialFull.length>2?`<button class="nb-btn ghost tiny" onclick="perfilVerHistorialCompleto()">Ver historial completo</button>`:''}
+      </div>
+      <div style="margin-top:10px;">
+        ${historial.length ? historial.map(h=>`
+          <div class="nb-hist-item">
+            <div class="nb-hist-top">
+              <span class="nb-hist-accion ${h.accion==='Eliminó'?'del':''}">${nbEsc(h.accion)} · ${nbEsc(h.entidad)}</span>
+              <span class="nb-hist-ts">${nbFecha(h.ts)} · ${nbHora(h.ts)}</span>
+            </div>
+            <div class="nb-hist-detail">${nbEsc(h.detalle||'')}</div>
+            ${h.motivo?`<div class="nb-hist-motivo">Motivo: ${nbEsc(h.motivo)}</div>`:''}
+          </div>`).join('') : '<div class="nb-empty">Todavía no hay actividad registrada en tu anotador.</div>'}
       </div>
     </div>
+    <div class="stats-card" style="padding:8px;">
+      <div class="perfil-menu-item" onclick="showPage('soporte'); renderSoportePage();">${ic('lifeBuoy')}<span>Ayuda y soporte</span>${ic('chevronDown','perfil-menu-chevron')}</div>
+      <div class="perfil-menu-item" onclick="startTour()">${ic('compass')}<span>Ver recorrido guiado</span>${ic('chevronDown','perfil-menu-chevron')}</div>
+      <div class="perfil-menu-item danger" onclick="logout()">${ic('logOut')}<span>Cerrar sesión</span>${ic('chevronDown','perfil-menu-chevron')}</div>
+    </div>
   `;
+}
+function perfilVerHistorialCompleto(){
+  toggleNotebook().then(()=>{ nbOpenHistorial(); nbRender(); });
 }
 function logout(){ location.reload(); }
 async function perfilCambiarCargo(valor){
@@ -1297,7 +1319,7 @@ async function perfilCambiarCargo(valor){
 function renderConsultoraPage(){
   const root = document.getElementById('consultoraRoot');
   if(currentUserRol !== 'consultora'){
-    root.innerHTML = `<div class="nb-empty" style="padding:40px 20px;"><span class="glyph">🔒</span>Esta sección es exclusiva para el equipo de la consultora.</div>`;
+    root.innerHTML = `<div class="nb-empty" style="padding:40px 20px;"><span class="glyph">${ic('lock')}</span>Esta sección es exclusiva para el equipo de la consultora.</div>`;
     return;
   }
   root.innerHTML = `
@@ -1462,7 +1484,7 @@ function apRenderList(){
     </div>
     <div class="search-row">
       <div class="search-box">
-        <span class="ic">🔍</span>
+        <span class="ic search-ic">${ic("search")}</span>
         <input type="text" id="apSearch" placeholder="Buscar por título, rubro o municipio de origen..." value="${nbEscAttr(apFilter.q)}" oninput="apOnSearch(this.value)">
       </div>
       <select id="apFiltroTipo" class="nb-reason-select" style="max-width:160px;" onchange="apOnFilter('tipo',this.value)">
@@ -1498,12 +1520,12 @@ function apRenderList(){
           <div class="norma-body ${ok?'':'blur-me'}">
             <div class="norma-title"><b>${nbEsc(a.tipo)}</b> — ${nbEsc(a.titulo)}</div>
             <div class="norma-meta">
-              <span>${nbEsc(rubroLabel(a.rubro))}</span>
+              <span>${rubroIconHTML(a.rubro)}${nbEsc(rubroLabel(a.rubro))}</span>
               ${a.municipioOrigen?`<span>📍 ${nbEsc(a.municipioOrigen)}</span>`:''}
               <span>${nbFecha(a.fecha||a.createdAt)}</span>
             </div>
           </div>
-          ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}
+          ${ok?'':'<span class="lock-badge">'+ic('lock')+' Fuera de tu plan</span>'}
         </div>`;
       }).join('') : `<div class="empty-state"><div class="glyph">📑</div>Todavía no hay modelos cargados con esos filtros.</div>`}
     </div>
@@ -2537,7 +2559,7 @@ function renderDigesto(){
     </div>
     <div class="search-row">
       <div class="search-box">
-        <span class="ic">🔍</span>
+        <span class="ic search-ic">${ic("search")}</span>
         <input type="text" id="searchInput-digesto" placeholder="${t('search_digesto')}" value="${st.search}">
       </div>
       <button class="btn-filter" onclick="openFilter('digesto')">⚙ ${t('filtrar')} ${filterCount(st)>0?`<span class="filter-count">${filterCount(st)}</span>`:''}</button>
@@ -2584,7 +2606,7 @@ function renderScopePage(scope){
       <div class="locked-wrap">
         <div class="locked-blur">${normaListHTML(all.slice(0,8), scope)}</div>
         <div class="locked-overlay">
-          <div class="locked-icon">🔒</div>
+          <div class="locked-icon">${ic('lock')}</div>
           <div class="locked-title">Bloqueadas</div>
           <div class="locked-msg">Estás en <b>${nbEsc(planLabel(currentUserPlan))}</b>.<br>Para acceder, mejorá tu Plan a <b>${requiredPlan}</b>${scope==='pais'?' o <b>Plan Mundo</b>':''}.</div>
         </div>
@@ -2596,7 +2618,7 @@ function renderScopePage(scope){
   root.innerHTML = statsHeroHtml + `
     <div class="search-row">
       <div class="search-box">
-        <span class="ic">🔍</span>
+        <span class="ic search-ic">${ic("search")}</span>
         <input type="text" id="searchInput-${scope}" placeholder="${t('search_scope')}" value="${st.search}">
       </div>
       <button class="btn-filter" onclick="openFilter('${scope}')">⚙ ${t('filtrar')} ${filterCount(st)>0?`<span class="filter-count">${filterCount(st)}</span>`:''}</button>
@@ -2975,7 +2997,7 @@ function submitAIQuery(){
         <div class="rtitle">${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio} — ${r.n.tema.length>90? r.n.tema.slice(0,90)+'…':r.n.tema}</div>
         <div class="rmeta">📍 ${MUNICIPIOS[r.muniKey].nombre}, ${MUNICIPIOS[r.muniKey].provincia}, ${MUNICIPIOS[r.muniKey].pais} · ${r.n.rama}</div>
       </div>
-      ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}
+      ${ok?'':'<span class="lock-badge">'+ic('lock')+' Fuera de tu plan</span>'}
     </div>`;
   }).join('');
   body.appendChild(wrap);
@@ -3392,15 +3414,15 @@ function nbProjectsHTML(){
     const puedeEliminar = role==='owner' || p.visibility==='private';
     return `
     <div class="nb-item" onclick="nbOpenProject('${p.id}')">
-      <div class="nb-ic">${p.visibility==='public'?'🌐':'🔒'}</div>
+      <div class="nb-ic">${ic(p.visibility==='public'?'globe':'lock')}</div>
       <div class="nb-it-body">
         <div class="nb-it-title">${nbEsc(p.nombre)} ${p.visibility==='public'?'<span class="nb-badge-pub">Público</span>':''} ${roleBadge}</div>
         <div class="nb-it-meta">
-          <span>${rubroLabel(p.categoria)}</span>
+          <span>${rubroIconHTML(p.categoria)}${rubroLabel(p.categoria)}</span>
           <span>${p.notes.length} nota${p.notes.length===1?'':'s'}</span>
           <span>${p.notes.reduce((a,n)=>a+(n.links||[]).length,0)} norma(s) vinculada(s)</span>
-          ${p.visibility==='public'?`<span>👤 ${nbEsc(p.ownerName||'—')}${p.ownerCargo?' · '+nbEsc(p.ownerCargo):''}</span>`:''}
-          ${(p.visibility==='public' && role==='owner')?`<span>👥 ${(p.colaboradores||[]).length} autorizado(s)</span>`:''}
+          ${p.visibility==='public'?`<span>${ic('user')} ${nbEsc(p.ownerName||'—')}${p.ownerCargo?' · '+nbEsc(p.ownerCargo):''}</span>`:''}
+          ${(p.visibility==='public' && role==='owner')?`<span>${ic('users')} ${(p.colaboradores||[]).length} autorizado(s)</span>`:''}
         </div>
       </div>
       ${puedeEliminar?`<button class="nb-del" onclick="event.stopPropagation();nbDeleteProject('${p.id}')" title="Eliminar proyecto">✕</button>`:''}
@@ -3641,7 +3663,7 @@ function nbLinksHTML(n, readOnly){
         <div class="lk-t">${nbEsc(l.label)}</div>
         <div class="lk-m">${nbEsc(l.meta||'')}</div>
       </div>
-      ${ok?'':'<span class="lock-badge">🔒</span>'}
+      ${ok?'':'<span class="lock-badge">'+ic('lock')+'</span>'}
       ${readOnly?'':`<button class="nb-del" onclick="event.stopPropagation();nbRemoveLink('${l.id}')" title="Quitar vínculo">✕</button>`}
     </div>`;
   }).join('');
@@ -3750,20 +3772,80 @@ function nbReasonConfirm(){
 }
 
 /* ---- CRUD ---- */
+/* ============ SISTEMA DE ÍCONOS (SVG propio, sin depender de un servicio externo) ============ */
+const ICONS = {
+  lock: '<rect x="5" y="10" width="14" height="9" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+  lockOpen: '<rect x="5" y="10" width="14" height="9" rx="2"/><path d="M8 10V7a4 4 0 0 1 7-2.5"/>',
+  folder: '<path d="M3 6.5a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  search: '<circle cx="10" cy="10" r="6.5"/><line x1="21" y1="21" x2="14.8" y2="14.8"/>',
+  filter: '<path d="M4 5h16l-6 8v6l-4-2v-4z"/>',
+  plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+  trash: '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/>',
+  edit: '<path d="M4 20l4-1 11-11-3-3L5 16z"/>',
+  chevronDown: '<polyline points="6 9 12 15 18 9"/>',
+  logOut: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><polygon points="14.5 9.5 12 12 9.5 14.5 12 12 14.5 9.5"/>',
+  lifeBuoy: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><line x1="4.9" y1="4.9" x2="8.8" y2="8.8"/><line x1="15.2" y1="15.2" x2="19.1" y2="19.1"/><line x1="19.1" y1="4.9" x2="15.2" y2="8.8"/><line x1="8.8" y1="15.2" x2="4.9" y2="19.1"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>',
+  check: '<polyline points="5 13 10 18 19 7"/>',
+  users: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15 20c.2-2.5 1.8-4.6 4-5.4"/>',
+  user: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/>',
+  share: '<circle cx="6" cy="12" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="18" cy="18" r="2.3"/><line x1="8" y1="10.8" x2="16" y2="7.2"/><line x1="8" y1="13.2" x2="16" y2="16.8"/>',
+  link: '<path d="M9 15l6-6"/><path d="M8 12l-2.5 2.5a3 3 0 0 0 4.2 4.2L12 16"/><path d="M16 12l2.5-2.5a3 3 0 0 0-4.2-4.2L12 8"/>',
+  pin: '<path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/>',
+  flag: '<path d="M6 3v18"/><path d="M6 4h12l-3 4 3 4H6"/>',
+  landmark: '<polygon points="12 3 21 9 3 9"/><line x1="5" y1="9" x2="5" y2="19"/><line x1="9" y1="9" x2="9" y2="19"/><line x1="15" y1="9" x2="15" y2="19"/><line x1="19" y1="9" x2="19" y2="19"/><line x1="3" y1="21" x2="21" y2="21"/>',
+  cpu: '<rect x="6" y="6" width="12" height="12" rx="2"/><circle cx="9.5" cy="10.5" r="1"/><circle cx="14.5" cy="10.5" r="1"/><path d="M9 15h6"/><line x1="12" y1="3" x2="12" y2="6"/>',
+  cap: '<path d="M12 4 2 9l10 5 10-5-10-5z"/><path d="M6 11v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5"/>',
+  files: '<path d="M6 3h9l4 4v14H6z"/><line x1="9" y1="9" x2="12" y2="9"/><line x1="9" y1="12" x2="16" y2="12"/><line x1="9" y1="15" x2="16" y2="15"/>',
+  briefcase: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="13" x2="21" y2="13"/>',
+  percent: '<line x1="6" y1="18" x2="18" y2="6"/><circle cx="7.5" cy="7.5" r="1.6"/><circle cx="16.5" cy="16.5" r="1.6"/>',
+  building: '<rect x="6" y="3" width="12" height="18"/><line x1="9" y1="7" x2="9.01" y2="7"/><line x1="15" y1="7" x2="15.01" y2="7"/><line x1="9" y1="12" x2="9.01" y2="12"/><line x1="15" y1="12" x2="15.01" y2="12"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/>',
+  leaf: '<path d="M5 21c0-9 6-15 15-15-1 9-6 15-15 15z"/><path d="M5 21c3-4 6-7 9-12"/>',
+  fileCheck: '<path d="M6 3h9l4 4v14H6z"/><polyline points="9 13 11 15 15 10"/>',
+  shield: '<path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6z"/><polyline points="9 12 11 14 15 9"/>',
+  trendingUp: '<polyline points="3 17 9 11 13 15 21 6"/><polyline points="15 6 21 6 21 12"/>',
+  map: '<polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>',
+  clipboard: '<rect x="5" y="4" width="14" height="17" rx="2"/><rect x="8" y="2" width="8" height="4" rx="1"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="16" y2="15"/>',
+  hardHat: '<path d="M4 15a8 8 0 0 1 16 0z"/><line x1="2" y1="15" x2="22" y2="15"/><line x1="12" y1="7" x2="12" y2="4"/>',
+  store: '<path d="M4 8l1-4h14l1 4"/><path d="M4 8v11h16V8"/><path d="M4 8a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/>',
+  wallet: '<path d="M3 7h15a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h4v4h-4a2 2 0 0 1 0-4z"/>',
+  gavel: '<line x1="8" y1="16" x2="16" y2="8"/><rect x="11.5" y="4.5" width="4" height="7" transform="rotate(45 13.5 8)"/><line x1="3" y1="21" x2="12" y2="21"/>',
+  heart: '<path d="M12 20s-8-4.5-8-10.5A5 5 0 0 1 12 6a5 5 0 0 1 8 3.5C20 15.5 12 20 12 20z"/>',
+  eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+  monitor: '<rect x="3" y="4" width="18" height="12" rx="1.5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/>',
+  glyph: '<circle cx="12" cy="12" r="9"/>'
+};
+function ic(name, cls){
+  return `<svg class="ic ${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]||ICONS.glyph}</svg>`;
+}
+
+/* ============ RAMAS DEL DERECHO (taxonomía oficial — se usa en Anotador, Anteproyectos y Estadísticas) ============ */
 const RUBROS = [
-  {id:'alumbrado',        label:'💡 Alumbrado público',          info:'Iluminación de calles, plazas y espacios públicos.'},
-  {id:'veredas',          label:'🚶 Veredas y accesibilidad',     info:'Estado, construcción y accesibilidad de veredas y rampas.'},
-  {id:'creditos_carbono', label:'🌍 Créditos de carbono',         info:'Proyectos de compensación y mercado de carbono.'},
-  {id:'residuos',         label:'🗑️ Residuos y limpieza',         info:'Recolección, tratamiento y disposición de residuos urbanos.'},
-  {id:'espacios_verdes',  label:'🌳 Espacios verdes',             info:'Plazas, parques, arbolado urbano y forestación.'},
-  {id:'transito',         label:'🚦 Tránsito y movilidad',        info:'Ordenamiento vehicular, transporte público y movilidad urbana.'},
-  {id:'vivienda',         label:'🏠 Vivienda',                    info:'Planes habitacionales, regularización dominial y acceso a la vivienda.'},
-  {id:'presupuesto',      label:'💰 Presupuesto y finanzas',      info:'Cálculo de recursos, gastos y finanzas municipales.'},
-  {id:'zonificacion',     label:'🗺️ Zonificación y uso del suelo',info:'Planeamiento urbano, delimitación de zonas y usos permitidos.'},
-  {id:'agua_gas',         label:'🚰 Agua, gas y redes',           info:'Infraestructura de redes de agua potable, cloacas y gas natural.'},
-  {id:'otro',             label:'📌 Otro / General',              info:'Cualquier otro tema que no encaje en las categorías anteriores.'}
+  {id:'administrativo',            label:'Administrativo',                          icon:'briefcase',  color:'ink',    info:'Organización municipal, actos administrativos, ética pública, transparencia.'},
+  {id:'tributario',                label:'Tributario',                              icon:'percent',    color:'bronze', info:'Tasas, patentes, contribuciones, exenciones, código tributario municipal.'},
+  {id:'urbanistico',               label:'Urbanístico',                             icon:'building',   color:'slate',  info:'Uso del suelo, zonificación, FOT/FOS, loteos, código de edificación.'},
+  {id:'ambiental',                 label:'Ambiental',                               icon:'leaf',       color:'green',  info:'Impacto ambiental, residuos, arbolado, recursos hídricos, sustentabilidad.'},
+  {id:'contrataciones',            label:'Contrataciones Públicas',                 icon:'fileCheck',  color:'slate',  info:'Licitaciones, concursos de precios, pliegos, registro de proveedores.'},
+  {id:'seguridad_higiene',         label:'Seguridad e Higiene',                     icon:'shield',     color:'danger', info:'Inspecciones, habilitaciones, control bromatológico, defensa civil.'},
+  {id:'desarrollo_economico',      label:'Desarrollo Económico',                    icon:'trendingUp', color:'green',  info:'Promoción industrial, PyME, turismo, inversiones, innovación.'},
+  {id:'planeamiento_territorial',  label:'Planeamiento Territorial',                icon:'map',        color:'slate',  info:'Plan urbano ambiental, movilidad, infraestructura vial, expansión urbana.'},
+  {id:'rrhh_publicos',             label:'Recursos Humanos Públicos',               icon:'users',      color:'ink',    info:'Estatuto del empleado municipal, escalafón, concursos, régimen disciplinario.'},
+  {id:'procedimiento_administrativo', label:'Procedimiento Administrativo',         icon:'clipboard',  color:'ink',    info:'Expedientes, notificaciones, plazos, recursos, prescripción.'},
+  {id:'obras_publicas',            label:'Obras Públicas',                          icon:'hardHat',    color:'bronze', info:'Ejecución y contratación de obra pública municipal.'},
+  {id:'habilitaciones_comerciales', label:'Habilitaciones Comerciales',             icon:'store',      color:'bronze', info:'Habilitación y control de comercios, horarios comerciales.'},
+  {id:'presupuesto_finanzas',      label:'Presupuesto y Finanzas',                  icon:'wallet',     color:'green',  info:'Cálculo de recursos, gastos y finanzas municipales.'},
+  {id:'regimen_sancionatorio',     label:'Régimen Sancionatorio',                   icon:'gavel',      color:'danger', info:'Faltas municipales, multas, clausuras, procedimiento contravencional.'},
+  {id:'ordenamiento_territorial',  label:'Ordenamiento Territorial',                icon:'pin',        color:'slate',  info:'Límites urbanos, integración rural-urbana, catastro.'},
+  {id:'politicas_sociales',        label:'Políticas Sociales',                      icon:'heart',      color:'danger', info:'Niñez, adultos mayores, discapacidad, asistencia social, salud pública.'},
+  {id:'genero_diversidad',         label:'Género y Diversidad',                     icon:'heart',      color:'bronze', info:'Violencia de género, políticas de diversidad e inclusión.'},
+  {id:'transparencia',             label:'Transparencia y Acceso a la Información', icon:'eye',        color:'slate',  info:'Gobierno abierto, datos abiertos, acceso a la información pública.'},
+  {id:'gobierno_digital',          label:'Gobierno Digital',                        icon:'monitor',    color:'ink',    info:'Expediente electrónico, firma digital, digitalización, ciberseguridad.'},
+  {id:'otro',                      label:'Otro / General',                          icon:'clipboard',  color:'ink',    info:'Cualquier otro tema que no encaje en las categorías anteriores.'}
 ];
 function rubroLabel(id){ const r = RUBROS.find(x=>x.id===id); return r ? r.label : 'Sin categorizar'; }
+function rubroIconHTML(id, cls){ const r = RUBROS.find(x=>x.id===id); return ic(r?r.icon:'clipboard', 'rubro-ic rubro-'+(r?r.color:'ink')+' '+(cls||'')); }
 function nbNewProject(){
   const openDialog = ()=>{
     const m = document.getElementById('nbModal'); if(!m) return;
@@ -3773,7 +3855,7 @@ function nbNewProject(){
         <input id="nbNewProjName" placeholder="Nombre del proyecto" onkeydown="if(event.key==='Enter')nbCreateProjectConfirm()">
 
         <details class="nb-group" open style="margin-top:12px;">
-          <summary>Rubro / categoría <span class="nb-group-count" id="nbRubroSummary">📌 Otro / General</span></summary>
+          <summary>Rubro / categoría <span class="nb-group-count" id="nbRubroSummary">Otro / General</span></summary>
           <div class="nb-group-body" style="padding:10px;">
             <div style="display:flex; gap:6px; align-items:center;">
               <input id="nbRubroSearch" placeholder="Buscar rubro…" oninput="nbRenderRubroOptions(this.value)"
@@ -3781,7 +3863,7 @@ function nbNewProject(){
               <button type="button" class="nb-info-btn" onclick="nbToggleRubroInfo()" title="Qué incluye cada categoría">ⓘ</button>
             </div>
             <div id="nbRubroInfoBox" class="nb-rubro-info" style="display:none;">
-              ${RUBROS.map(r=>`<div><b>${r.label}</b>: ${r.info}</div>`).join('')}
+              ${RUBROS.map(r=>`<div>${rubroIconHTML(r.id)}<b>${r.label}</b>: ${r.info}</div>`).join('')}
             </div>
             <div id="nbRubroOptions" class="nb-rubro-options"></div>
             <input type="hidden" id="nbRubroSelect" value="otro">
@@ -3819,13 +3901,13 @@ function nbRenderRubroOptions(q){
   const list = term ? RUBROS.filter(r=>r.label.toLowerCase().includes(term)) : RUBROS;
   const current = document.getElementById('nbRubroSelect').value;
   cont.innerHTML = list.map(r=>`
-    <div class="nb-rubro-opt ${r.id===current?'sel':''}" onclick="nbPickRubro('${r.id}')" title="${nbEscAttr(r.info)}">${r.label}</div>
+    <div class="nb-rubro-opt ${r.id===current?'sel':''}" onclick="nbPickRubro('${r.id}')" title="${nbEscAttr(r.info)}">${rubroIconHTML(r.id)}${r.label}</div>
   `).join('') || `<div class="nb-empty" style="padding:8px;">Sin coincidencias.</div>`;
 }
 function nbPickRubro(id){
   document.getElementById('nbRubroSelect').value = id;
   const summary = document.getElementById('nbRubroSummary');
-  if(summary) summary.textContent = rubroLabel(id);
+  if(summary) summary.innerHTML = rubroIconHTML(id) + nbEsc(rubroLabel(id));
   nbRenderRubroOptions(document.getElementById('nbRubroSearch').value);
 }
 function nbVisChanged(el){
@@ -3986,7 +4068,7 @@ function nbRenderLinkResults(q){
       <span class="${ok?'':'blur-me'}"><b>${nbEsc(r.n.tipoNorma)} N° ${nbEsc(r.n.nro)}/${r.n.anio}</b>
       <span class="nb-link-loc">📍 ${nbEsc(m.nombre)}, ${nbEsc(m.provincia)}, ${nbEsc(m.pais)}</span>
       <span>${nbEsc(r.n.tema.slice(0,80))}${r.n.tema.length>80?'…':''}</span></span>
-      ${ok?'':'<span class="lock-badge">🔒 Fuera de tu plan</span>'}
+      ${ok?'':'<span class="lock-badge">'+ic('lock')+' Fuera de tu plan</span>'}
     </div>`;
   }).join('');
 }
@@ -4109,10 +4191,10 @@ function nbPickerProjectHTML(){
   }
   html += projects.map(p=>`
     <div class="nb-item" onclick="nbOpenPickerProject('${p.id}')">
-      <div class="nb-ic">${p.visibility==='public'?'🌐':'🔒'}</div>
+      <div class="nb-ic">${ic(p.visibility==='public'?'globe':'lock')}</div>
       <div class="nb-it-body">
         <div class="nb-it-title">${nbEsc(p.nombre)}</div>
-        <div class="nb-it-meta"><span>${rubroLabel(p.categoria)}</span><span>${p.notes.length} nota${p.notes.length===1?'':'s'}</span></div>
+        <div class="nb-it-meta"><span>${rubroIconHTML(p.categoria)}${rubroLabel(p.categoria)}</span><span>${p.notes.length} nota${p.notes.length===1?'':'s'}</span></div>
       </div>
     </div>`).join('');
   return html;
@@ -4164,7 +4246,7 @@ function nbPickerHTML(){
   }
   html += `<div class="nb-sec-label">Tus notas</div>` + notes.map(x=>`
     <div class="nb-item" onclick="nbPickNote('${x.p.id}','${x.n.id}')">
-      <div class="nb-ic">${x.p.visibility==='public'?'🌐':'📝'}</div>
+      <div class="nb-ic">${ic(x.p.visibility==='public'?'globe':'edit')}</div>
       <div class="nb-it-body">
         <div class="nb-it-title">${nbEsc(x.n.titulo||'Nota sin título')}</div>
         <div class="nb-it-meta"><span>${nbEsc(x.p.nombre)}</span><span>${nbFecha(x.n.updatedAt)}</span></div>
@@ -4577,11 +4659,19 @@ function closeWellnessPopup(){
   if(ov) ov.classList.remove('open');
 }
 
+function paintNavIcons(){
+  const map = { bicDigesto:'landmark', bicPais:'flag', bicMundo:'globe', bicChatgpt:'cpu', bicEducacion:'cap', bicAnteproyectos:'files', bicConsultora:'briefcase' };
+  Object.entries(map).forEach(([elId, iconName])=>{
+    const el = document.getElementById(elId);
+    if(el) el.innerHTML = ic(iconName);
+  });
+}
 function initApp(){
   renderDigesto();
   nbEnsureLoaded().then(()=>{ nbUpdateBadge(); });
   maybeStartTour();
   startWellnessReminders();
+  paintNavIcons();
 }
 </script>
 </body>
