@@ -56,6 +56,18 @@
   .tour-actions .tour-next-group{ display:flex; gap:8px; }
 
   /* ---------- LOGIN ---------- */
+  /* ---------- MODO MANTENIMIENTO ---------- */
+  .maint-screen{
+    position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center;
+    background:linear-gradient(160deg,var(--ink),var(--ink-soft)); padding:24px;
+  }
+  .maint-screen.open{ display:flex; }
+  .maint-card{ max-width:460px; text-align:center; color:#fff; }
+  .maint-icon{ font-size:46px; margin-bottom:16px; }
+  .maint-card h1{ font-size:23px; margin-bottom:12px; }
+  .maint-card p{ font-size:14px; color:#c9d3da; line-height:1.6; }
+  .maint-eta{ margin-top:16px; background:rgba(255,255,255,.08); border-radius:10px; padding:10px 16px; font-size:13px; font-weight:600; color:#f0dcb3; display:inline-block; }
+
   .login-screen{
     position:fixed; inset:0; z-index:5000; background:linear-gradient(150deg,var(--ink) 0%,var(--ink-soft) 55%,#1e3646 100%);
     display:flex; align-items:center; justify-content:center; padding:20px;
@@ -104,7 +116,8 @@
     padding:5px 14px; border-radius:20px; letter-spacing:.2px; white-space:nowrap; box-shadow:0 2px 6px rgba(169,117,47,.35);
   }
   @media(max-width:520px){ .plan-badge{ display:none; } }
-  nav.tabs{display:flex; gap:2px;}
+  .tabs-divider{ width:1px; align-self:stretch; margin:9px 6px; background:linear-gradient(180deg,transparent,var(--bronze),transparent); opacity:.65; }
+  nav.tabs{display:flex; gap:2px; align-items:stretch;}
   nav.tabs button{
     background:none;border:none;color:#c9d3da;font-family:'IBM Plex Sans';
     font-size:13.5px; font-weight:500; padding:10px 14px; cursor:pointer;
@@ -229,6 +242,23 @@
   .pill.medio{background:var(--slate-blue-soft); color:var(--slate-blue);}
   .pill.alto{background:#f5e3e0; color:var(--danger);}
   .empty-state{text-align:center; padding:60px 20px; color:var(--text-muted);}
+
+  /* ---------- PAGINACIÓN ---------- */
+  .pagination-bar{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    margin-top:18px; padding:14px 16px; background:#fff; border:1px solid var(--line); border-radius:12px;
+  }
+  .pagination-info{ font-size:12px; color:var(--text-muted); }
+  .pagination-controls{ display:flex; align-items:center; gap:4px; }
+  .page-nav, .page-num{
+    min-width:30px; height:30px; padding:0 6px; border:1px solid var(--line); background:#fff; border-radius:7px;
+    font-size:13px; font-weight:600; color:var(--ink-soft); cursor:pointer;
+  }
+  .page-nav:hover:not(:disabled), .page-num:hover{ border-color:var(--bronze); color:var(--bronze); }
+  .page-nav:disabled{ opacity:.35; cursor:not-allowed; }
+  .page-num.active{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .page-ellipsis{ color:var(--text-muted); padding:0 2px; font-size:13px; }
+
   .empty-state .glyph{font-size:34px; margin-bottom:10px;}
 
   /* ---------- GRID: PAÍS / MUNDO / EDU / CHATGPT ---------- */
@@ -289,6 +319,25 @@
   .doc-placeholder{
     background:#eef1f0; border:1px dashed var(--line); border-radius:12px; padding:34px; text-align:center; color:var(--text-muted); font-size:13px;
   }
+  .pdf-viewer-bar{
+    display:flex; align-items:center; justify-content:space-between; background:var(--paper); border:1px solid var(--line);
+    border-bottom:none; border-radius:10px 10px 0 0; padding:8px 12px; font-size:12px; font-weight:600; color:var(--ink-soft);
+  }
+  .pdf-inline-frame{
+    width:100%; height:70vh; min-height:420px; border:1px solid var(--line); border-radius:0 0 10px 10px; display:block;
+  }
+
+  /* ---------- ACERCA DE ---------- */
+  .acerca-tabs{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+  .acerca-tab{
+    background:#fff; border:1px solid var(--line); border-radius:20px; padding:8px 16px; font-size:12.5px; font-weight:600;
+    color:var(--text-muted); cursor:pointer;
+  }
+  .acerca-tab.active{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .faq-item{ padding:12px 0; border-bottom:1px solid var(--line); }
+  .faq-item:last-child{ border-bottom:none; }
+  .faq-q{ font-weight:700; font-size:13.5px; color:var(--ink); margin-bottom:5px; }
+  .faq-a{ font-size:13px; color:var(--text-main); line-height:1.55; }
 
   /* ---------- FILTER MODAL ---------- */
   .overlay{position:fixed; inset:0; background:rgba(19,34,52,.45); display:none; align-items:flex-end; justify-content:center; z-index:500;}
@@ -503,6 +552,18 @@
     content:""; position:absolute; right:-30px; top:-34px; width:150px; height:150px;
     border:32px solid rgba(201,154,82,.1); border-radius:50%;
   }
+  .plan-lock-close{
+    position:absolute; top:12px; right:14px; z-index:2; background:none; border:none; color:#d7e7de;
+    font-size:14px; cursor:pointer; padding:4px 6px; border-radius:6px;
+  }
+  .plan-lock-close:hover{ background:rgba(255,255,255,.12); color:#fff; }
+  .btn-planes-pill{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:linear-gradient(135deg,#e0ab4a,#c99a52); color:var(--slate-blue); font-weight:700; font-size:13.5px;
+    padding:11px 22px; border-radius:30px; border:none; cursor:pointer; width:100%;
+    box-shadow:0 8px 20px rgba(201,154,82,.3); transition:.15s ease;
+  }
+  .btn-planes-pill:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(201,154,82,.4); }
   .plan-lock-icon{
     width:54px; height:54px; border-radius:50%; background:var(--bronze-soft); color:var(--bronze);
     display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px;
@@ -517,7 +578,8 @@
   .plan-lock-fomo ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px; }
   .plan-lock-fomo li{ font-size:13px; color:var(--text-main); display:flex; align-items:flex-start; gap:8px; line-height:1.45; }
   .plan-lock-fomo li::before{ content:"✨"; flex-shrink:0; }
-  .plan-lock-actions{ display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:14px; }
+  .plan-lock-actions{ display:flex; flex-direction:column; align-items:stretch; gap:10px; margin-bottom:14px; }
+  .plan-lock-actions .btn-whatsapp-plan{ justify-content:center; }
   .plan-lock-actions .nb-btn{ width:100%; padding:11px; border-radius:10px; }
   .plan-lock-dismiss{ background:none; border:none; color:var(--text-muted); font-size:11.5px; text-decoration:underline; cursor:pointer; }
 
@@ -657,8 +719,8 @@
     padding:10px 12px; font-size:12px; color:#6b4a17; line-height:1.5; margin-bottom:10px;
   }
   .nb-modal{
-    position:absolute; inset:0; background:rgba(19,34,52,.42); display:none; align-items:center;
-    justify-content:center; z-index:20; padding:20px;
+    position:fixed; inset:0; background:rgba(19,34,52,.5); display:none; align-items:center;
+    justify-content:center; z-index:6800; padding:20px;
   }
   .nb-modal.open{display:flex;}
   .nb-modal-box{
@@ -798,9 +860,13 @@
 </div>
 
 <!-- ================= BLOQUEO DE PLAN (aviso automático con FOMO y CTA) ================= -->
+<!-- MODAL GENÉRICO (confirmaciones, prompts) — nivel raíz para que funcione en toda la app -->
+<div class="nb-modal" id="nbModal"></div>
+
 <div class="plan-lock-overlay" id="planLockOverlay">
   <div class="plan-lock-card">
     <div class="plan-lock-head">
+      <button class="plan-lock-close" onclick="closePlanLockPopup()" title="Cerrar">✕</button>
       <div class="plan-lock-icon" id="planLockIconEl">🔒</div>
       <h3>Esta sección está bloqueada</h3>
       <p id="planLockIntro">Estás en <b>Plan Municipio Propio</b>.</p>
@@ -815,7 +881,7 @@
           <span class="wa-icon-badge"><svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span>
           <span>Hablar con la consultora</span>
         </a>
-        <button class="nb-btn" onclick="closePlanLockPopup(); showPage('planes'); renderPlanesPage();">Ver planes y prestaciones</button>
+        <button class="btn-planes-pill" onclick="closePlanLockPopup(); showPage('planes'); renderPlanesPage();">Ver planes y prestaciones</button>
       </div>
       <button class="plan-lock-dismiss" onclick="closePlanLockPopup()">Seguir viendo bloqueado</button>
     </div>
@@ -837,6 +903,46 @@
     <button class="login-btn" style="margin-top:0;" onclick="closeWellnessPopup()">Listo, ya vuelvo</button>
     <div style="font-size:9.5px; color:var(--text-muted); margin-top:12px; line-height:1.5; text-align:left;">
       Este aviso combina la <b>regla 20-20-20</b> para la vista (American Optometric Association) y las recomendaciones sobre interrumpir el sedentarismo cada 30–60 minutos (Dempsey et al., 2016, <i>Diabetes Care</i>; Diaz et al., 2023, <i>Medicine &amp; Science in Sports &amp; Exercise</i>). No reemplaza el consejo de un profesional de la salud.
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODO MANTENIMIENTO (pantalla completa, config. por consultora) ================= -->
+<div class="maint-screen" id="maintScreen">
+  <div class="maint-card">
+    <div class="maint-icon">🛠️</div>
+    <h1 class="serif" id="maintTitle">Estamos trabajando, actualizando la página</h1>
+    <p id="maintMsg">La plataforma va a estar operativa nuevamente en breve. Gracias por la paciencia.</p>
+    <div class="maint-eta" id="maintEta" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ================= CUENTA SUSPENDIDA (falta de pago) ================= -->
+<div class="plan-lock-overlay" id="suspendedOverlay">
+  <div class="plan-lock-card">
+    <div class="plan-lock-head" style="background:linear-gradient(120deg,#5a2a20,#7a3626);">
+      <div class="plan-lock-icon" style="background:#f5e3e0; color:var(--danger);">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="13"/><line x1="12" y1="16" x2="12" y2="16.01"/></svg>
+      </div>
+      <h3>Tu acceso está momentáneamente suspendido</h3>
+      <p>El servicio de <b id="suspendedMuni">tu municipio</b> se encuentra suspendido por falta de pago.</p>
+    </div>
+    <div class="plan-lock-body">
+      <div class="plan-lock-fomo" style="text-align:left;">
+        <div class="plan-lock-fomo-title">Importante</div>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px;">
+          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>💾</span><span>Tus sesiones, notas y proyectos quedan <b>resguardados sin cambios</b> — no se borra nada.</span></li>
+          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>🔓</span><span>Vas a poder acceder a todo con normalidad apenas se regularice el pago.</span></li>
+          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>👤</span><span>Comunicate con <b id="suspendedReferente">el/la referente</b> a cargo de abonar el servicio en tu municipio, o escribinos directamente a nosotros.</span></li>
+        </ul>
+      </div>
+      <div class="plan-lock-actions">
+        <a class="btn-whatsapp-plan" id="suspendedWa" href="#" target="_blank" rel="noopener">
+          <span class="wa-icon-badge"><svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span>
+          <span>Escribirle a la consultora</span>
+        </a>
+      </div>
+      <button class="plan-lock-dismiss" onclick="closeSuspendedPopup()">Entendido</button>
     </div>
   </div>
 </div>
@@ -872,10 +978,13 @@
     <button data-page="digesto" class="active" data-i18n="nav_digesto">Mi Digesto</button>
     <button data-page="pais" data-i18n="nav_pais">País</button>
     <button data-page="mundo" data-i18n="nav_mundo">Mundo</button>
-    <button data-page="chatgpt" data-i18n="nav_chatgpt">ChatGPT</button>
+    <span class="tabs-divider"></span>
+    <button data-page="anteproyectos">Anteproy. y Proyectos</button>
+    <button data-page="chatgpt">Bots IA</button>
+    <span class="tabs-divider"></span>
     <button data-page="educacion" data-i18n="nav_educacion">Educación</button>
-    <button data-page="anteproyectos">📑 Anteproy. y Proyectos</button>
-    <button data-page="consultora" class="consultora-only" style="display:none;">🏢 Consultora</button>
+    <span class="tabs-divider consultora-only" style="display:none;"></span>
+    <button data-page="consultora" class="consultora-only" style="display:none;">Consultora</button>
   </nav>
   <div class="head-right">
     <div class="lang-wrap">
@@ -907,53 +1016,14 @@
 
   <!-- ================= CHATGPT ================= -->
   <section class="page" id="page-chatgpt">
-    <div class="section-eyebrow" data-i18n="chatgpt_eyebrow">Inteligencia Artificial Especializada</div>
-    <div class="section-title" data-i18n="chatgpt_title">Asistentes de análisis y redacción normativa</div>
-    <div class="service-card">
-      <div class="icon-box">◈</div>
-      <h3 data-i18n="chatgpt_card1_title">IA de Análisis y Redacción Normativa</h3>
-      <p data-i18n="chatgpt_card1_desc">Asistente especializado en el análisis técnico de las normas de tu digesto y en la elaboración de nuevos proyectos legislativos a partir de normas existentes.</p>
-      <div class="btn-row"><button class="btn-primary" data-i18n="btn_ir_bot">Ir al Bot</button><button class="btn-secondary" data-i18n="btn_saber_mas">Saber más</button></div>
-    </div>
-    <div class="service-card">
-      <div class="icon-box">◈</div>
-      <h3 data-i18n="chatgpt_card2_title">IA de Análisis Normativo Técnico</h3>
-      <p data-i18n="chatgpt_card2_desc">Buscá documentos específicos entre las normas cargadas de tu municipio, con respuestas trazables a la ordenanza de origen.</p>
-      <div class="btn-row"><button class="btn-primary" data-i18n="btn_ir_bot">Ir al Bot</button><button class="btn-secondary" data-i18n="btn_saber_mas">Saber más</button></div>
-    </div>
+    <div id="chatgptRoot"></div>
   </section>
 
   <!-- ================= EDUCACIÓN ================= -->
   <section class="page" id="page-educacion">
-    <div class="section-eyebrow" data-i18n="edu_eyebrow">Capacitación</div>
-    <div class="section-title" data-i18n="edu_title">Cursos certificados</div>
-    <div class="service-card">
-      <div class="icon-box">✎</div>
-      <h3 data-i18n="edu_card_title">IA de Análisis y Redacción Normativa</h3>
-      <p data-i18n="edu_card_desc">Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.</p>
-      <div class="btn-row"><button class="btn-primary" data-i18n="btn_ir_curso">Ir al Curso</button><button class="btn-secondary" data-i18n="btn_acerca_curso">Acerca del Curso</button></div>
-    </div>
-    <div class="service-card">
-      <div class="icon-box">⚖️</div>
-      <h3>Técnica Legislativa Municipal</h3>
-      <p>Cómo estructurar un VISTO, un CONSIDERANDO y un articulado sólido; errores frecuentes que invalidan una ordenanza; y buenas prácticas de redacción normativa a nivel municipal.</p>
-      <div class="btn-row"><button class="btn-primary">Ir al Curso</button><button class="btn-secondary">Acerca del Curso</button></div>
-    </div>
-    <div class="service-card">
-      <div class="icon-box">📊</div>
-      <h3>Análisis de Impacto Normativo</h3>
-      <p>Metodología para evaluar el impacto económico, social y urbanístico de una norma antes de sancionarla, y cómo presentar esos hallazgos al Concejo Deliberante.</p>
-      <div class="btn-row"><button class="btn-primary">Ir al Curso</button><button class="btn-secondary">Acerca del Curso</button></div>
-    </div>
-    <div class="service-card">
-      <div class="icon-box">🧭</div>
-      <h3>Estrategia y Gestión Legislativa</h3>
-      <p>Cómo priorizar una agenda legislativa, construir consensos entre bloques, y planificar la implementación de una norma una vez sancionada.</p>
-      <div class="btn-row"><button class="btn-primary">Ir al Curso</button><button class="btn-secondary">Acerca del Curso</button></div>
-    </div>
+    <div id="educacionRoot"></div>
   </section>
 
-  <!-- ================= NOSOTROS ================= -->
   <!-- ================= ESTADÍSTICAS (interno, solo equipo) ================= -->
   <section class="page" id="page-estadisticas">
     <div id="statsRoot"></div>
@@ -989,6 +1059,11 @@
     <div id="planesRoot"></div>
   </section>
 
+  <!-- ================= ACERCA DE ================= -->
+  <section class="page" id="page-acerca">
+    <div id="acercaRoot"></div>
+  </section>
+
 </main>
 
 <!-- MODAL ALTA/EDICIÓN DE ANTEPROYECTO O PROYECTO (solo consultora) -->
@@ -1019,6 +1094,54 @@
   </div>
 </div>
 
+<!-- MODAL ALTA/EDICIÓN DE CURSO (solo consultora) -->
+<div class="overlay" id="cursoFormOverlay">
+  <div class="filter-sheet" style="max-width:500px;">
+    <div class="filter-sheet-head"><h3 id="cursoFormTitle">Nuevo curso</h3><button onclick="closeCursoForm()">✕</button></div>
+    <label class="login-label">Título del curso</label>
+    <input id="cursoTitulo" class="login-input" placeholder="Ej: Técnica Legislativa Municipal">
+    <label class="login-label">Descripción</label>
+    <textarea id="cursoDescripcion" class="nb-textarea" style="min-height:80px;" placeholder="De qué se trata el curso..."></textarea>
+    <label class="login-label">Imagen de muestra (URL)</label>
+    <input id="cursoImagen" class="login-input" placeholder="https://... (foto de portada del curso)">
+    <label class="login-label">Link "Ir al Curso"</label>
+    <input id="cursoLinkCurso" class="login-input" placeholder="https://...">
+    <label class="login-label">Link "Acerca del Curso" (opcional)</label>
+    <input id="cursoLinkInfo" class="login-input" placeholder="https://...">
+    <div class="filter-actions">
+      <button class="clear" onclick="closeCursoForm()">Cancelar</button>
+      <button class="apply" onclick="submitCurso()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ALTA/EDICIÓN DE BOT DE IA (solo consultora) -->
+<div class="overlay" id="botFormOverlay">
+  <div class="filter-sheet" style="max-width:500px;">
+    <div class="filter-sheet-head"><h3 id="botFormTitle">Nuevo asistente de IA</h3><button onclick="closeBotForm()">✕</button></div>
+    <label class="login-label">Nombre del bot</label>
+    <input id="botNombre" class="login-input" placeholder="Ej: IA de Análisis Normativo Técnico">
+    <label class="login-label">Descripción</label>
+    <textarea id="botDescripcion" class="nb-textarea" style="min-height:80px;" placeholder="Qué hace este asistente..."></textarea>
+    <label class="login-label">Imagen de muestra (URL, opcional)</label>
+    <input id="botImagen" class="login-input" placeholder="https://...">
+    <label class="login-label">Link "Ir al Bot"</label>
+    <input id="botLinkBot" class="login-input" placeholder="https://...">
+    <label class="login-label">Link "Saber más" (opcional)</label>
+    <input id="botLinkInfo" class="login-input" placeholder="https://...">
+    <label class="login-label">Plan mínimo para usarlo</label>
+    <select id="botPlanMinimo" class="nb-reason-select">
+      <option value="propio">Plan Municipio Propio</option>
+      <option value="pais">Plan País</option>
+      <option value="mundo">Plan Mundo</option>
+    </select>
+    <div class="filter-actions">
+      <button class="clear" onclick="closeBotForm()">Cancelar</button>
+      <button class="apply" onclick="submitBot()">Guardar</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- GATE DE ACCESO AL PANEL DE ESTADÍSTICAS -->
 <div class="overlay" id="statsGateOverlay">
@@ -1036,9 +1159,9 @@
   <button data-page="digesto" class="active"><span class="bic" id="bicDigesto">🏛</span><span data-i18n="nav_digesto_short">Digesto</span></button>
   <button data-page="pais"><span class="bic" id="bicPais">🇦🇷</span><span data-i18n="nav_pais">País</span></button>
   <button data-page="mundo"><span class="bic" id="bicMundo">🌐</span><span data-i18n="nav_mundo">Mundo</span></button>
-  <button data-page="chatgpt"><span class="bic" id="bicChatgpt">◈</span><span data-i18n="nav_chatgpt">ChatGPT</span></button>
-  <button data-page="educacion"><span class="bic" id="bicEducacion">✎</span><span data-i18n="nav_educacion_short">Educ.</span></button>
   <button data-page="anteproyectos"><span class="bic" id="bicAnteproyectos">📑</span><span>Modelos</span></button>
+  <button data-page="chatgpt"><span class="bic" id="bicChatgpt">◈</span><span>Bots IA</span></button>
+  <button data-page="educacion"><span class="bic" id="bicEducacion">✎</span><span data-i18n="nav_educacion_short">Educ.</span></button>
   <button data-page="consultora" class="consultora-only" style="display:none;"><span class="bic" id="bicConsultora">🏢</span><span>Consultora</span></button>
 </div>
 
@@ -1097,7 +1220,6 @@
   </div>
   <div class="nb-toolbar" id="nbToolbar"></div>
   <div class="nb-body" id="nbBody"></div>
-  <div class="nb-modal" id="nbModal"></div>
   <div class="nb-foot">
     <div class="nb-saved"><span class="dot" id="nbDot"></span><span id="nbSavedTxt">Listo</span></div>
     <div class="nb-foot-actions" id="nbFootActions"></div>
@@ -1121,7 +1243,7 @@ const MUNICIPIOS = {
       {nro:"5248", anio:2008, tipoNorma:"Ordenanza", tema:"Adhiere a la Ley Provincial 2189 y su modificatoria 2370 que establece régimen especial de descuentos automáticos de cuotas de viviendas del IPVUN para beneficiarios agentes públicos municipales y provinciales, con el fin de reducir morosidad", rama:"Administrativo", subtema:"Actos Administrativos", impacto:"Económico", complejidad:"Bajo", fechaSancion:"12 de mayo de 2008", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Adhesión al Régimen de Descuento Automático de Cuotas IPVUN", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"Ley Provincial 2189 y 2370", relacionadas:"No consta", detalle:"Adhiere al régimen previsto por la Ley Provincial 2189 y su modificatoria 2370, habilitando el descuento automático de haberes para el pago de cuotas de viviendas del IPVUN a agentes públicos municipales y provinciales, con el objeto de reducir la morosidad.", keywords:["ordenanza 5248","ipvun","descuento automático","morosidad","vivienda","centenario"]},
       {nro:"9", anio:1984, tipoNorma:"Ordenanza", tema:"Establece un régimen para adjudicación, ocupación, conservación, inspección y restitución de casas municipales", rama:"Administrativo", subtema:"Vivienda", impacto:"Social", complejidad:"Medio", fechaSancion:"2 de marzo de 1984", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Régimen de Casas Municipales", anexos:"No consta", historial:"Modificada parcialmente por ordenanzas posteriores", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Fija el régimen aplicable a la adjudicación, ocupación, conservación, inspección y eventual restitución de las casas de propiedad municipal destinadas a agentes y familias del municipio.", keywords:["ordenanza 9","casas municipales","adjudicación","vivienda","centenario"], estado:"Derogada", vinculos:[{muniKey:"centenario",nro:"8214",anio:2019,relacion:"Derogada por"}]},
       {nro:"8214", anio:2019, tipoNorma:"Ordenanza", tema:"Nuevo Régimen de Viviendas Municipales, deroga la Ordenanza N° 9/1984", rama:"Administrativo", subtema:"Vivienda", impacto:"Social", complejidad:"Medio", fechaSancion:"14 de agosto de 2019", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Nuevo Régimen de Viviendas Municipales", anexos:"No consta", historial:"No consta", modifica:"Deroga a la Ordenanza N° 9/1984", reglamentaciones:"No consta", relacionadas:"Ordenanza N° 9/1984", detalle:"Deroga en su totalidad la Ordenanza N° 9/1984 y establece un nuevo régimen de adjudicación, uso y restitución de viviendas municipales, actualizado a los criterios sociales y de accesibilidad vigentes.", keywords:["ordenanza 8214","régimen de viviendas","deroga ordenanza 9","vivienda municipal","centenario"], estado:"Vigente", vinculos:[{muniKey:"centenario",nro:"9",anio:1984,relacion:"Deroga a"}]},
-      {nro:"10384", anio:2025, tipoNorma:"Ordenanza", tema:"Declaración de utilidad pública y pago obligatorio por contribución por mejoras para ampliación de red de gas natural, con registro de oposición y modalidades de pago", rama:"Planeamiento Territorial", subtema:"Infraestructura Pública", impacto:"Urbanístico", complejidad:"Medio", fechaSancion:"15 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Ampliación de red de gas natural — Cooperativas Epu Pehuén, SEJUN y Mutual BPN", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"Ordenanza N° 4774/05", detalle:"Impulsa la obra \"Ampliación de Red de Gas Natural\" para sectores Cooperativas Epu Pehuén, SEJUN y Mutual BPN, destinada a conectar el servicio a familias beneficiarias. Establece el régimen de contribución por mejoras con modalidades de pago (contado con descuento y planes en cuotas sin interés) y dispone la apertura del Registro de Oposición por el plazo legal de 30 días corridos conforme Ordenanza N° 4774/05. Prevé la suscripción de convenios de pago con frentistas una vez vencido el registro y si el resultado fuera favorable.", keywords:["ordenanza 10384","red de gas natural","ampliación","infraestructura pública","utilidad pública","contribución por mejoras","cuotas sin interés","descuento","registro de oposición","ordenanza 4774/05","centenario","neuquén"]},
+      {nro:"10384", anio:2025, tipoNorma:"Ordenanza", tema:"Declaración de utilidad pública y pago obligatorio por contribución por mejoras para ampliación de red de gas natural, con registro de oposición y modalidades de pago", rama:"Planeamiento Territorial", subtema:"Infraestructura Pública", impacto:"Urbanístico", complejidad:"Medio", fechaSancion:"15 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Ampliación de red de gas natural — Cooperativas Epu Pehuén, SEJUN y Mutual BPN", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"Ordenanza N° 4774/05", detalle:"Impulsa la obra \"Ampliación de Red de Gas Natural\" para sectores Cooperativas Epu Pehuén, SEJUN y Mutual BPN, destinada a conectar el servicio a familias beneficiarias. Establece el régimen de contribución por mejoras con modalidades de pago (contado con descuento y planes en cuotas sin interés) y dispone la apertura del Registro de Oposición por el plazo legal de 30 días corridos conforme Ordenanza N° 4774/05. Prevé la suscripción de convenios de pago con frentistas una vez vencido el registro y si el resultado fuera favorable.", keywords:["ordenanza 10384","red de gas natural","ampliación","infraestructura pública","utilidad pública","contribución por mejoras","cuotas sin interés","descuento","registro de oposición","ordenanza 4774/05","centenario","neuquén"], documentoUrl:"https://firebasestorage.googleapis.com/v0/b/digestos-536e1.firebasestorage.app/o/Neuqu%C3%A9n%2FCentenario%2FOrdenanzas%2F2025-12-10384.pdf?alt=media"},
       {nro:"751", anio:2025, tipoNorma:"Declaración", tema:"Reconocimiento institucional a atletas locales por participación y logros en Juegos Para Araucanía 2025", rama:"Administrativo", subtema:"Actos Administrativos", impacto:"Social", complejidad:"Bajo", fechaSancion:"3 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Reconocimiento a atletas locales — Juegos Para Araucanía 2025", anexos:"No consta", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Declara de interés y reconoce institucionalmente a los atletas locales que participaron y obtuvieron logros deportivos en los Juegos Para Araucanía 2025, en representación de la ciudad de Centenario.", keywords:["declaración 751","reconocimiento","atletas","juegos para araucanía","centenario"]},
       {nro:"10383", anio:2025, tipoNorma:"Ordenanza", tema:"Aprobación del Presupuesto General 2026: cálculo de recursos, autorización de transferencias compensatorias e incorporación de partidas", rama:"Tributario", subtema:"Presupuesto", impacto:"Económico", complejidad:"Alto", fechaSancion:"1 de diciembre de 2025", nivelNormativo:"Municipal", jurisdiccion:"Municipalidad de Centenario", denominacion:"Presupuesto General de Gastos y Cálculo de Recursos - Ejercicio 2026", anexos:"Planillas de cálculo de recursos y erogaciones", historial:"No consta", modifica:"No consta", reglamentaciones:"No consta", relacionadas:"No consta", detalle:"Aprueba el Presupuesto General de Gastos y Cálculo de Recursos del municipio para el Ejercicio 2026, autorizando al Departamento Ejecutivo a realizar transferencias compensatorias entre partidas y a incorporar nuevas partidas presupuestarias durante el ejercicio.", keywords:["ordenanza 10383","presupuesto general 2026","cálculo de recursos","transferencias compensatorias","centenario"]}
     ]
@@ -1219,7 +1341,10 @@ function showPage(id){
   if(id==='pais') renderScopePage('pais');
   if(id==='mundo') renderScopePage('mundo');
   if(id==='consultora') renderConsultoraPage();
+  if(id==='acerca') renderAcercaPage();
   if(id==='anteproyectos') renderApPage();
+  if(id==='educacion') renderEducacionPage();
+  if(id==='chatgpt') renderChatgptPage();
   if((id==='pais' || id==='mundo') && !scopeUnlocked(id)) openPlanLockPopup(id);
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -1298,6 +1423,7 @@ async function renderPerfilPage(){
       </div>
     </div>
     <div class="stats-card" style="padding:8px;">
+      <div class="perfil-menu-item" onclick="showPage('acerca'); renderAcercaPage();">${ic('info')}<span>Acerca de</span>${ic('chevronDown','perfil-menu-chevron')}</div>
       <div class="perfil-menu-item" onclick="showPage('soporte'); renderSoportePage();">${ic('lifeBuoy')}<span>Ayuda y soporte</span>${ic('chevronDown','perfil-menu-chevron')}</div>
       <div class="perfil-menu-item" onclick="startTour()">${ic('compass')}<span>Ver recorrido guiado</span>${ic('chevronDown','perfil-menu-chevron')}</div>
       <div class="perfil-menu-item danger" onclick="logout()">${ic('logOut')}<span>Cerrar sesión</span>${ic('chevronDown','perfil-menu-chevron')}</div>
@@ -1308,6 +1434,49 @@ function perfilVerHistorialCompleto(){
   toggleNotebook().then(()=>{ nbOpenHistorial(); nbRender(); });
 }
 function logout(){ location.reload(); }
+
+/* ============ MODO MANTENIMIENTO (configurable, solo consultora) ============ */
+/* Guardado en un espacio compartido: cualquiera que abra la app lo ve activo hasta que se desactive. */
+async function checkMaintenanceMode(){
+  try{
+    const res = await window.storage.get('maintenance_config', true);
+    if(res && res.value){
+      const cfg = JSON.parse(res.value);
+      if(cfg.activo){
+        document.getElementById('maintTitle').textContent = cfg.titulo || 'Estamos trabajando, actualizando la página';
+        document.getElementById('maintMsg').textContent = cfg.mensaje || 'La plataforma va a estar operativa nuevamente en breve. Gracias por la paciencia.';
+        const etaEl = document.getElementById('maintEta');
+        if(cfg.eta){ etaEl.style.display='inline-block'; etaEl.textContent = '📅 Vuelve a estar operativa: ' + cfg.eta; }
+        else{ etaEl.style.display='none'; }
+        document.getElementById('maintScreen').classList.add('open');
+        return true;
+      }
+    }
+  }catch(e){ /* si falla la lectura, se deja pasar normalmente */ }
+  return false;
+}
+async function activarMantenimiento(titulo, mensaje, eta){
+  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede activar el mantenimiento.'); return; }
+  const cfg = { activo:true, titulo, mensaje, eta };
+  try{ await window.storage.set('maintenance_config', JSON.stringify(cfg), true); nbToast('Modo mantenimiento activado'); }
+  catch(e){ nbToast('No se pudo activar. Probá de nuevo.'); }
+}
+async function desactivarMantenimiento(){
+  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede desactivar el mantenimiento.'); return; }
+  try{ await window.storage.set('maintenance_config', JSON.stringify({activo:false}), true); nbToast('Modo mantenimiento desactivado'); }
+  catch(e){ nbToast('No se pudo desactivar. Probá de nuevo.'); }
+}
+
+/* ============ CUENTA SUSPENDIDA (municipio sin pago al día) ============ */
+function showSuspendedPopup(account){
+  const home = account.municipioKey ? MUNICIPIOS[account.municipioKey] : null;
+  document.getElementById('suspendedMuni').textContent = home ? home.nombre : (account.municipioPendiente || 'tu municipio');
+  document.getElementById('suspendedReferente').textContent = account.referente || 'el/la referente';
+  const msg = `Hola, mi acceso a Modernización Urbana aparece suspendido por falta de pago (municipio: ${home?home.nombre:account.municipioPendiente||''}). Quisiera consultar la situación.`;
+  document.getElementById('suspendedWa').href = `https://wa.me/${CONSULTORA_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  document.getElementById('suspendedOverlay').classList.add('open');
+}
+function closeSuspendedPopup(){ document.getElementById('suspendedOverlay').classList.remove('open'); }
 async function perfilCambiarCargo(valor){
   nbCargo = valor;
   try{ await window.storage.set('perfil_cargo', valor, false); }catch(e){ /* no bloqueante */ }
@@ -1316,6 +1485,89 @@ async function perfilCambiarCargo(valor){
 }
 
 /* ============ CONSULTORA (solo equipo interno, no visible para usuarios comunes) ============ */
+/* ============ ACERCA DE ============ */
+let acercaTab = 'nosotros';
+function renderAcercaPage(){
+  const root = document.getElementById('acercaRoot');
+  const tabs = [
+    { id:'nosotros', label:'Nosotros y contacto' },
+    { id:'faq', label:'Preguntas frecuentes' },
+    { id:'bases', label:'Bases y Condiciones' },
+    { id:'confidencialidad', label:'Confidencialidad de Trabajo' }
+  ];
+  root.innerHTML = `
+    <div class="stats-hero">
+      <div class="section-eyebrow" style="color:#f0dcb3;">Acerca de</div>
+      <h1 class="serif">Modernización Urbana</h1>
+      <div class="sub">Quiénes somos, cómo contactarnos, y los términos de uso de la plataforma.</div>
+    </div>
+    <div class="acerca-tabs">
+      ${tabs.map(t=>`<button class="acerca-tab ${acercaTab===t.id?'active':''}" onclick="acercaSetTab('${t.id}')">${t.label}</button>`).join('')}
+    </div>
+    <div id="acercaContent"></div>
+  `;
+  acercaRenderContent();
+}
+function acercaSetTab(id){ acercaTab = id; acercaRenderContent(); }
+function acercaRenderContent(){
+  const el = document.getElementById('acercaContent'); if(!el) return;
+  if(acercaTab==='nosotros'){
+    el.innerHTML = `
+      <div class="block-card">
+        <h4>Quiénes somos</h4>
+        <div class="txt">Somos una consultora especializada en modernización normativa municipal. Ponemos a disposición de concejales, asesores y equipos técnicos herramientas digitales que agilizan el análisis, la redacción y el seguimiento de normativa, para que quienes toman decisiones por sus comunidades tengan mejor información, más rápido.</div>
+      </div>
+      <div class="block-card">
+        <h4>Qué hacemos</h4>
+        <div class="txt">Relevamos, organizamos y digitalizamos el digesto normativo de cada municipio; desarrollamos esta plataforma para consultarlo, compararlo entre localidades, y trabajar sobre él en equipo; y acompañamos con capacitación y asistencia técnica a quienes la usan día a día.</div>
+      </div>
+      <div class="block-card">
+        <h4>Contacto</h4>
+        <div class="txt" style="margin-bottom:12px;">¿Consultas, sugerencias o querés conocer más sobre los planes? Escribinos.</div>
+        <a class="btn-whatsapp-plan" href="https://wa.me/${CONSULTORA_WHATSAPP}" target="_blank" rel="noopener" style="margin-bottom:10px;">
+          <span class="wa-icon-badge"><svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span>
+          <span>WhatsApp de la consultora</span>
+        </a>
+        <div style="font-size:12.5px; color:var(--text-muted);">Redes sociales: (completar cuando estén activas — Instagram / LinkedIn)</div>
+      </div>
+    `;
+  }else if(acercaTab==='faq'){
+    const faqs = [
+      ['¿Quién puede usar la plataforma?', 'Concejales, asesores, secretarios de concejo, intendentes y equipos técnicos de los municipios que contratan el servicio con la consultora.'],
+      ['¿Cómo se cargan las normas?', 'El equipo de la consultora relevá y digitaliza el digesto de cada municipio, y lo mantiene actualizado a medida que se sanciona nueva normativa.'],
+      ['¿Qué diferencia hay entre los planes?', 'El plan Municipio Propio da acceso solo al digesto propio; País suma todos los municipios del país; Mundo suma alcance internacional. Podés verlos en detalle en "Ver planes y prestaciones".'],
+      ['¿Mis notas y proyectos son privados?', 'Sí, por defecto. Solo se comparten con otras personas si vos mismo autorizás explícitamente ese proyecto como "público" y elegís con quién.'],
+      ['¿Qué pasa si mi municipio deja de pagar el servicio?', 'El acceso se suspende hasta regularizar la situación, pero tus datos (notas, proyectos, historial) quedan resguardados sin borrarse — accedés a todo apenas se reactive.'],
+      ['¿La consultora comparte mi información con otros municipios o partidos?', 'No. Ver la pestaña "Confidencialidad de Trabajo" para el detalle completo.']
+    ];
+    el.innerHTML = `<div class="block-card">${faqs.map(([q,a])=>`
+      <div class="faq-item">
+        <div class="faq-q">${q}</div>
+        <div class="faq-a">${a}</div>
+      </div>`).join('')}</div>`;
+  }else if(acercaTab==='bases'){
+    el.innerHTML = `
+      <div class="block-card">
+        <h4>Bases y Condiciones de uso</h4>
+        <div class="txt">
+          El acceso a Modernización Urbana se otorga a cuentas nominales autorizadas por el municipio contratante, para uso profesional vinculado a sus funciones. El contenido normativo se ofrece como herramienta de consulta y organización; no reemplaza el asesoramiento legal profesional ni constituye fuente oficial — ante cualquier duda sobre la vigencia exacta de una norma, corresponde verificar con el Boletín Oficial o la fuente municipal correspondiente.<br><br>
+          El servicio se contrata por plan y por municipio, y su continuidad está sujeta al pago vigente de la suscripción acordada con la consultora. El uso de los asistentes de inteligencia artificial disponibles en la plataforma es una herramienta de apoyo: todo borrador o análisis generado debe ser revisado por una persona antes de su uso formal.
+        </div>
+      </div>
+    `;
+  }else if(acercaTab==='confidencialidad'){
+    el.innerHTML = `
+      <div class="block-card">
+        <h4>Confidencialidad de Trabajo</h4>
+        <div class="txt">
+          Esta consultora es <b>imparcial respecto de cualquier partido político</b>. Nuestro objetivo es contribuir al desarrollo de las ciudades y de las personas, poniendo a disposición de quienes toman decisiones — concejales, asesores, equipos técnicos — herramientas digitales que agilicen su trabajo diario, sin condicionamientos partidarios.<br><br>
+          No compartimos la información, notas, proyectos ni consultas de un municipio, bloque o persona con terceros ajenos a ese mismo espacio de trabajo. Respetamos el trabajo de cada equipo tal como fue confiado a nosotros. Seguimos mejorando la plataforma para ofrecer mejores herramientas, tanto a quienes gobiernan como a la población a la que representan.
+        </div>
+      </div>
+    `;
+  }
+}
+
 function renderConsultoraPage(){
   const root = document.getElementById('consultoraRoot');
   if(currentUserRol !== 'consultora'){
@@ -1335,6 +1587,20 @@ function renderConsultoraPage(){
     <div class="stats-card" style="cursor:pointer;" onclick="openStatsGate('soporte-admin')">
       <h4>📬 Soporte y encuestas</h4>
       <p style="font-size:12.5px; color:var(--text-muted);">Mensajes de los usuarios y resultados de las encuestas de satisfacción.</p>
+    </div>
+    <div class="stats-card" style="margin-top:16px;">
+      <h4>🛠️ Modo mantenimiento</h4>
+      <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">Al activarlo, TODOS los usuarios (incluida la consultora) ven una pantalla de "sitio en mantenimiento" en vez de la app, hasta que lo desactives.</p>
+      <label class="login-label">Título</label>
+      <input id="maintTituloInput" class="login-input" placeholder="Estamos trabajando, actualizando la página" value="Estamos trabajando, actualizando la página">
+      <label class="login-label">Mensaje</label>
+      <textarea id="maintMensajeInput" class="nb-textarea" style="min-height:60px;" placeholder="La plataforma va a estar operativa nuevamente en breve...">La plataforma va a estar operativa nuevamente en breve. Gracias por la paciencia.</textarea>
+      <label class="login-label">Fecha y hora estimada (opcional)</label>
+      <input id="maintEtaInput" class="login-input" placeholder="Ej: hoy 18:00 hs">
+      <div class="btn-row" style="margin-top:12px;">
+        <button class="btn-primary" onclick="activarMantenimiento(document.getElementById('maintTituloInput').value, document.getElementById('maintMensajeInput').value, document.getElementById('maintEtaInput').value)">Activar mantenimiento</button>
+        <button class="btn-secondary" onclick="desactivarMantenimiento()">Desactivar</button>
+      </div>
     </div>
   `;
 }
@@ -1404,6 +1670,186 @@ function renderPlanesPage(){
       </a>
     </div>
   `;
+}
+
+/* ============ CURSOS (Educación) — editable por consultora ============ */
+const CURSOS_SEED = [
+  { id:'c1', titulo:'IA de Análisis y Redacción Normativa', descripcion:'Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.', imagenUrl:'', linkCurso:'', linkInfo:'' },
+  { id:'c2', titulo:'Técnica Legislativa Municipal', descripcion:'Cómo estructurar un VISTO, un CONSIDERANDO y un articulado sólido; errores frecuentes que invalidan una ordenanza; y buenas prácticas de redacción normativa a nivel municipal.', imagenUrl:'', linkCurso:'', linkInfo:'' },
+  { id:'c3', titulo:'Análisis de Impacto Normativo', descripcion:'Metodología para evaluar el impacto económico, social y urbanístico de una norma antes de sancionarla, y cómo presentar esos hallazgos al Concejo Deliberante.', imagenUrl:'', linkCurso:'', linkInfo:'' },
+  { id:'c4', titulo:'Estrategia y Gestión Legislativa', descripcion:'Cómo priorizar una agenda legislativa, construir consensos entre bloques, y planificar la implementación de una norma una vez sancionada.', imagenUrl:'', linkCurso:'', linkInfo:'' }
+];
+let cursosList = [];
+async function fetchCursos(){
+  try{
+    const res = await window.storage.get('cursos_educacion', true);
+    if(res && res.value){ const l = JSON.parse(res.value); return l && l.length ? l : CURSOS_SEED; }
+  }catch(e){ /* usa la semilla si todavía no hay datos guardados */ }
+  return CURSOS_SEED;
+}
+async function saveCursos(list){
+  try{ await window.storage.set('cursos_educacion', JSON.stringify(list), true); }
+  catch(e){ nbToast('No se pudo guardar. Probá de nuevo.'); }
+}
+async function renderEducacionPage(){
+  const root = document.getElementById('educacionRoot');
+  cursosList = await fetchCursos();
+  const isAdmin = currentUserRol==='consultora';
+  root.innerHTML = `
+    <div class="section-eyebrow">Capacitación</div>
+    <div class="section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <span>Cursos certificados</span>
+      ${isAdmin?`<button class="nb-btn tiny" onclick="openCursoForm()">${ic('plus')} Nuevo curso</button>`:''}
+    </div>
+    ${cursosList.map(c=>`
+      <div class="service-card">
+        ${c.imagenUrl?`<img src="${nbEscAttr(c.imagenUrl)}" alt="${nbEscAttr(c.titulo)}" style="width:100%; max-height:180px; object-fit:cover; border-radius:10px; margin-bottom:10px;">`:`<div class="icon-box">${ic('cap')}</div>`}
+        <h3>${nbEsc(c.titulo)}</h3>
+        <p>${nbEsc(c.descripcion||'')}</p>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="${c.linkCurso?`window.open('${nbEscAttr(c.linkCurso)}','_blank')`:`nbToast('Todavía no se cargó el link de este curso.')`}">Ir al Curso</button>
+          <button class="btn-secondary" onclick="${c.linkInfo?`window.open('${nbEscAttr(c.linkInfo)}','_blank')`:`nbToast('Sin información adicional cargada.')`}">Acerca del Curso</button>
+          ${isAdmin?`<button class="btn-secondary" onclick="openCursoForm('${c.id}')">${ic('edit')} Editar</button>
+          <button class="btn-secondary" style="color:var(--danger);" onclick="deleteCurso('${c.id}')">${ic('trash')} Eliminar</button>`:''}
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
+function openCursoForm(editId){
+  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede editar los cursos.'); return; }
+  const editing = editId ? cursosList.find(x=>x.id===editId) : null;
+  document.getElementById('cursoFormTitle').textContent = editing ? 'Editar curso' : 'Nuevo curso';
+  document.getElementById('cursoTitulo').value = editing ? editing.titulo : '';
+  document.getElementById('cursoDescripcion').value = editing ? (editing.descripcion||'') : '';
+  document.getElementById('cursoImagen').value = editing ? (editing.imagenUrl||'') : '';
+  document.getElementById('cursoLinkCurso').value = editing ? (editing.linkCurso||'') : '';
+  document.getElementById('cursoLinkInfo').value = editing ? (editing.linkInfo||'') : '';
+  document.getElementById('cursoFormOverlay').dataset.editId = editId || '';
+  document.getElementById('cursoFormOverlay').classList.add('open');
+}
+function closeCursoForm(){ document.getElementById('cursoFormOverlay').classList.remove('open'); }
+async function submitCurso(){
+  const editId = document.getElementById('cursoFormOverlay').dataset.editId;
+  const titulo = document.getElementById('cursoTitulo').value.trim();
+  if(!titulo){ nbToast('Completá al menos el título.'); return; }
+  const item = {
+    id: editId || ('curso'+Date.now()+Math.random().toString(36).slice(2,6)),
+    titulo, descripcion: document.getElementById('cursoDescripcion').value.trim(),
+    imagenUrl: document.getElementById('cursoImagen').value.trim(),
+    linkCurso: document.getElementById('cursoLinkCurso').value.trim(),
+    linkInfo: document.getElementById('cursoLinkInfo').value.trim()
+  };
+  if(editId){ cursosList = cursosList.map(x=>x.id===editId?item:x); }
+  else{ cursosList = [item, ...cursosList]; }
+  await saveCursos(cursosList);
+  closeCursoForm();
+  nbToast(editId ? 'Curso actualizado' : 'Curso publicado');
+  renderEducacionPage();
+}
+function deleteCurso(id){
+  if(currentUserRol!=='consultora') return;
+  const c = cursosList.find(x=>x.id===id); if(!c) return;
+  nbConfirm('¿Eliminar este curso?', `Se va a eliminar "${c.titulo}" de Educación. ¿Confirmás?`, async ()=>{
+    cursosList = cursosList.filter(x=>x.id!==id);
+    await saveCursos(cursosList);
+    nbToast('Curso eliminado');
+    renderEducacionPage();
+  }, 'Sí, eliminar', 'No, cancelar');
+}
+
+/* ============ BOTS DE IA (ChatGPT) — editable por consultora ============ */
+const BOTS_SEED = [
+  { id:'b1', nombre:'IA de Análisis y Redacción Normativa', descripcion:'Asistente especializado en el análisis técnico de las normas de tu digesto y en la elaboración de nuevos proyectos legislativos a partir de normas existentes.', imagenUrl:'', linkBot:'', linkInfo:'', planMinimo:'propio' },
+  { id:'b2', nombre:'IA de Análisis Normativo Técnico', descripcion:'Buscá documentos específicos entre las normas cargadas de tu municipio, con respuestas trazables a la ordenanza de origen.', imagenUrl:'', linkBot:'', linkInfo:'', planMinimo:'propio' }
+];
+let botsList = [];
+async function fetchBots(){
+  try{
+    const res = await window.storage.get('bots_ia', true);
+    if(res && res.value){ const l = JSON.parse(res.value); return l && l.length ? l : BOTS_SEED; }
+  }catch(e){ /* usa la semilla si todavía no hay datos guardados */ }
+  return BOTS_SEED;
+}
+async function saveBots(list){
+  try{ await window.storage.set('bots_ia', JSON.stringify(list), true); }
+  catch(e){ nbToast('No se pudo guardar. Probá de nuevo.'); }
+}
+async function renderChatgptPage(){
+  const root = document.getElementById('chatgptRoot');
+  botsList = await fetchBots();
+  const isAdmin = currentUserRol==='consultora';
+  root.innerHTML = `
+    <div class="section-eyebrow">Inteligencia Artificial Especializada</div>
+    <div class="section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <span>Asistentes de análisis y redacción normativa</span>
+      ${isAdmin?`<button class="nb-btn tiny" onclick="openBotForm()">${ic('plus')} Nuevo bot</button>`:''}
+    </div>
+    ${botsList.map(b=>{
+      const bloqueado = !scopeUnlockedForPlan(b.planMinimo||'propio');
+      return `
+      <div class="service-card">
+        ${b.imagenUrl?`<img src="${nbEscAttr(b.imagenUrl)}" alt="${nbEscAttr(b.nombre)}" style="width:100%; max-height:180px; object-fit:cover; border-radius:10px; margin-bottom:10px;">`:`<div class="icon-box">${ic('cpu')}</div>`}
+        <h3>${nbEsc(b.nombre)} ${bloqueado?'<span class="lock-badge">'+ic('lock')+' '+planLabel(b.planMinimo)+' o superior</span>':''}</h3>
+        <p>${nbEsc(b.descripcion||'')}</p>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="${bloqueado?`openPlanLockPopup('${b.planMinimo==='mundo'?'mundo':'pais'}')`:(b.linkBot?`window.open('${nbEscAttr(b.linkBot)}','_blank')`:`nbToast('Todavía no se cargó el link de este bot.')`)}">Ir al Bot</button>
+          <button class="btn-secondary" onclick="${b.linkInfo?`window.open('${nbEscAttr(b.linkInfo)}','_blank')`:`nbToast('Sin información adicional cargada.')`}">Saber más</button>
+          ${isAdmin?`<button class="btn-secondary" onclick="openBotForm('${b.id}')">${ic('edit')} Editar</button>
+          <button class="btn-secondary" style="color:var(--danger);" onclick="deleteBot('${b.id}')">${ic('trash')} Eliminar</button>`:''}
+        </div>
+      </div>`;
+    }).join('')}
+  `;
+}
+function scopeUnlockedForPlan(required){
+  if(required==='propio') return true;
+  if(required==='pais') return currentUserPlan==='pais' || currentUserPlan==='mundo';
+  if(required==='mundo') return currentUserPlan==='mundo';
+  return true;
+}
+function openBotForm(editId){
+  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede editar los bots.'); return; }
+  const editing = editId ? botsList.find(x=>x.id===editId) : null;
+  document.getElementById('botFormTitle').textContent = editing ? 'Editar asistente de IA' : 'Nuevo asistente de IA';
+  document.getElementById('botNombre').value = editing ? editing.nombre : '';
+  document.getElementById('botDescripcion').value = editing ? (editing.descripcion||'') : '';
+  document.getElementById('botImagen').value = editing ? (editing.imagenUrl||'') : '';
+  document.getElementById('botLinkBot').value = editing ? (editing.linkBot||'') : '';
+  document.getElementById('botLinkInfo').value = editing ? (editing.linkInfo||'') : '';
+  document.getElementById('botPlanMinimo').value = editing ? (editing.planMinimo||'propio') : 'propio';
+  document.getElementById('botFormOverlay').dataset.editId = editId || '';
+  document.getElementById('botFormOverlay').classList.add('open');
+}
+function closeBotForm(){ document.getElementById('botFormOverlay').classList.remove('open'); }
+async function submitBot(){
+  const editId = document.getElementById('botFormOverlay').dataset.editId;
+  const nombre = document.getElementById('botNombre').value.trim();
+  if(!nombre){ nbToast('Completá al menos el nombre.'); return; }
+  const item = {
+    id: editId || ('bot'+Date.now()+Math.random().toString(36).slice(2,6)),
+    nombre, descripcion: document.getElementById('botDescripcion').value.trim(),
+    imagenUrl: document.getElementById('botImagen').value.trim(),
+    linkBot: document.getElementById('botLinkBot').value.trim(),
+    linkInfo: document.getElementById('botLinkInfo').value.trim(),
+    planMinimo: document.getElementById('botPlanMinimo').value
+  };
+  if(editId){ botsList = botsList.map(x=>x.id===editId?item:x); }
+  else{ botsList = [item, ...botsList]; }
+  await saveBots(botsList);
+  closeBotForm();
+  nbToast(editId ? 'Bot actualizado' : 'Bot publicado');
+  renderChatgptPage();
+}
+function deleteBot(id){
+  if(currentUserRol!=='consultora') return;
+  const b = botsList.find(x=>x.id===id); if(!b) return;
+  nbConfirm('¿Eliminar este asistente?', `Se va a eliminar "${b.nombre}" de ChatGPT. ¿Confirmás?`, async ()=>{
+    botsList = botsList.filter(x=>x.id!==id);
+    await saveBots(botsList);
+    nbToast('Bot eliminado');
+    renderChatgptPage();
+  }, 'Sí, eliminar', 'No, cancelar');
 }
 
 /* ============ ANTEPROYECTOS Y PROYECTOS (biblioteca de modelos reales) ============ */
@@ -2513,6 +2959,53 @@ function paisScopeKeys(){
 function mundoScopeKeys(){ return Object.keys(MUNICIPIOS); }
 
 /* ============ RENDER: MI DIGESTO ============ */
+/* ============ PAGINACIÓN (20 normas por página, máximo) ============ */
+const PAGE_SIZE = 20;
+let paginationState = { digesto:1, pais:1, mundo:1 };
+function paginate(list, scope){
+  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  let page = paginationState[scope] || 1;
+  if(page > totalPages) page = totalPages;
+  if(page < 1) page = 1;
+  paginationState[scope] = page;
+  const start = (page-1)*PAGE_SIZE;
+  return { pageItems: list.slice(start, start+PAGE_SIZE), page, totalPages, total: list.length };
+}
+function paginationBarHTML(scope, page, totalPages, total){
+  if(total===0) return '';
+  const from = total===0 ? 0 : ((page-1)*PAGE_SIZE)+1;
+  const to = Math.min(page*PAGE_SIZE, total);
+  if(totalPages<=1){
+    return `<div class="pagination-bar"><div class="pagination-info">Mostrando ${from}–${to} de ${total.toLocaleString('es-AR')}</div></div>`;
+  }
+  const maxShow = 5;
+  let startP = Math.max(1, page-2);
+  let endP = Math.min(totalPages, startP+maxShow-1);
+  startP = Math.max(1, endP-maxShow+1);
+  let pagesHtml = '';
+  for(let p=startP; p<=endP; p++){
+    pagesHtml += `<button class="page-num ${p===page?'active':''}" onclick="goToPage('${scope}',${p})">${p}</button>`;
+  }
+  return `
+  <div class="pagination-bar">
+    <div class="pagination-info">Mostrando ${from}–${to} de ${total.toLocaleString('es-AR')}</div>
+    <div class="pagination-controls">
+      <button class="page-nav" onclick="goToPage('${scope}',1)" ${page===1?'disabled':''} title="Primera página">«</button>
+      <button class="page-nav" onclick="goToPage('${scope}',${page-1})" ${page===1?'disabled':''} title="Página anterior">‹</button>
+      ${startP>1?'<span class="page-ellipsis">…</span>':''}
+      ${pagesHtml}
+      ${endP<totalPages?'<span class="page-ellipsis">…</span>':''}
+      <button class="page-nav" onclick="goToPage('${scope}',${page+1})" ${page===totalPages?'disabled':''} title="Página siguiente">›</button>
+      <button class="page-nav" onclick="goToPage('${scope}',${totalPages})" ${page===totalPages?'disabled':''} title="Última página">»</button>
+    </div>
+  </div>`;
+}
+function goToPage(scope, p){
+  paginationState[scope] = p;
+  if(scope==='digesto') renderDigesto(); else renderScopePage(scope);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
 function renderDigesto(){
   const root = document.getElementById('digestoRoot');
   if(misDigestoPendiente){
@@ -2544,6 +3037,7 @@ function renderDigesto(){
   const st = scopeState.digesto;
   const own = flatNormas([currentMunicipioKey]);
   const filtered = filterNormas(own, st, {});
+  const { pageItems, page, totalPages } = paginate(filtered, 'digesto');
   const nTipos = new Set(own.map(n=>n.tipoNorma)).size;
   const nRamas = new Set(own.map(n=>n.rama)).size;
   root.innerHTML = `
@@ -2566,9 +3060,10 @@ function renderDigesto(){
     </div>
     <div class="results-line">${filtered.length} norma${filtered.length===1?'':'s'} encontrada${filtered.length===1?'':'s'}</div>
     <div class="norma-list" id="normaList-digesto"></div>
+    ${paginationBarHTML('digesto', page, totalPages, filtered.length)}
   `;
   wireSearchInput('digesto', renderDigesto);
-  renderNormaList('normaList-digesto', filtered, false);
+  renderNormaList('normaList-digesto', pageItems, false);
 }
 
 /* ============ RENDER: PAÍS / MUNDO (listado completo) ============ */
@@ -2625,9 +3120,12 @@ function renderScopePage(scope){
     </div>
     <div class="results-line">${filtered.length.toLocaleString('es-AR')} norma${filtered.length===1?'':'s'} encontrada${filtered.length===1?'':'s'}</div>
     <div class="norma-list" id="normaList-${scope}"></div>
+    <div id="paginationBar-${scope}"></div>
   `;
   wireSearchInput(scope, ()=>renderScopePage(scope));
-  renderNormaList('normaList-'+scope, filtered, scope);
+  const { pageItems, page, totalPages } = paginate(filtered, scope);
+  renderNormaList('normaList-'+scope, pageItems, scope);
+  document.getElementById('paginationBar-'+scope).innerHTML = paginationBarHTML(scope, page, totalPages, filtered.length);
 }
 
 function normaListHTML(list, scope){
@@ -2668,6 +3166,7 @@ function wireSearchInput(scope, rerender){
   if(!el) return;
   el.addEventListener('input', e=>{
     scopeState[scope].search = e.target.value;
+    paginationState[scope] = 1;
     rerender();
     const fresh = document.getElementById('searchInput-'+scope);
     fresh.focus();
@@ -2784,8 +3283,31 @@ function renderDetail(muniKey, id){
     </div>
     <div class="block-card">
       <h4>Documento original</h4>
-      <div class="doc-placeholder">📄 El PDF escaneado de esta norma se mostrará acá una vez cargado al digesto.</div>
+      ${n.documentoUrl ? `
+        <div id="pdfWrap-${n.nro}_${n.anio}">
+          <button class="nb-btn ghost tiny" onclick="togglePdfViewer('${nbEscAttr(n.documentoUrl)}','pdfWrap-${n.nro}_${n.anio}')">${ic('eye')} Ver Norma</button>
+        </div>
+      ` : `<div class="doc-placeholder">📄 El PDF escaneado de esta norma se mostrará acá una vez cargado al digesto.</div>`}
     </div>
+  `;
+}
+function togglePdfViewer(url, wrapId){
+  const wrap = document.getElementById(wrapId); if(!wrap) return;
+  if(wrap.dataset.open==='1'){
+    wrap.innerHTML = `<button class="nb-btn ghost tiny" onclick="togglePdfViewer('${url}','${wrapId}')">${ic('eye')} Ver Norma</button>`;
+    wrap.dataset.open = '0';
+    return;
+  }
+  wrap.dataset.open = '1';
+  wrap.innerHTML = `
+    <div class="pdf-viewer-bar">
+      <span>${ic('eye')} Visor de documento</span>
+      <div style="display:flex; gap:8px;">
+        <a href="${url}" download class="nb-btn ghost tiny" style="text-decoration:none;">${ic('download')} Descargar</a>
+        <button class="nb-btn ghost tiny" onclick="togglePdfViewer('${url}','${wrapId}')">${ic('eyeOff')} Cerrar visor</button>
+      </div>
+    </div>
+    <iframe src="${url}#toolbar=0&navpanes=0" class="pdf-inline-frame" loading="lazy" title="Documento original"></iframe>
   `;
 }
 
@@ -2836,6 +3358,7 @@ function toggleFilter(key, val){
   const st = scopeState[activeFilterScope];
   const idx = st.filters[key].indexOf(val);
   if(idx===-1) st.filters[key].push(val); else st.filters[key].splice(idx,1);
+  paginationState[activeFilterScope] = 1;
   openFilter(activeFilterScope);
   rerenderScope(activeFilterScope);
 }
@@ -2843,6 +3366,7 @@ function closeFilter(){ document.getElementById('filterOverlay').classList.remov
 function clearFilters(){
   const st = scopeState[activeFilterScope];
   Object.keys(st.filters).forEach(k=> st.filters[k]=[]);
+  paginationState[activeFilterScope] = 1;
   openFilter(activeFilterScope);
   rerenderScope(activeFilterScope);
 }
@@ -2866,7 +3390,7 @@ function toggleAI(){
   panel.classList.toggle('open');
   if(panel.classList.contains('open') && !aiStarted){
     aiStarted = true;
-    addAIMessage('bot', `Hola${MUNICIPIOS[currentMunicipioKey]?', vecino de '+MUNICIPIOS[currentMunicipioKey].nombre:''} 👋 Contame qué necesitás encontrar (un tema, un número de norma, una palabra clave) y te acerco las opciones más relevantes de todo el digesto.`);
+    addAIMessage('bot', `Hola 👋 Contame qué necesitás encontrar (un tema, un número de norma, una palabra clave) y te acerco las opciones más relevantes de todo el digesto.`);
     document.getElementById('aiInput').focus();
   }
 }
@@ -3814,6 +4338,9 @@ const ICONS = {
   gavel: '<line x1="8" y1="16" x2="16" y2="8"/><rect x="11.5" y="4.5" width="4" height="7" transform="rotate(45 13.5 8)"/><line x1="3" y1="21" x2="12" y2="21"/>',
   heart: '<path d="M12 20s-8-4.5-8-10.5A5 5 0 0 1 12 6a5 5 0 0 1 8 3.5C20 15.5 12 20 12 20z"/>',
   eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+  download: '<path d="M12 3v12"/><polyline points="7 11 12 16 17 11"/><path d="M4 20h16"/>',
+  eyeOff: '<path d="M3 3l18 18"/><path d="M10.6 5.1A10.4 10.4 0 0 1 12 5c6 0 10 7 10 7a17.3 17.3 0 0 1-3.4 4.1M6.6 6.6C4 8.3 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/><path d="M9.5 9.5a3 3 0 0 0 4.2 4.2"/>',
+  info: '<circle cx="12" cy="12" r="9"/><line x1="12" y1="7" x2="12" y2="13"/><line x1="12" y1="16" x2="12" y2="16.01"/>',
   monitor: '<rect x="3" y="4" width="18" height="12" rx="1.5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/>',
   glyph: '<circle cx="12" cy="12" r="9"/>'
 };
@@ -4484,7 +5011,8 @@ const CARGOS = ['Concejal', 'Asesor/a', 'Secretario/a de Concejo', 'Intendente/a
 const DEMO_ACCOUNTS = {
   'admin':  { password:'1234', plan:'mundo',  nombre:'Ana Rodríguez',    municipioKey:'centenario',  partido:'Bloque A', rol:'consultora', cargo:'Equipo Consultora', label:'Acceso completo al digesto' },
   'admin1': { password:'1234', plan:'propio', nombre:'Bruno Fernández', municipioKey:'bahiaBlanca', partido:'Bloque B', rol:'usuario',    cargo:'Concejal',          label:'Solo tu municipio' },
-  'admin2': { password:'1234', plan:'propio', nombre:'Carla Sánchez',   municipioKey:null, municipioPendiente:'Villa La Angostura', municipioPendienteProvincia:'Neuquén', municipioPendientePais:'Argentina', partido:'Bloque A', rol:'usuario', cargo:'Asesor/a', label:'Digesto en proceso de carga' }
+  'admin2': { password:'1234', plan:'propio', nombre:'Carla Sánchez',   municipioKey:null, municipioPendiente:'Villa La Angostura', municipioPendienteProvincia:'Neuquén', municipioPendientePais:'Argentina', partido:'Bloque A', rol:'usuario', cargo:'Asesor/a', label:'Digesto en proceso de carga' },
+  'admin3': { password:'1234', plan:'propio', nombre:'Diego Martínez',  municipioKey:'centenario', partido:'Bloque B', rol:'usuario', cargo:'Concejal', suspendida:true, referente:'Secretaría de Hacienda de Centenario', label:'Cuenta suspendida por falta de pago (demo)' }
 };
 /* Nombres de prueba precargados en el directorio, para poder probar el buscador de "Compartir" sin pasos extra. */
 const DIRECTORIO_DEMO = ['María González', 'Juan Pérez'];
@@ -4531,6 +5059,11 @@ async function attemptLogin(){
   if(!account || account.password !== pass){
     errEl.textContent = 'Usuario o contraseña incorrectos.';
     passEl.value=''; passEl.focus();
+    return;
+  }
+  if(account.suspendida){
+    showSuspendedPopup(account);
+    passEl.value='';
     return;
   }
   errEl.textContent = '';
@@ -4673,6 +5206,7 @@ function initApp(){
   startWellnessReminders();
   paintNavIcons();
 }
+checkMaintenanceMode();
 </script>
 </body>
 </html>
