@@ -116,6 +116,12 @@
     padding:5px 14px; border-radius:20px; letter-spacing:.2px; white-space:nowrap; box-shadow:0 2px 6px rgba(169,117,47,.35);
   }
   @media(max-width:520px){ .plan-badge{ display:none; } }
+  .user-id-chip{
+    display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:11.5px; color:#c9d3da;
+    cursor:pointer; font-family:'IBM Plex Mono';
+  }
+  .user-id-chip .copy-hint{ width:11px; height:11px; opacity:.7; }
+  .user-id-chip:hover{ color:#fff; }
   .tabs-divider{ width:1px; align-self:stretch; margin:9px 6px; background:linear-gradient(180deg,transparent,var(--bronze),transparent); opacity:.65; }
   nav.tabs{display:flex; gap:2px; align-items:stretch;}
   nav.tabs button{
@@ -127,10 +133,32 @@
   nav.tabs button.active{color:#fff; background:rgba(201,154,82,.18); font-weight:600;}
   .head-right{display:flex; align-items:center; gap:14px;}
   .more-wrap{position:relative;}
+  .avatar-group{ display:flex; align-items:center; gap:6px; }
   .avatar{
     width:32px;height:32px;border-radius:50%;background:var(--slate-blue);
-    display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;
+    display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;cursor:pointer;
+    transition:.15s ease; box-shadow:0 0 0 0 rgba(255,255,255,0);
   }
+  .avatar:hover{ transform:translateY(-1px); box-shadow:0 0 0 3px rgba(255,255,255,.15); }
+  .logout-icon-btn{
+    width:26px; height:26px; border-radius:50%; background:none; border:1px solid rgba(255,255,255,.18); color:#c9d3da;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.15s ease;
+  }
+  .logout-icon-btn:hover{ background:rgba(230,110,90,.15); border-color:var(--danger); color:var(--danger); }
+  .logout-icon-btn .ic{ width:13px; height:13px; }
+
+  /* ---------- PANTALLA DE CIERRE DE SESIÓN ---------- */
+  .logout-screen{
+    position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center;
+    background:linear-gradient(160deg,var(--slate-blue),#1f3a52);
+  }
+  .logout-screen.open{ display:flex; }
+  .logout-screen-card{ text-align:center; color:#fff; }
+  .logout-spinner{ width:52px; height:52px; margin:0 auto 20px; }
+  .logout-spinner svg{ width:100%; height:100%; animation:nbSaveSpin 1.1s linear infinite; }
+  .logout-screen-card h2{ font-family:'Lora',serif; font-size:21px; margin-bottom:10px; }
+  .logout-screen-card p{ font-size:13px; color:#cfe0ea; min-height:18px; transition:opacity .25s ease; }
+
   .more-menu{
     position:absolute; right:0; top:44px; background:#fff; color:var(--text-main);
     border-radius:10px; box-shadow:var(--shadow); min-width:170px; padding:6px;
@@ -279,16 +307,22 @@
   .section-title{font-size:20px; margin-bottom:20px; font-weight:600;}
 
   .service-card{
-    background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px;
-    display:flex; flex-direction:column; gap:12px; margin-bottom:16px;
+    background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px;
+    display:flex; flex-direction:row; align-items:flex-start; gap:16px; margin-bottom:16px;
   }
   .service-card .icon-box{
-    width:44px;height:44px;border-radius:10px; background:var(--ink); color:#c99a52;
-    display:flex;align-items:center;justify-content:center; font-size:19px;
+    width:56px;height:56px;border-radius:12px; background:var(--ink); color:#c99a52; flex-shrink:0;
+    display:flex;align-items:center;justify-content:center; font-size:20px;
   }
-  .service-card h3{font-size:16px;}
-  .service-card p{font-size:13px; color:var(--text-muted); line-height:1.5;}
-  .btn-row{display:flex; gap:10px; margin-top:4px;}
+  .service-card-img{
+    width:56px; height:56px; flex-shrink:0; border-radius:12px; overflow:hidden; background:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .service-card-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .service-card-content{ flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; }
+  .service-card h3{font-size:16px; margin:0;}
+  .service-card p{font-size:13px; color:var(--text-muted); line-height:1.5; margin:0;}
+  .btn-row{display:flex; gap:10px; margin-top:4px; flex-wrap:wrap;}
   .btn-primary{background:var(--ink); color:#fff; border:none; padding:9px 16px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer;}
   .btn-primary:hover{background:var(--ink-soft);}
   .btn-secondary{background:none; border:1px solid var(--line); padding:9px 16px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink-soft);}
@@ -339,6 +373,20 @@
   .faq-q{ font-weight:700; font-size:13.5px; color:var(--ink); margin-bottom:5px; }
   .faq-a{ font-size:13px; color:var(--text-main); line-height:1.55; }
 
+  /* ---------- GESTIÓN DE USUARIOS ---------- */
+  .user-mgmt-bulkbar{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-bottom:10px;
+  }
+  .user-mgmt-checkall{ font-size:12.5px; font-weight:600; color:var(--ink-soft); display:flex; align-items:center; gap:7px; cursor:pointer; }
+  .user-mgmt-list{ display:flex; flex-direction:column; gap:8px; max-height:420px; overflow-y:auto; }
+  .user-mgmt-row{ display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
+  .user-mgmt-info{ flex:1; min-width:0; }
+  .user-mgmt-name{ font-size:13.5px; font-weight:700; color:var(--ink); }
+  .user-mgmt-id{ font-family:'IBM Plex Mono'; font-size:11px; font-weight:600; color:var(--text-muted); }
+  .user-mgmt-meta{ font-size:11.5px; color:var(--text-muted); margin-top:2px; }
+
+
   /* ---------- FILTER MODAL ---------- */
   .overlay{position:fixed; inset:0; background:rgba(19,34,52,.45); display:none; align-items:flex-end; justify-content:center; z-index:500;}
   .overlay.open{display:flex;}
@@ -362,6 +410,10 @@
   .filter-actions button{flex:1; padding:11px; border-radius:9px; font-size:13.5px; font-weight:600; cursor:pointer;}
   .filter-actions .clear{background:none; border:1px solid var(--line); color:var(--ink-soft);}
   .filter-actions .apply{background:var(--seal-green); border:none; color:#fff;}
+  .filter-actions .apply:disabled{ background:var(--line); color:var(--text-muted); cursor:not-allowed; }
+  .consent-accordion{ border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin-bottom:8px; }
+  .consent-accordion summary{ font-size:12.5px; font-weight:700; color:var(--ink); cursor:pointer; }
+  .consent-accordion p{ font-size:12px; color:var(--text-main); line-height:1.55; margin-top:8px; }
 
   /* ---------- BOTTOM NAV (mobile) ---------- */
   .bottom-nav{
@@ -907,6 +959,40 @@
   </div>
 </div>
 
+<!-- ================= CERRANDO SESIÓN (animada) ================= -->
+<!-- ================= CONSENTIMIENTO (primer ingreso) ================= -->
+<div class="overlay" id="consentOverlay">
+  <div class="filter-sheet" style="max-width:480px;">
+    <div class="filter-sheet-head"><h3>Antes de empezar</h3></div>
+    <p style="font-size:12.5px; color:var(--text-main); line-height:1.6; margin-bottom:12px;">
+      Esta plataforma maneja información normativa y de trabajo de tu municipio. Antes de continuar, te pedimos que leas y aceptes cómo trabajamos.
+    </p>
+    <details class="consent-accordion">
+      <summary>Bases y Condiciones de uso</summary>
+      <p>El acceso se otorga a cuentas nominales autorizadas por el municipio contratante, para uso profesional. El contenido normativo es una herramienta de consulta; ante dudas sobre vigencia exacta, corresponde verificar con el Boletín Oficial. El servicio depende del pago vigente de la suscripción, y los asistentes de IA son apoyo — todo borrador debe ser revisado por una persona.</p>
+    </details>
+    <details class="consent-accordion">
+      <summary>Confidencialidad de Trabajo</summary>
+      <p>Somos imparciales respecto de cualquier partido político. No compartimos la información, notas ni proyectos de un municipio o persona con terceros ajenos a ese espacio de trabajo. Podés leer el texto completo, en cualquier momento, en "Acerca de" dentro de tu Perfil.</p>
+    </details>
+    <label style="display:flex; align-items:flex-start; gap:8px; font-size:12.5px; color:var(--text-main); margin:14px 0; cursor:pointer;">
+      <input type="checkbox" onchange="consentToggleCheck(this.checked)" style="margin-top:2px;">
+      <span>Leí y acepto las Bases y Condiciones y la Confidencialidad de Trabajo.</span>
+    </label>
+    <div class="filter-actions">
+      <button class="apply" id="consentAcceptBtn" onclick="acceptConsent()" disabled style="width:100%;">Acepto y continúo</button>
+    </div>
+  </div>
+</div>
+
+<div class="logout-screen" id="logoutScreen">
+  <div class="logout-screen-card">
+    <div class="logout-spinner" id="logoutSpinner"></div>
+    <h2>Cerrando sesión</h2>
+    <p id="logoutStatusMsg">Cerrando sesión…</p>
+  </div>
+</div>
+
 <!-- ================= MODO MANTENIMIENTO (pantalla completa, config. por consultora) ================= -->
 <div class="maint-screen" id="maintScreen">
   <div class="maint-card">
@@ -933,7 +1019,7 @@
         <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px;">
           <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>💾</span><span>Tus sesiones, notas y proyectos quedan <b>resguardados sin cambios</b> — no se borra nada.</span></li>
           <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>🔓</span><span>Vas a poder acceder a todo con normalidad apenas se regularice el pago.</span></li>
-          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>👤</span><span>Comunicate con <b id="suspendedReferente">el/la referente</b> a cargo de abonar el servicio en tu municipio, o escribinos directamente a nosotros.</span></li>
+          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>👤</span><span>Comunicate con <b id="suspendedReferente">el área a cargo de abonar el servicio</b> en tu municipio, o escribinos directamente a nosotros.</span></li>
         </ul>
       </div>
       <div class="plan-lock-actions">
@@ -993,7 +1079,10 @@
       </button>
       <div class="lang-menu" id="langMenu"></div>
     </div>
-    <div class="avatar" id="avatarBtn" onclick="showPage('perfil'); renderPerfilPage();" title="Mi perfil">P</div>
+    <div class="avatar-group">
+      <div class="avatar" id="avatarBtn" onclick="showPage('perfil'); renderPerfilPage();" title="Mi perfil">P</div>
+      <button class="logout-icon-btn" id="logoutIconBtn" onclick="confirmLogout()" title="Cerrar sesión"></button>
+    </div>
   </div>
 </header>
 
@@ -1064,6 +1153,11 @@
     <div id="acercaRoot"></div>
   </section>
 
+  <!-- ================= GLOSARIO ================= -->
+  <section class="page" id="page-glosario">
+    <div id="glosarioRoot"></div>
+  </section>
+
 </main>
 
 <!-- MODAL ALTA/EDICIÓN DE ANTEPROYECTO O PROYECTO (solo consultora) -->
@@ -1108,6 +1202,8 @@
     <input id="cursoLinkCurso" class="login-input" placeholder="https://...">
     <label class="login-label">Link "Acerca del Curso" (opcional)</label>
     <input id="cursoLinkInfo" class="login-input" placeholder="https://...">
+    <label class="login-label">Texto del pop-up "Acerca del Curso" (opcional — si lo dejás vacío, usa la Descripción)</label>
+    <textarea id="cursoInfoDetalle" class="nb-textarea" style="min-height:70px;" placeholder="Info más detallada para el pop-up..."></textarea>
     <div class="filter-actions">
       <button class="clear" onclick="closeCursoForm()">Cancelar</button>
       <button class="apply" onclick="submitCurso()">Guardar</button>
@@ -1129,6 +1225,10 @@
     <input id="botLinkBot" class="login-input" placeholder="https://...">
     <label class="login-label">Link "Saber más" (opcional)</label>
     <input id="botLinkInfo" class="login-input" placeholder="https://...">
+    <label class="login-label">Texto del pop-up "Saber más" (opcional — si lo dejás vacío, usa la Descripción)</label>
+    <textarea id="botInfoDetalle" class="nb-textarea" style="min-height:70px;" placeholder="Info más detallada para el pop-up..."></textarea>
+    <label class="login-label">Sugerencias de prompts (una por línea, opcional)</label>
+    <textarea id="botPrompts" class="nb-textarea" style="min-height:80px;" placeholder="Un prompt de ejemplo por línea..."></textarea>
     <label class="login-label">Plan mínimo para usarlo</label>
     <select id="botPlanMinimo" class="nb-reason-select">
       <option value="propio">Plan Municipio Propio</option>
@@ -1138,6 +1238,61 @@
     <div class="filter-actions">
       <button class="clear" onclick="closeBotForm()">Cancelar</button>
       <button class="apply" onclick="submitBot()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ALTA INDIVIDUAL DE USUARIO (solo Administrador) -->
+<div class="overlay" id="userNewFormOverlay">
+  <div class="filter-sheet" style="max-width:460px;">
+    <div class="filter-sheet-head"><h3>Nuevo usuario</h3><button onclick="closeUserNewForm()">✕</button></div>
+    <label class="login-label">Nombre completo</label>
+    <input id="userNewNombre" class="login-input" placeholder="Ej: Laura Gómez">
+    <label class="login-label">Usuario (para iniciar sesión)</label>
+    <input id="userNewUsuario" class="login-input" placeholder="Ej: lgomez">
+    <label class="login-label">Contraseña inicial</label>
+    <input id="userNewPass" class="login-input" type="text" placeholder="Contraseña temporal">
+    <label class="login-label">Municipio</label>
+    <select id="userNewMunicipio" class="nb-reason-select"></select>
+    <div id="userNewMunicipioNuevo" style="margin:6px 0 10px;">
+      <a href="#" onclick="event.preventDefault(); toggleMunicipioNuevoForm();" style="font-size:11.5px; color:var(--slate-blue); text-decoration:underline;">¿No está tu municipio en la lista? Darlo de alta</a>
+      <div id="municipioNuevoInline" style="display:none; margin-top:8px; background:var(--paper); border:1px solid var(--line); border-radius:9px; padding:10px;">
+        <label class="login-label">Nombre del municipio</label>
+        <input id="muniNuevoNombre" class="login-input" placeholder="Ej: Villa La Angostura">
+        <label class="login-label">Provincia / Estado</label>
+        <input id="muniNuevoProvincia" class="login-input" placeholder="Ej: Neuquén">
+        <label class="login-label">País</label>
+        <input id="muniNuevoPais" class="login-input" placeholder="Ej: Argentina">
+        <button class="nb-btn tiny" style="margin-top:8px;" onclick="submitMunicipioNuevo()">${ic('plus')} Crear municipio</button>
+        <p style="font-size:10.5px; color:var(--text-muted); margin-top:6px;">Se crea sin normas cargadas todavía — el usuario va a ver "digesto en proceso de carga" hasta que suban las primeras.</p>
+      </div>
+    </div>
+    <label class="login-label">Plan</label>
+    <select id="userNewPlan" class="nb-reason-select">
+      <option value="propio">Plan Municipio Propio</option>
+      <option value="pais">Plan País</option>
+      <option value="mundo">Plan Mundo</option>
+    </select>
+    <label class="login-label">Cargo</label>
+    <input id="userNewCargo" class="login-input" placeholder="Ej: Concejal">
+    <div class="filter-actions">
+      <button class="clear" onclick="closeUserNewForm()">Cancelar</button>
+      <button class="apply" onclick="submitUserNew()">Crear y autorizar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ALTA MASIVA DE USUARIOS (solo Administrador) -->
+<div class="overlay" id="userBulkFormOverlay">
+  <div class="filter-sheet" style="max-width:520px;">
+    <div class="filter-sheet-head"><h3>Agregar varios usuarios</h3><button onclick="closeUserBulkForm()">✕</button></div>
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Una línea por usuario, separando los datos con punto y coma:<br><code>usuario;contraseña;nombre completo;municipio;plan;cargo</code></p>
+    <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">Ej: <code>lgomez;1234;Laura Gómez;Centenario;propio;Concejal</code> — el plan puede ser <code>propio</code>, <code>pais</code> o <code>mundo</code>.</p>
+    <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">El nombre del municipio tiene que existir previamente en el sistema (si falta alguno, creálo primero desde "＋ Nuevo usuario" → "Darlo de alta").</p>
+    <textarea id="userBulkText" class="nb-textarea" style="min-height:140px; font-family:'IBM Plex Mono';" placeholder="usuario;contraseña;nombre;municipio;plan;cargo"></textarea>
+    <div class="filter-actions">
+      <button class="clear" onclick="closeUserBulkForm()">Cancelar</button>
+      <button class="apply" onclick="submitUserBulk()">Crear y autorizar todos</button>
     </div>
   </div>
 </div>
@@ -1302,6 +1457,9 @@ let currentDetailMuniKey = null;
 let currentUserPlan = 'propio';
 let currentUserRol = 'usuario'; // 'usuario' (concejal/asesor) | 'consultora' (equipo interno)
 let nbCargo = ''; // tipo de responsabilidad del usuario: Concejal, Asesor/a, etc.
+let consultoraSubRol = ''; // 'administrador' (puede modificar) | 'auditor' (solo ver) — solo aplica si currentUserRol==='consultora'
+let nbUserId = ''; // número de usuario, para buscarse/agregarse en proyectos compartidos
+function isConsultoraAdmin(){ return currentUserRol==='consultora' && consultoraSubRol==='administrador'; }
 function hasAccessToMuni(muniKey){
   if(muniKey === currentMunicipioKey) return true;
   const home = MUNICIPIOS[currentMunicipioKey];
@@ -1342,6 +1500,7 @@ function showPage(id){
   if(id==='mundo') renderScopePage('mundo');
   if(id==='consultora') renderConsultoraPage();
   if(id==='acerca') renderAcercaPage();
+  if(id==='glosario') renderGlosarioPage();
   if(id==='anteproyectos') renderApPage();
   if(id==='educacion') renderEducacionPage();
   if(id==='chatgpt') renderChatgptPage();
@@ -1391,6 +1550,7 @@ async function renderPerfilPage(){
         <span class="plan-badge" onclick="showPage('planes'); renderPlanesPage();" style="cursor:pointer;" title="Ver planes y prestaciones">${nbEsc(planLabel(currentUserPlan))}</span>
       </div>
       <div class="sub">${misDigestoPendiente ? nbEsc(municipioPendienteNombre)+' (en proceso de carga)' : nbEsc(m.nombre)+', '+nbEsc(m.provincia)}${nbCargo?' · '+nbEsc(nbCargo):''}</div>
+      <div class="user-id-chip" onclick="perfilCopiarUserId()" title="Tocar para copiar">N° de usuario: <b>#${nbEsc(nbUserId||'—')}</b> ${ic('link','copy-hint')}</div>
     </div>
     <div class="stats-card" style="margin-bottom:16px;">
       <h4>${ic('user')} Datos</h4>
@@ -1399,6 +1559,8 @@ async function renderPerfilPage(){
         <div style="min-width:150px; text-align:left;"><b style="display:block; font-family:'Lora'; font-size:15px; color:var(--ink);">${nbEsc(planLabel(currentUserPlan))}</b><span>Plan</span></div>
         <div style="min-width:150px; text-align:left;"><b style="display:block; font-family:'Lora'; font-size:15px; color:var(--ink);">${misDigestoPendiente?nbEsc(municipioPendienteNombre)+' ⏳':nbEsc(m.nombre)}</b><span>Municipio propio</span></div>
       </div>
+      <div style="margin-top:10px; font-size:11.5px; color:var(--text-muted);">Tu número de usuario (<b>#${nbEsc(nbUserId||'—')}</b>) es lo que otras personas usan para buscarte y agregarte a proyectos compartidos — también podés compartirlo así, o dar tu nombre o correo.</div>
+    </div>
       <label class="login-label" style="margin-top:14px;">Tipo de responsabilidad — se muestra en tus proyectos y archivos compartidos</label>
       <select id="perfilCargoSel" class="nb-reason-select" onchange="perfilCambiarCargo(this.value)">
         <option value="">Sin especificar</option>
@@ -1424,6 +1586,7 @@ async function renderPerfilPage(){
     </div>
     <div class="stats-card" style="padding:8px;">
       <div class="perfil-menu-item" onclick="showPage('acerca'); renderAcercaPage();">${ic('info')}<span>Acerca de</span>${ic('chevronDown','perfil-menu-chevron')}</div>
+      <div class="perfil-menu-item" onclick="showPage('glosario'); renderGlosarioPage();">${ic('files')}<span>Glosario</span>${ic('chevronDown','perfil-menu-chevron')}</div>
       <div class="perfil-menu-item" onclick="showPage('soporte'); renderSoportePage();">${ic('lifeBuoy')}<span>Ayuda y soporte</span>${ic('chevronDown','perfil-menu-chevron')}</div>
       <div class="perfil-menu-item" onclick="startTour()">${ic('compass')}<span>Ver recorrido guiado</span>${ic('chevronDown','perfil-menu-chevron')}</div>
       <div class="perfil-menu-item danger" onclick="logout()">${ic('logOut')}<span>Cerrar sesión</span>${ic('chevronDown','perfil-menu-chevron')}</div>
@@ -1433,7 +1596,28 @@ async function renderPerfilPage(){
 function perfilVerHistorialCompleto(){
   toggleNotebook().then(()=>{ nbOpenHistorial(); nbRender(); });
 }
-function logout(){ location.reload(); }
+function confirmLogout(){
+  nbConfirm('¿Estás seguro de cerrar sesión?', 'Vas a tener que volver a iniciar sesión para acceder de nuevo.', ()=>{
+    runLogoutAnimation();
+  }, 'Sí, cerrar sesión', 'Cancelar');
+}
+function logout(){ confirmLogout(); }
+function runLogoutAnimation(){
+  const screen = document.getElementById('logoutScreen');
+  const spinner = document.getElementById('logoutSpinner');
+  const msgEl = document.getElementById('logoutStatusMsg');
+  spinner.innerHTML = ic('sync');
+  screen.classList.add('open');
+  const mensajes = ['Cerrando sesión…', 'Guardando tus datos…', 'Tus datos están guardados y seguros.', 'Listo, ¡hasta la próxima!'];
+  let i = 0;
+  msgEl.textContent = mensajes[0];
+  const iv = setInterval(()=>{
+    i++;
+    if(i >= mensajes.length){ clearInterval(iv); setTimeout(()=>location.reload(), 500); return; }
+    msgEl.style.opacity = '0';
+    setTimeout(()=>{ msgEl.textContent = mensajes[i]; msgEl.style.opacity = '1'; }, 250);
+  }, 750);
+}
 
 /* ============ MODO MANTENIMIENTO (configurable, solo consultora) ============ */
 /* Guardado en un espacio compartido: cualquiera que abra la app lo ve activo hasta que se desactive. */
@@ -1456,13 +1640,13 @@ async function checkMaintenanceMode(){
   return false;
 }
 async function activarMantenimiento(titulo, mensaje, eta){
-  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede activar el mantenimiento.'); return; }
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede activar el mantenimiento.'); return; }
   const cfg = { activo:true, titulo, mensaje, eta };
   try{ await window.storage.set('maintenance_config', JSON.stringify(cfg), true); nbToast('Modo mantenimiento activado'); }
   catch(e){ nbToast('No se pudo activar. Probá de nuevo.'); }
 }
 async function desactivarMantenimiento(){
-  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede desactivar el mantenimiento.'); return; }
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede desactivar el mantenimiento.'); return; }
   try{ await window.storage.set('maintenance_config', JSON.stringify({activo:false}), true); nbToast('Modo mantenimiento desactivado'); }
   catch(e){ nbToast('No se pudo desactivar. Probá de nuevo.'); }
 }
@@ -1471,12 +1655,16 @@ async function desactivarMantenimiento(){
 function showSuspendedPopup(account){
   const home = account.municipioKey ? MUNICIPIOS[account.municipioKey] : null;
   document.getElementById('suspendedMuni').textContent = home ? home.nombre : (account.municipioPendiente || 'tu municipio');
-  document.getElementById('suspendedReferente').textContent = account.referente || 'el/la referente';
+  document.getElementById('suspendedReferente').textContent = account.referente || 'el área a cargo de abonar el servicio';
   const msg = `Hola, mi acceso a Modernización Urbana aparece suspendido por falta de pago (municipio: ${home?home.nombre:account.municipioPendiente||''}). Quisiera consultar la situación.`;
   document.getElementById('suspendedWa').href = `https://wa.me/${CONSULTORA_WHATSAPP}?text=${encodeURIComponent(msg)}`;
   document.getElementById('suspendedOverlay').classList.add('open');
 }
 function closeSuspendedPopup(){ document.getElementById('suspendedOverlay').classList.remove('open'); }
+function perfilCopiarUserId(){
+  if(!nbUserId) return;
+  navigator.clipboard.writeText(nbUserId).then(()=>nbToast('Número de usuario copiado')).catch(()=>nbToast('N° de usuario: #'+nbUserId));
+}
 async function perfilCambiarCargo(valor){
   nbCargo = valor;
   try{ await window.storage.set('perfil_cargo', valor, false); }catch(e){ /* no bloqueante */ }
@@ -1568,17 +1756,59 @@ function acercaRenderContent(){
   }
 }
 
+/* ============ GLOSARIO ============ */
+const GLOSARIO_TERMS = [
+  { t:'Ordenanza', d:'Norma sancionada por el Concejo Deliberante en ejercicio de sus funciones legislativas dentro del municipio. Es el tipo de norma municipal de mayor jerarquía.' },
+  { t:'Decreto', d:'Acto administrativo dictado por el Departamento Ejecutivo (Intendencia), generalmente para reglamentar una ordenanza o resolver una cuestión de gestión.' },
+  { t:'Resolución', d:'Disposición interna, habitualmente de una secretaría o dirección, con alcance más acotado que una ordenanza o un decreto.' },
+  { t:'Dictamen', d:'Opinión técnica o jurídica fundada, emitida por un área competente (ej. Asesoría Legal), previa a que se tome una decisión formal.' },
+  { t:'VISTO', d:'Primera parte del texto de una norma: enuncia el antecedente o hecho que motiva su dictado.' },
+  { t:'CONSIDERANDO', d:'Segunda parte del texto de una norma: expone los fundamentos y razones que justifican la decisión que se va a tomar.' },
+  { t:'Articulado', d:'El cuerpo de artículos numerados de una norma, donde efectivamente se establece lo que dispone (a diferencia del Visto y el Considerando, que son fundamentos).' },
+  { t:'Norma derogada', d:'Norma que dejó de tener vigencia, generalmente porque otra norma posterior la dejó sin efecto de forma total.' },
+  { t:'Norma modificada', d:'Norma que sigue vigente, pero cuyo contenido fue alterado parcialmente por otra norma posterior.' },
+  { t:'Boletín Oficial', d:'Publicación oficial (nacional, provincial o municipal) donde se dan a conocer las normas para que tengan validez pública.' },
+  { t:'RLS (Row Level Security)', d:'Mecanismo de la base de datos (Supabase) que controla, fila por fila, quién puede ver o modificar cada dato según su usuario y plan.' },
+  { t:'Prompt', d:'El texto o instrucción que se le escribe a un asistente de inteligencia artificial para pedirle que haga algo (por ejemplo, redactar un anteproyecto).' },
+  { t:'Anteproyecto', d:'Borrador de una norma, todavía no presentado formalmente para su tratamiento — el paso previo a un Proyecto.' },
+  { t:'Proyecto (normativo)', d:'Iniciativa ya redactada y en condiciones de presentarse formalmente para su tratamiento y eventual sanción.' },
+  { t:'Rama del Derecho', d:'La gran categoría temática de una norma (ej. Urbanístico, Tributario, Ambiental) — la clasificación de primer nivel que usamos en todo el digesto.' }
+];
+let glosarioFilterQ = '';
+function renderGlosarioPage(){
+  const root = document.getElementById('glosarioRoot');
+  const q = glosarioFilterQ.toLowerCase();
+  const list = GLOSARIO_TERMS.filter(x=> !q || (x.t+' '+x.d).toLowerCase().includes(q)).sort((a,b)=>a.t.localeCompare(b.t));
+  root.innerHTML = `
+    <div class="stats-hero">
+      <div class="section-eyebrow" style="color:#f0dcb3;">Glosario</div>
+      <h1 class="serif">Términos que usamos</h1>
+      <div class="sub">Buscá cualquier palabra que no conozcas — ordenanza, dictamen, prompt, y más.</div>
+    </div>
+    <div class="search-row">
+      <div class="search-box">
+        <span class="ic search-ic">${ic('search')}</span>
+        <input type="text" placeholder="Buscar un término..." value="${nbEscAttr(glosarioFilterQ)}" oninput="glosarioFilterQ=this.value; renderGlosarioPage();">
+      </div>
+    </div>
+    <div class="block-card">
+      ${list.length ? list.map(x=>`<div class="faq-item"><div class="faq-q">${nbEsc(x.t)}</div><div class="faq-a">${nbEsc(x.d)}</div></div>`).join('') : '<div class="nb-empty">Sin resultados.</div>'}
+    </div>
+  `;
+}
+
 function renderConsultoraPage(){
   const root = document.getElementById('consultoraRoot');
   if(currentUserRol !== 'consultora'){
     root.innerHTML = `<div class="nb-empty" style="padding:40px 20px;"><span class="glyph">${ic('lock')}</span>Esta sección es exclusiva para el equipo de la consultora.</div>`;
     return;
   }
+  const isAdmin = isConsultoraAdmin();
   root.innerHTML = `
     <div class="stats-hero">
       <div class="section-eyebrow" style="color:#f0dcb3;">Solo equipo de la consultora</div>
       <h1 class="serif">Panel de la Consultora</h1>
-      <div class="sub">Herramientas internas — no visibles para concejales ni asesores municipales.</div>
+      <div class="sub">Herramientas internas — no visibles para concejales ni asesores municipales. Tu rol interno: <b>${isAdmin?'Administrador':'Auditor (solo lectura)'}</b></div>
     </div>
     <div class="stats-card" style="margin-bottom:16px; cursor:pointer;" onclick="openStatsGate('estadisticas')">
       <h4>📊 Estadísticas de uso</h4>
@@ -1589,8 +1819,16 @@ function renderConsultoraPage(){
       <p style="font-size:12.5px; color:var(--text-muted);">Mensajes de los usuarios y resultados de las encuestas de satisfacción.</p>
     </div>
     <div class="stats-card" style="margin-top:16px;">
+      <h4>👥 Gestión de usuarios</h4>
+      <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
+        ${isAdmin ? 'Buscá por nombre, municipio o número de usuario. Seleccioná uno o varios y aplicá una acción — sin tener que entrar a Supabase.' : 'Vista de solo lectura: tu rol es Auditor, no podés modificar el estado de los usuarios.'}
+      </p>
+      <div id="userMgmtRoot"></div>
+    </div>
+    <div class="stats-card" style="margin-top:16px;">
       <h4>🛠️ Modo mantenimiento</h4>
       <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">Al activarlo, TODOS los usuarios (incluida la consultora) ven una pantalla de "sitio en mantenimiento" en vez de la app, hasta que lo desactives.</p>
+      ${isAdmin ? `
       <label class="login-label">Título</label>
       <input id="maintTituloInput" class="login-input" placeholder="Estamos trabajando, actualizando la página" value="Estamos trabajando, actualizando la página">
       <label class="login-label">Mensaje</label>
@@ -1600,14 +1838,267 @@ function renderConsultoraPage(){
       <div class="btn-row" style="margin-top:12px;">
         <button class="btn-primary" onclick="activarMantenimiento(document.getElementById('maintTituloInput').value, document.getElementById('maintMensajeInput').value, document.getElementById('maintEtaInput').value)">Activar mantenimiento</button>
         <button class="btn-secondary" onclick="desactivarMantenimiento()">Desactivar</button>
-      </div>
+      </div>` : `<div class="nb-empty">Solo el rol Administrador puede activar o desactivar el mantenimiento.</div>`}
     </div>
   `;
+  renderUserManagement();
+}
+
+/* ============ GESTIÓN DE USUARIOS (solo Administrador puede modificar) ============ */
+let usuariosEstadoCache = {};
+let usuariosNuevosCache = {};
+let userMgmtFilter = { q:'', municipio:'', provincia:'', pais:'' };
+let userMgmtSeleccion = new Set();
+function allAccounts(){ return { ...DEMO_ACCOUNTS, ...usuariosNuevosCache }; }
+async function fetchUsuariosEstado(){
+  try{
+    const res = await window.storage.get('usuarios_estado', true);
+    if(res && res.value) return JSON.parse(res.value);
+  }catch(e){ /* todavía no hay overrides guardados */ }
+  return {};
+}
+async function saveUsuariosEstado(obj){
+  try{ await window.storage.set('usuarios_estado', JSON.stringify(obj), true); }
+  catch(e){ nbToast('No se pudo guardar. Probá de nuevo.'); }
+}
+async function fetchUsuariosNuevos(){
+  try{
+    const res = await window.storage.get('usuarios_nuevos', true);
+    if(res && res.value) return JSON.parse(res.value);
+  }catch(e){ /* todavía no se agregó ninguno */ }
+  return {};
+}
+async function saveUsuariosNuevos(obj){
+  try{ await window.storage.set('usuarios_nuevos', JSON.stringify(obj), true); }
+  catch(e){ nbToast('No se pudo guardar. Probá de nuevo.'); }
+}
+async function renderUserManagement(){
+  usuariosEstadoCache = await fetchUsuariosEstado();
+  usuariosNuevosCache = await fetchUsuariosNuevos();
+  userMgmtSeleccion = new Set();
+  userMgmtRenderList();
+}
+function userMgmtUbicacion(a){
+  if(a.municipioKey && MUNICIPIOS[a.municipioKey]) return MUNICIPIOS[a.municipioKey];
+  if(a.municipioPendiente) return { nombre:a.municipioPendiente, provincia:a.municipioPendienteProvincia||'', pais:a.municipioPendientePais||'' };
+  return null;
+}
+function userMgmtRenderList(){
+  const root = document.getElementById('userMgmtRoot'); if(!root) return;
+  const isAdmin = isConsultoraAdmin();
+  const accounts = allAccounts();
+  const ubicaciones = Object.values(accounts).map(userMgmtUbicacion).filter(Boolean);
+  const municipiosDisp = [...new Set(ubicaciones.map(u=>u.nombre))].sort();
+  const provinciasDisp = [...new Set(ubicaciones.map(u=>u.provincia).filter(Boolean))].sort();
+  const paisesDisp = [...new Set(ubicaciones.map(u=>u.pais).filter(Boolean))].sort();
+  const entries = Object.entries(accounts).filter(([user,a])=>{
+    const ub = userMgmtUbicacion(a);
+    if(userMgmtFilter.municipio && (!ub || ub.nombre!==userMgmtFilter.municipio)) return false;
+    if(userMgmtFilter.provincia && (!ub || ub.provincia!==userMgmtFilter.provincia)) return false;
+    if(userMgmtFilter.pais && (!ub || ub.pais!==userMgmtFilter.pais)) return false;
+    if(userMgmtFilter.q){
+      const q = userMgmtFilter.q.toLowerCase();
+      const hay = [user, a.nombre, ub?ub.nombre:'', a.userId||''].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  root.innerHTML = `
+    <div class="search-row" style="margin-bottom:10px;">
+      <div class="search-box">
+        <span class="ic search-ic">${ic('search')}</span>
+        <input type="text" placeholder="Buscar por nombre, usuario o N° de usuario..." value="${nbEscAttr(userMgmtFilter.q)}" oninput="userMgmtFilter.q=this.value; userMgmtRenderList();">
+      </div>
+      <select class="nb-reason-select" style="max-width:170px;" onchange="userMgmtFilter.municipio=this.value; userMgmtRenderList();">
+        <option value="">Toda localidad</option>
+        ${municipiosDisp.map(m=>`<option value="${nbEscAttr(m)}" ${userMgmtFilter.municipio===m?'selected':''}>${nbEsc(m)}</option>`).join('')}
+      </select>
+      <select class="nb-reason-select" style="max-width:170px;" onchange="userMgmtFilter.provincia=this.value; userMgmtRenderList();">
+        <option value="">Toda provincia</option>
+        ${provinciasDisp.map(p=>`<option value="${nbEscAttr(p)}" ${userMgmtFilter.provincia===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
+      </select>
+      <select class="nb-reason-select" style="max-width:150px;" onchange="userMgmtFilter.pais=this.value; userMgmtRenderList();">
+        <option value="">Todo país</option>
+        ${paisesDisp.map(p=>`<option value="${nbEscAttr(p)}" ${userMgmtFilter.pais===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
+      </select>
+      ${isAdmin?`<button class="nb-btn tiny" onclick="openUserNewForm()" style="margin-left:auto;">${ic('plus')} Nuevo usuario</button>
+      <button class="nb-btn ghost tiny" onclick="openUserBulkForm()">${ic('plus')} Agregar varios</button>`:''}
+    </div>
+    ${isAdmin?`<div class="user-mgmt-bulkbar">
+      <label class="user-mgmt-checkall"><input type="checkbox" onchange="userMgmtToggleAll(this.checked)" ${entries.length && entries.every(([u])=>userMgmtSeleccion.has(u))?'checked':''}> Seleccionar todos (${entries.length})</label>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+        <select id="userMgmtPlanSel" class="nb-reason-select" style="max-width:190px;">
+          <option value="propio">Plan Municipio Propio</option>
+          <option value="pais">Plan País</option>
+          <option value="mundo">Plan Mundo</option>
+        </select>
+        <button class="btn-secondary" onclick="userMgmtBulkPlanChange()">${ic('edit')} Cambiar plan de seleccionados</button>
+        <button class="btn-secondary" style="color:var(--danger);" onclick="userMgmtBulkAction(true)">${ic('lock')} Marcar como Suspendidos</button>
+        <button class="btn-secondary" style="color:var(--seal-green);" onclick="userMgmtBulkAction(false)">${ic('check')} Marcar como Autorizados</button>
+      </div>
+    </div>` : ''}
+    <div class="user-mgmt-list">
+      ${entries.map(([user,a])=>{
+        const ub = userMgmtUbicacion(a);
+        const override = usuariosEstadoCache[user];
+        const suspendida = override ? override.suspendida : !!a.suspendida;
+        const planEfectivo = (override && override.plan) ? override.plan : a.plan;
+        return `
+        <div class="user-mgmt-row">
+          ${isAdmin?`<input type="checkbox" ${userMgmtSeleccion.has(user)?'checked':''} onchange="userMgmtToggleOne('${user}', this.checked)">`:''}
+          <div class="user-mgmt-info">
+            <div class="user-mgmt-name">${nbEsc(a.nombre)} <span class="user-mgmt-id">#${nbEsc(a.userId||'—')}</span></div>
+            <div class="user-mgmt-meta">${user} · ${ub?nbEsc(ub.nombre)+', '+nbEsc(ub.provincia)+', '+nbEsc(ub.pais):'sin municipio'} · ${nbEsc(a.cargo||'—')} · ${planLabel(planEfectivo)}</div>
+          </div>
+          <span class="estado-badge ${suspendida?'estado-derogada':'estado-vigente'}">${suspendida?ic('lock')+' Suspendido':ic('check')+' Autorizado'}</span>
+        </div>`;
+      }).join('') || '<div class="nb-empty">Sin resultados con esos filtros.</div>'}
+    </div>
+  `;
+}
+function userMgmtToggleOne(user, checked){ if(checked) userMgmtSeleccion.add(user); else userMgmtSeleccion.delete(user); userMgmtRenderList(); }
+function userMgmtToggleAll(checked){
+  if(checked){ Object.keys(allAccounts()).forEach(u=>userMgmtSeleccion.add(u)); }
+  else{ userMgmtSeleccion.clear(); }
+  userMgmtRenderList();
+}
+function userMgmtBulkAction(suspender){
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede modificar usuarios.'); return; }
+  if(userMgmtSeleccion.size===0){ nbToast('Seleccioná al menos un usuario.'); return; }
+  const accounts = allAccounts();
+  const nombres = [...userMgmtSeleccion].map(u=>accounts[u].nombre).join(', ');
+  const accion = suspender ? 'suspender' : 'autorizar (reactivar)';
+  nbConfirm(
+    `¿Confirmás ${accion} a ${userMgmtSeleccion.size} usuario(s)?`,
+    `Se va a aplicar a: ${nombres}.`,
+    async ()=>{
+      [...userMgmtSeleccion].forEach(u=>{ usuariosEstadoCache[u] = { ...(usuariosEstadoCache[u]||{}), suspendida: suspender }; });
+      await saveUsuariosEstado(usuariosEstadoCache);
+      nbToast(suspender ? 'Usuarios suspendidos' : 'Usuarios autorizados');
+      userMgmtSeleccion = new Set();
+      userMgmtRenderList();
+    },
+    suspender ? 'Sí, suspender' : 'Sí, autorizar', 'No, cancelar'
+  );
+}
+function userMgmtBulkPlanChange(){
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede modificar usuarios.'); return; }
+  if(userMgmtSeleccion.size===0){ nbToast('Seleccioná al menos un usuario.'); return; }
+  const nuevoPlan = document.getElementById('userMgmtPlanSel').value;
+  const accounts = allAccounts();
+  const nombres = [...userMgmtSeleccion].map(u=>accounts[u].nombre).join(', ');
+  nbConfirm(
+    `¿Cambiar el plan de ${userMgmtSeleccion.size} usuario(s) a ${planLabel(nuevoPlan)}?`,
+    `Se va a aplicar a: ${nombres}.`,
+    async ()=>{
+      [...userMgmtSeleccion].forEach(u=>{ usuariosEstadoCache[u] = { ...(usuariosEstadoCache[u]||{}), plan: nuevoPlan }; });
+      await saveUsuariosEstado(usuariosEstadoCache);
+      nbToast('Plan actualizado');
+      userMgmtSeleccion = new Set();
+      userMgmtRenderList();
+    },
+    'Sí, cambiar plan', 'No, cancelar'
+  );
+}
+
+/* ---- alta de usuarios (uno o varios), sin ir a Supabase ---- */
+function openUserNewForm(){
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede dar de alta usuarios.'); return; }
+  poblarMunicipioSelect('userNewMunicipio');
+  ['userNewNombre','userNewUsuario','userNewPass','userNewCargo'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('municipioNuevoInline').style.display = 'none';
+  document.getElementById('userNewFormOverlay').classList.add('open');
+}
+function poblarMunicipioSelect(selectId, selectKey){
+  const sel = document.getElementById(selectId); if(!sel) return;
+  sel.innerHTML = Object.keys(MUNICIPIOS).map(k=>`<option value="${k}" ${k===selectKey?'selected':''}>${nbEsc(MUNICIPIOS[k].nombre)}, ${nbEsc(MUNICIPIOS[k].provincia)}, ${nbEsc(MUNICIPIOS[k].pais)}</option>`).join('');
+}
+function toggleMunicipioNuevoForm(){
+  const el = document.getElementById('municipioNuevoInline');
+  el.style.display = el.style.display==='none' ? 'block' : 'none';
+}
+/* Los municipios dados de alta acá se agregan al mismo objeto MUNICIPIOS que usa
+   toda la app (sin normas todavía) y quedan guardados para la próxima sesión. */
+async function loadMunicipiosNuevos(){
+  try{
+    const res = await window.storage.get('municipios_nuevos', true);
+    if(res && res.value){ Object.assign(MUNICIPIOS, JSON.parse(res.value)); }
+  }catch(e){ /* todavía no hay municipios nuevos dados de alta */ }
+}
+async function submitMunicipioNuevo(){
+  const nombre = document.getElementById('muniNuevoNombre').value.trim();
+  const provincia = document.getElementById('muniNuevoProvincia').value.trim();
+  const pais = document.getElementById('muniNuevoPais').value.trim();
+  if(!nombre || !provincia || !pais){ nbToast('Completá nombre, provincia y país.'); return; }
+  let key = nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'');
+  if(MUNICIPIOS[key]) key = key + Math.floor(Math.random()*900+100);
+  const nuevo = { [key]: { nombre, provincia, pais, normas:[] } };
+  let actuales = {};
+  try{
+    const res = await window.storage.get('municipios_nuevos', true);
+    if(res && res.value) actuales = JSON.parse(res.value);
+  }catch(e){ /* todavía no había ninguno */ }
+  Object.assign(actuales, nuevo);
+  try{ await window.storage.set('municipios_nuevos', JSON.stringify(actuales), true); }
+  catch(e){ nbToast('No se pudo guardar. Probá de nuevo.'); return; }
+  Object.assign(MUNICIPIOS, nuevo);
+  nbToast(`Municipio "${nombre}" creado`);
+  document.getElementById('municipioNuevoInline').style.display = 'none';
+  ['muniNuevoNombre','muniNuevoProvincia','muniNuevoPais'].forEach(id=>document.getElementById(id).value='');
+  poblarMunicipioSelect('userNewMunicipio', key);
+}
+function closeUserNewForm(){ document.getElementById('userNewFormOverlay').classList.remove('open'); }
+async function submitUserNew(){
+  const nombre = document.getElementById('userNewNombre').value.trim();
+  const usuario = document.getElementById('userNewUsuario').value.trim().toLowerCase();
+  const pass = document.getElementById('userNewPass').value;
+  const municipioKey = document.getElementById('userNewMunicipio').value;
+  const plan = document.getElementById('userNewPlan').value;
+  const cargo = document.getElementById('userNewCargo').value.trim();
+  if(!nombre || !usuario || !pass){ nbToast('Completá nombre, usuario y contraseña.'); return; }
+  if(allAccounts()[usuario]){ nbToast('Ese nombre de usuario ya existe.'); return; }
+  usuariosNuevosCache[usuario] = {
+    password:pass, plan, nombre, municipioKey, partido:'', rol:'usuario', cargo,
+    userId: String(Math.floor(100000000+Math.random()*900000000))
+  };
+  await saveUsuariosNuevos(usuariosNuevosCache);
+  nbToast('Usuario creado y autorizado');
+  closeUserNewForm();
+  userMgmtRenderList();
+}
+function openUserBulkForm(){
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede dar de alta usuarios.'); return; }
+  document.getElementById('userBulkText').value = '';
+  document.getElementById('userBulkFormOverlay').classList.add('open');
+}
+function closeUserBulkForm(){ document.getElementById('userBulkFormOverlay').classList.remove('open'); }
+async function submitUserBulk(){
+  const texto = document.getElementById('userBulkText').value.trim();
+  if(!texto){ nbToast('Pegá al menos una línea.'); return; }
+  const municipioKeyPorNombre = {};
+  Object.keys(MUNICIPIOS).forEach(k=> municipioKeyPorNombre[MUNICIPIOS[k].nombre.toLowerCase()] = k);
+  let creados = 0, errores = [];
+  texto.split('\n').map(l=>l.trim()).filter(Boolean).forEach(linea=>{
+    const partes = linea.split(';').map(p=>p.trim());
+    const [usuario, pass, nombre, municipioNombre, plan, cargo] = partes;
+    if(!usuario || !pass || !nombre){ errores.push(linea); return; }
+    if(allAccounts()[usuario.toLowerCase()]){ errores.push(linea+' (usuario ya existe)'); return; }
+    const municipioKey = municipioKeyPorNombre[(municipioNombre||'').toLowerCase()] || null;
+    usuariosNuevosCache[usuario.toLowerCase()] = {
+      password:pass, plan: (plan||'propio'), nombre, municipioKey, partido:'', rol:'usuario', cargo: cargo||'',
+      userId: String(Math.floor(100000000+Math.random()*900000000))
+    };
+    creados++;
+  });
+  await saveUsuariosNuevos(usuariosNuevosCache);
+  nbToast(`${creados} usuario(s) creado(s) y autorizado(s)${errores.length?`, ${errores.length} con error`:''}`);
+  closeUserBulkForm();
+  userMgmtRenderList();
 }
 
 /* ============ PLANES Y PRESTACIONES ============ */
 /* Reemplazá este número por el WhatsApp real de la consultora antes de publicar. */
-const CONSULTORA_WHATSAPP = '5492996000000';
+const CONSULTORA_WHATSAPP = '5492996732977';
 const PLANES_INFO = [
   {
     id:'propio', nombre:'Plan Municipio Propio', tagline:'Para empezar a ordenar el digesto de tu propio municipio.',
@@ -1694,7 +2185,7 @@ async function saveCursos(list){
 async function renderEducacionPage(){
   const root = document.getElementById('educacionRoot');
   cursosList = await fetchCursos();
-  const isAdmin = currentUserRol==='consultora';
+  const isAdmin = isConsultoraAdmin();
   root.innerHTML = `
     <div class="section-eyebrow">Capacitación</div>
     <div class="section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
@@ -1703,21 +2194,27 @@ async function renderEducacionPage(){
     </div>
     ${cursosList.map(c=>`
       <div class="service-card">
-        ${c.imagenUrl?`<img src="${nbEscAttr(c.imagenUrl)}" alt="${nbEscAttr(c.titulo)}" style="width:100%; max-height:180px; object-fit:cover; border-radius:10px; margin-bottom:10px;">`:`<div class="icon-box">${ic('cap')}</div>`}
-        <h3>${nbEsc(c.titulo)}</h3>
-        <p>${nbEsc(c.descripcion||'')}</p>
-        <div class="btn-row">
-          <button class="btn-primary" onclick="${c.linkCurso?`window.open('${nbEscAttr(c.linkCurso)}','_blank')`:`nbToast('Todavía no se cargó el link de este curso.')`}">Ir al Curso</button>
-          <button class="btn-secondary" onclick="${c.linkInfo?`window.open('${nbEscAttr(c.linkInfo)}','_blank')`:`nbToast('Sin información adicional cargada.')`}">Acerca del Curso</button>
-          ${isAdmin?`<button class="btn-secondary" onclick="openCursoForm('${c.id}')">${ic('edit')} Editar</button>
-          <button class="btn-secondary" style="color:var(--danger);" onclick="deleteCurso('${c.id}')">${ic('trash')} Eliminar</button>`:''}
+        <div class="service-card-img">${c.imagenUrl?`<img src="${nbEscAttr(c.imagenUrl)}" alt="${nbEscAttr(c.titulo)}">`:`<div class="icon-box">${ic('cap')}</div>`}</div>
+        <div class="service-card-content">
+          <h3>${nbEsc(c.titulo)}</h3>
+          <p>${nbEsc(c.descripcion||'')}</p>
+          <div class="btn-row">
+            <button class="btn-primary" onclick="${c.linkCurso?`window.open('${nbEscAttr(c.linkCurso)}','_blank')`:`nbToast('Todavía no se cargó el link de este curso.')`}">Ir al Curso</button>
+            <button class="btn-secondary" onclick="openCursoInfoPopup('${c.id}')">Acerca del Curso</button>
+            ${isAdmin?`<button class="btn-secondary" onclick="openCursoForm('${c.id}')">${ic('edit')} Editar</button>
+            <button class="btn-secondary" style="color:var(--danger);" onclick="deleteCurso('${c.id}')">${ic('trash')} Eliminar</button>`:''}
+          </div>
         </div>
       </div>
     `).join('')}
   `;
 }
+function openCursoInfoPopup(cursoId){
+  const c = cursosList.find(x=>x.id===cursoId); if(!c) return;
+  nbInfoPromptPopup(c.titulo, 'info', c.infoDetalle||c.descripcion, c.linkInfo, null);
+}
 function openCursoForm(editId){
-  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede editar los cursos.'); return; }
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede editar los cursos.'); return; }
   const editing = editId ? cursosList.find(x=>x.id===editId) : null;
   document.getElementById('cursoFormTitle').textContent = editing ? 'Editar curso' : 'Nuevo curso';
   document.getElementById('cursoTitulo').value = editing ? editing.titulo : '';
@@ -1725,6 +2222,7 @@ function openCursoForm(editId){
   document.getElementById('cursoImagen').value = editing ? (editing.imagenUrl||'') : '';
   document.getElementById('cursoLinkCurso').value = editing ? (editing.linkCurso||'') : '';
   document.getElementById('cursoLinkInfo').value = editing ? (editing.linkInfo||'') : '';
+  document.getElementById('cursoInfoDetalle').value = editing ? (editing.infoDetalle||'') : '';
   document.getElementById('cursoFormOverlay').dataset.editId = editId || '';
   document.getElementById('cursoFormOverlay').classList.add('open');
 }
@@ -1738,7 +2236,8 @@ async function submitCurso(){
     titulo, descripcion: document.getElementById('cursoDescripcion').value.trim(),
     imagenUrl: document.getElementById('cursoImagen').value.trim(),
     linkCurso: document.getElementById('cursoLinkCurso').value.trim(),
-    linkInfo: document.getElementById('cursoLinkInfo').value.trim()
+    linkInfo: document.getElementById('cursoLinkInfo').value.trim(),
+    infoDetalle: document.getElementById('cursoInfoDetalle').value.trim()
   };
   if(editId){ cursosList = cursosList.map(x=>x.id===editId?item:x); }
   else{ cursosList = [item, ...cursosList]; }
@@ -1748,7 +2247,7 @@ async function submitCurso(){
   renderEducacionPage();
 }
 function deleteCurso(id){
-  if(currentUserRol!=='consultora') return;
+  if(!isConsultoraAdmin()) return;
   const c = cursosList.find(x=>x.id===id); if(!c) return;
   nbConfirm('¿Eliminar este curso?', `Se va a eliminar "${c.titulo}" de Educación. ¿Confirmás?`, async ()=>{
     cursosList = cursosList.filter(x=>x.id!==id);
@@ -1778,7 +2277,7 @@ async function saveBots(list){
 async function renderChatgptPage(){
   const root = document.getElementById('chatgptRoot');
   botsList = await fetchBots();
-  const isAdmin = currentUserRol==='consultora';
+  const isAdmin = isConsultoraAdmin();
   root.innerHTML = `
     <div class="section-eyebrow">Inteligencia Artificial Especializada</div>
     <div class="section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
@@ -1789,18 +2288,56 @@ async function renderChatgptPage(){
       const bloqueado = !scopeUnlockedForPlan(b.planMinimo||'propio');
       return `
       <div class="service-card">
-        ${b.imagenUrl?`<img src="${nbEscAttr(b.imagenUrl)}" alt="${nbEscAttr(b.nombre)}" style="width:100%; max-height:180px; object-fit:cover; border-radius:10px; margin-bottom:10px;">`:`<div class="icon-box">${ic('cpu')}</div>`}
-        <h3>${nbEsc(b.nombre)} ${bloqueado?'<span class="lock-badge">'+ic('lock')+' '+planLabel(b.planMinimo)+' o superior</span>':''}</h3>
-        <p>${nbEsc(b.descripcion||'')}</p>
-        <div class="btn-row">
-          <button class="btn-primary" onclick="${bloqueado?`openPlanLockPopup('${b.planMinimo==='mundo'?'mundo':'pais'}')`:(b.linkBot?`window.open('${nbEscAttr(b.linkBot)}','_blank')`:`nbToast('Todavía no se cargó el link de este bot.')`)}">Ir al Bot</button>
-          <button class="btn-secondary" onclick="${b.linkInfo?`window.open('${nbEscAttr(b.linkInfo)}','_blank')`:`nbToast('Sin información adicional cargada.')`}">Saber más</button>
-          ${isAdmin?`<button class="btn-secondary" onclick="openBotForm('${b.id}')">${ic('edit')} Editar</button>
-          <button class="btn-secondary" style="color:var(--danger);" onclick="deleteBot('${b.id}')">${ic('trash')} Eliminar</button>`:''}
+        <div class="service-card-img">${b.imagenUrl?`<img src="${nbEscAttr(b.imagenUrl)}" alt="${nbEscAttr(b.nombre)}">`:`<div class="icon-box">${ic('cpu')}</div>`}</div>
+        <div class="service-card-content">
+          <h3>${nbEsc(b.nombre)} ${bloqueado?'<span class="lock-badge">'+ic('lock')+' '+planLabel(b.planMinimo)+' o superior</span>':''}</h3>
+          <p>${nbEsc(b.descripcion||'')}</p>
+          <div class="btn-row">
+            <button class="btn-primary" onclick="${bloqueado?`openPlanLockPopup('${b.planMinimo==='mundo'?'mundo':'pais'}')`:(b.linkBot?`window.open('${nbEscAttr(b.linkBot)}','_blank')`:`nbToast('Todavía no se cargó el link de este bot.')`)}">Ir al Bot</button>
+            <button class="btn-secondary" onclick="openSaberMasPopup('${b.id}')">Saber más</button>
+            <button class="btn-secondary" onclick="openPromptSuggestions('${b.id}')">${ic('info')} Sugerencias de prompts</button>
+            ${isAdmin?`<button class="btn-secondary" onclick="openBotForm('${b.id}')">${ic('edit')} Editar</button>
+            <button class="btn-secondary" style="color:var(--danger);" onclick="deleteBot('${b.id}')">${ic('trash')} Eliminar</button>`:''}
+          </div>
         </div>
       </div>`;
     }).join('')}
   `;
+}
+const PROMPT_SUGERENCIAS_DEFAULT = [
+  'Ayudame a armar un anteproyecto de ordenanza sobre [tema], con VISTO, CONSIDERANDO y articulado.',
+  'Analizá esta norma y decime si tiene contradicciones con otra que te voy a pasar.',
+  'Unificá el texto de estas dos ordenanzas en una sola versión consolidada.',
+  'Armá una guía paso a paso para tramitar [trámite] según la normativa vigente.',
+  'Resumime en lenguaje simple qué establece esta ordenanza, para explicarle a un vecino.',
+  'Compará cómo resuelven este mismo tema tres municipios distintos de mi digesto.'
+];
+function nbInfoPromptPopup(titulo, subtitulo, infoTexto, linkInfo, promptList){
+  const m = document.getElementById('nbModal'); if(!m) return;
+  const prompts = (promptList && promptList.length) ? promptList : PROMPT_SUGERENCIAS_DEFAULT;
+  m.innerHTML = `<div class="nb-modal-box" style="max-width:420px; position:relative;">
+      <button onclick="nbModalClose()" style="position:absolute; top:10px; right:10px; background:none; border:none; color:var(--text-muted); font-size:16px; cursor:pointer; padding:4px;">✕</button>
+      <h4>${nbEsc(titulo)}</h4>
+      ${subtitulo==='info' ? `
+        <p>${nbEsc(infoTexto||'Sin información adicional cargada.')}</p>
+        ${linkInfo?`<a href="${nbEscAttr(linkInfo)}" target="_blank" rel="noopener" class="nb-btn ghost tiny" style="text-decoration:none; display:inline-block; margin-top:6px;">Ver más información</a>`:''}
+      ` : `
+        <p style="margin-bottom:10px;">Ejemplos de lo que podés pedirle:</p>
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; text-align:left;">
+          ${prompts.map(p=>`<li style="font-size:12.5px; color:var(--text-main); background:var(--paper); border-radius:8px; padding:8px 10px;">${nbEsc(p)}</li>`).join('')}
+        </ul>
+      `}
+      <div class="nb-modal-actions"><button class="nb-btn tiny" onclick="nbModalClose()">Entendido</button></div>
+    </div>`;
+  m.classList.add('open');
+}
+function openSaberMasPopup(botId){
+  const b = botsList.find(x=>x.id===botId); if(!b) return;
+  nbInfoPromptPopup(b.nombre, 'info', b.infoDetalle||b.descripcion, b.linkInfo, null);
+}
+function openPromptSuggestions(botId){
+  const b = botsList.find(x=>x.id===botId); if(!b) return;
+  nbInfoPromptPopup('Sugerencias de prompts — '+b.nombre, 'prompt', null, null, b.promptSugerencias);
 }
 function scopeUnlockedForPlan(required){
   if(required==='propio') return true;
@@ -1809,7 +2346,7 @@ function scopeUnlockedForPlan(required){
   return true;
 }
 function openBotForm(editId){
-  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede editar los bots.'); return; }
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede editar los bots.'); return; }
   const editing = editId ? botsList.find(x=>x.id===editId) : null;
   document.getElementById('botFormTitle').textContent = editing ? 'Editar asistente de IA' : 'Nuevo asistente de IA';
   document.getElementById('botNombre').value = editing ? editing.nombre : '';
@@ -1817,6 +2354,8 @@ function openBotForm(editId){
   document.getElementById('botImagen').value = editing ? (editing.imagenUrl||'') : '';
   document.getElementById('botLinkBot').value = editing ? (editing.linkBot||'') : '';
   document.getElementById('botLinkInfo').value = editing ? (editing.linkInfo||'') : '';
+  document.getElementById('botInfoDetalle').value = editing ? (editing.infoDetalle||'') : '';
+  document.getElementById('botPrompts').value = editing ? (editing.promptSugerencias||[]).join('\n') : '';
   document.getElementById('botPlanMinimo').value = editing ? (editing.planMinimo||'propio') : 'propio';
   document.getElementById('botFormOverlay').dataset.editId = editId || '';
   document.getElementById('botFormOverlay').classList.add('open');
@@ -1832,6 +2371,8 @@ async function submitBot(){
     imagenUrl: document.getElementById('botImagen').value.trim(),
     linkBot: document.getElementById('botLinkBot').value.trim(),
     linkInfo: document.getElementById('botLinkInfo').value.trim(),
+    infoDetalle: document.getElementById('botInfoDetalle').value.trim(),
+    promptSugerencias: document.getElementById('botPrompts').value.split('\n').map(s=>s.trim()).filter(Boolean),
     planMinimo: document.getElementById('botPlanMinimo').value
   };
   if(editId){ botsList = botsList.map(x=>x.id===editId?item:x); }
@@ -1842,7 +2383,7 @@ async function submitBot(){
   renderChatgptPage();
 }
 function deleteBot(id){
-  if(currentUserRol!=='consultora') return;
+  if(!isConsultoraAdmin()) return;
   const b = botsList.find(x=>x.id===id); if(!b) return;
   nbConfirm('¿Eliminar este asistente?', `Se va a eliminar "${b.nombre}" de ChatGPT. ¿Confirmás?`, async ()=>{
     botsList = botsList.filter(x=>x.id!==id);
@@ -1954,7 +2495,7 @@ function apRenderList(){
         <option value="">Todo país</option>
         ${paisesDisp.map(p=>`<option value="${nbEscAttr(p)}" ${apFilter.pais===p?'selected':''}>${nbEsc(p)}</option>`).join('')}
       </select>
-      ${currentUserRol==='consultora'?`<button class="nb-btn tiny" onclick="openApForm()" style="margin-left:auto;">＋ Nuevo</button>`:''}
+      ${isConsultoraAdmin()?`<button class="nb-btn tiny" onclick="openApForm()" style="margin-left:auto;">＋ Nuevo</button>`:''}
     </div>
     <div class="results-line">${list.length} modelo${list.length===1?'':'s'} encontrado${list.length===1?'':'s'}</div>
     <div class="norma-list">
@@ -1967,7 +2508,7 @@ function apRenderList(){
             <div class="norma-title"><b>${nbEsc(a.tipo)}</b> — ${nbEsc(a.titulo)}</div>
             <div class="norma-meta">
               <span>${rubroIconHTML(a.rubro)}${nbEsc(rubroLabel(a.rubro))}</span>
-              ${a.municipioOrigen?`<span>📍 ${nbEsc(a.municipioOrigen)}</span>`:''}
+              ${a.municipioOrigen?`<span>`+ic('pin')+` ${nbEsc(a.municipioOrigen)}</span>`:''}
               <span>${nbFecha(a.fecha||a.createdAt)}</span>
             </div>
           </div>
@@ -1994,7 +2535,7 @@ function renderApDetail(id){
       <div class="detail-header-row">
         <div class="detail-tipo-icon-fallback">${a.tipo==='Anteproyecto'?'📝':'📘'}</div>
         <div style="flex:1;">
-          <div class="detail-eyebrow">${nbEsc(a.tipo)} · ${nbEsc(rubroLabel(a.rubro))}${a.municipioOrigen?(' · 📍 '+nbEsc(a.municipioOrigen)):''}</div>
+          <div class="detail-eyebrow">${nbEsc(a.tipo)} · ${nbEsc(rubroLabel(a.rubro))}${a.municipioOrigen?(' · '+ic('pin')+' '+nbEsc(a.municipioOrigen)):''}</div>
           <div class="detail-title serif">${nbEsc(a.titulo)}</div>
         </div>
       </div>
@@ -2013,16 +2554,16 @@ function renderApDetail(id){
     </div>` : ''}
     <div class="btn-row" style="flex-wrap:wrap; margin-bottom:16px;">
       <button class="btn-primary" onclick="usarComoBase('${a.id}')">📝 Usar como base para mi propia nota</button>
-      ${currentUserRol==='consultora'?`
-        <button class="btn-secondary" onclick="openApForm('${a.id}')">✎ Editar</button>
-        <button class="btn-secondary" style="color:var(--danger);" onclick="deleteAnteproyecto('${a.id}')">🗑 Eliminar</button>` : ''}
+      ${isConsultoraAdmin()?`
+        <button class="btn-secondary" onclick="openApForm('${a.id}')">${ic('edit')} Editar</button>
+        <button class="btn-secondary" style="color:var(--danger);" onclick="deleteAnteproyecto('${a.id}')">${ic('trash')} Eliminar</button>` : ''}
     </div>
   `;
 }
 
 /* ---- alta / edición (solo consultora) ---- */
 function openApForm(editId){
-  if(currentUserRol!=='consultora'){ nbToast('Solo el equipo de la consultora puede publicar contenido acá.'); return; }
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede publicar contenido acá.'); return; }
   const rubroSel = document.getElementById('apRubro');
   rubroSel.innerHTML = RUBROS.map(r=>`<option value="${r.id}">${r.label}</option>`).join('');
   const muniSel = document.getElementById('apMunicipioSel');
@@ -2067,7 +2608,7 @@ async function submitAnteproyecto(){
   apRenderList();
 }
 function deleteAnteproyecto(id){
-  if(currentUserRol!=='consultora') return;
+  if(!isConsultoraAdmin()) return;
   const a = apCurrentList.find(x=>x.id===id); if(!a) return;
   nbConfirm('¿Eliminar este modelo?', `Se va a eliminar "${a.titulo}" de la biblioteca compartida. ¿Confirmás?`, async ()=>{
     apCurrentList = apCurrentList.filter(x=>x.id!==id);
@@ -2490,7 +3031,7 @@ function statsRenderWithData(eventosNormas, eventosProyectos, eventosLogin, regi
         </div>
       </div>
       <div class="stats-card">
-        <h4>📍 Normas por provincia</h4>
+        <h4>${ic('pin')} Normas por provincia</h4>
         <div class="stats-chart-wrap">${porProvincia.length ? '<canvas id="chartProvincia"></canvas>' : '<div class="nb-empty">Sin datos todavía.</div>'}</div>
       </div>
       <div class="stats-card">
@@ -2502,20 +3043,20 @@ function statsRenderWithData(eventosNormas, eventosProyectos, eventosLogin, regi
         ${porPais.length ? porPais.map(([l,c])=>`<div class="stat-bar-row"><div class="stat-bar-label">${nbEsc(l)}</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.round(c/maxOf(porPais)*100)}%"></div></div><div class="stat-bar-count">${c}</div></div>`).join('') : '<div class="nb-empty">Sin datos todavía.</div>'}
       </div>
       <div class="stats-card">
-        <h4>👤 Usuarios con más actividad</h4>
+        <h4>${ic('user')} Usuarios con más actividad</h4>
         ${porUsuario.length ? porUsuario.map(([l,c])=>`<div class="stat-bar-row"><div class="stat-bar-label">${nbEsc(l)}</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${Math.round(c/maxOf(porUsuario)*100)}%"></div></div><div class="stat-bar-count">${c}</div></div>`).join('') : '<div class="nb-empty">Sin datos todavía.</div>'}
       </div>
     </div>
 
     <div class="stats-card" style="margin-bottom:16px;">
-      <h4>👥 Personas registradas vs. conectadas, por provincia</h4>
+      <h4>${ic('users')} Personas registradas vs. conectadas, por provincia</h4>
       ${Object.keys(porLocalidad).length ? Object.entries(porLocalidad).map(([loc, d])=>`
         <div class="stats-locality-row">
           <div class="stats-locality-head">
             <b>${nbEsc(loc)}</b>
             <span>${d.registrados.length} registrado(s) · ${d.conectados.length} conectado(s) recientemente</span>
           </div>
-          ${d.noConectados.length ? `<div class="stats-locality-warn">⚠️ No se conectaron: ${d.noConectados.map(x=>nbEsc(x)).join(', ')}</div>` : `<div class="stats-locality-ok">✔ Todos los registrados se conectaron.</div>`}
+          ${d.noConectados.length ? `<div class="stats-locality-warn">⚠️ No se conectaron: ${d.noConectados.map(x=>nbEsc(x)).join(', ')}</div>` : `<div class="stats-locality-ok">`+ic('check')+` Todos los registrados se conectaron.</div>`}
         </div>
       `).join('') : '<div class="nb-empty">Sin personas registradas todavía.</div>'}
     </div>
@@ -3141,11 +3682,11 @@ function normaListHTML(list, scope){
       ${tipoIconHTML(n.tipoNorma,'tipo-icon','tipo-icon-fallback')}
       <div class="norma-body">
         <div class="norma-title">
-          ${showMuni?`<span class="muni-pill">📍 ${n.muniNombre}, ${n.provincia}</span> `:''}
+          ${showMuni?`<span class="muni-pill">`+ic('pin')+` ${n.muniNombre}, ${n.provincia}</span> `:''}
           <b>${n.tipoNorma} Municipal Nro. ${n.nro}/${n.anio}</b> | Tema Principal: ${n.tema} | Rama del Derecho: ${n.rama}
         </div>
         <div class="norma-meta">
-          <span class="estado-badge sm ${estadoClass}">${estado==='Vigente'?'✔':estado==='Derogada'?'✕':'↻'} ${estado}</span>
+          <span class="estado-badge sm ${estadoClass}">${estado==='Vigente'?ic('check'):estado==='Derogada'?ic('x'):ic('sync')} ${estado}</span>
           <span>Subtema: <b>${n.subtema}</b></span>
           <span>Impacto: <b>${n.impacto}</b></span>
           <span class="pill ${n.complejidad.toLowerCase()}">Complejidad: ${n.complejidad}</span>
@@ -3252,7 +3793,7 @@ function renderDetail(muniKey, id){
           <div class="detail-eyebrow">${n.tipoNorma} N° ${n.nro}/${n.anio} · ${m.nombre}, ${m.provincia}</div>
           <div class="detail-title serif">${n.tema}</div>
         </div>
-        <span class="estado-badge ${estadoClass}">${estado==='Vigente'?'✔':estado==='Derogada'?'✕':'↻'} ${estado}</span>
+        <span class="estado-badge ${estadoClass}">${estado==='Vigente'?ic('check'):estado==='Derogada'?ic('x'):ic('sync')} ${estado}</span>
       </div>
     </div>
     <div class="field-grid">
@@ -3268,7 +3809,7 @@ function renderDetail(muniKey, id){
           const vn = vm ? vm.normas.find(x=>x.nro===v.nro && String(x.anio)===String(v.anio)) : null;
           if(!vn) return '';
           return `<button class="nb-btn ghost tiny" onclick="openDetail('${v.muniKey}','${v.nro}_${v.anio}','digesto')">
-            🔗 ${nbEsc(v.relacion)}: ${nbEsc(vn.tipoNorma)} N° ${nbEsc(v.nro)}/${v.anio}
+            ${ic('link')} ${nbEsc(v.relacion)}: ${nbEsc(vn.tipoNorma)} N° ${nbEsc(v.nro)}/${v.anio}
           </button>`;
         }).join('')}
       </div>
@@ -3519,7 +4060,7 @@ function submitAIQuery(){
       ${tipoIconHTML(r.n.tipoNorma,'tipo-icon','tipo-icon-fallback')}
       <div class="${ok?'':'blur-me'}" style="flex:1;">
         <div class="rtitle">${r.n.tipoNorma} N° ${r.n.nro}/${r.n.anio} — ${r.n.tema.length>90? r.n.tema.slice(0,90)+'…':r.n.tema}</div>
-        <div class="rmeta">📍 ${MUNICIPIOS[r.muniKey].nombre}, ${MUNICIPIOS[r.muniKey].provincia}, ${MUNICIPIOS[r.muniKey].pais} · ${r.n.rama}</div>
+        <div class="rmeta">${ic('pin')} ${MUNICIPIOS[r.muniKey].nombre}, ${MUNICIPIOS[r.muniKey].provincia}, ${MUNICIPIOS[r.muniKey].pais} · ${r.n.rama}</div>
       </div>
       ${ok?'':'<span class="lock-badge">'+ic('lock')+' Fuera de tu plan</span>'}
     </div>`;
@@ -3844,8 +4385,8 @@ function nbRender(){
     subBar.textContent = p.notes.length + ' nota' + (p.notes.length===1?'':'s') + ' · creado el ' + nbFecha(p.createdAt) + (p.visibility==='public' ? (' · por ' + (p.ownerName||'—') + (p.ownerCargo?' ('+p.ownerCargo+')':'')) : '');
     toolbar.innerHTML = `
       <input class="nb-find" id="nbFind" placeholder="${t('nb_find_notes')}" oninput="nbRenderNotes(this.value)">
-      ${p.visibility==='public'?`<button class="nb-btn ghost tiny" onclick="nbOpenProjectHistorial()" title="Ver quién hizo qué en este proyecto">👥 Actividad</button>`:''}
-      ${(p.visibility==='public' && role==='owner')?`<button class="nb-btn ghost tiny" onclick="nbOpenProjectShare()" title="Elegir quién puede ver o editar">🔗 Compartir</button>`:''}
+      ${p.visibility==='public'?`<button class="nb-btn ghost tiny" onclick="nbOpenProjectHistorial()" title="Ver quién hizo qué en este proyecto">${ic('users')} Actividad</button>`:''}
+      ${(p.visibility==='public' && role==='owner')?`<button class="nb-btn ghost tiny" onclick="nbOpenProjectShare()" title="Elegir quién puede ver o editar">${ic('share')} Compartir</button>`:''}
       ${canEdit?`<button class="nb-btn" onclick="nbNewNote()">${t('nb_new_note')}</button>`:''}`;
     foot.innerHTML = `
       ${canEdit?`<button class="nb-btn ghost tiny" onclick="nbRenameProject()">${t('nb_rename')}</button>`:''}
@@ -3853,7 +4394,7 @@ function nbRender(){
       <button class="nb-btn ghost tiny" onclick="nbExportProjectWord()">${t('nb_export_word')}</button>
       <button class="nb-btn ghost tiny" onclick="nbExportProjectPDF()">${t('nb_export_pdf')}</button>`;
     const banner = p.visibility==='public'
-      ? `<div class="nb-pick-banner">🌐 Proyecto público, de <b>${nbEsc(p.ownerName||'—')}</b>. ${role==='owner' ? 'Vos decidís quién más puede verlo o editarlo con el botón "🔗 Compartir".' : (role==='editor' ? 'Te autorizaron como <b>Editor</b>: podés sumar y modificar contenido.' : 'Te autorizaron solo para <b>ver</b>: podés leer, pero no modificar.')}</div>`
+      ? `<div class="nb-pick-banner">${ic('globe')} Proyecto público, de <b>${nbEsc(p.ownerName||'—')}</b>. ${role==='owner' ? 'Vos decidís quién más puede verlo o editarlo con el botón "🔗 Compartir".' : (role==='editor' ? 'Te autorizaron como <b>Editor</b>: podés sumar y modificar contenido.' : 'Te autorizaron solo para <b>ver</b>: podés leer, pero no modificar.')}</div>`
       : '';
     body.innerHTML = banner + `<div id="nbNotesWrap">${nbNotesHTML(p, '')}</div>`;
   }
@@ -3934,7 +4475,7 @@ function nbProjectsHTML(){
   const card = (p)=>{
     const role = nbMyRoleIn(p);
     const roleBadge = (p.visibility==='public' && role && role!=='owner')
-      ? `<span class="role-badge ${role}">${role==='editor'?'✎ Editor':'👁 Solo ver'}</span>` : '';
+      ? `<span class="role-badge ${role}">` + (role==='editor'? ic('edit')+' Editor' : ic('eye')+' Solo ver') + `</span>` : '';
     const puedeEliminar = role==='owner' || p.visibility==='private';
     return `
     <div class="nb-item" onclick="nbOpenProject('${p.id}')">
@@ -3956,11 +4497,11 @@ function nbProjectsHTML(){
   const publicosBody = publicos.length ? publicos.map(card).join('') : `<div class="nb-empty" style="padding:12px;">Nadie te autorizó a ver un proyecto todavía, y vos tampoco compartiste ninguno. Un proyecto público solo lo ven las personas que su dueño elige explícitamente.</div>`;
   return `
     <details class="nb-group" open>
-      <summary>🔒 Tus proyectos privados <span class="nb-group-count">${privados.length}</span></summary>
+      <summary>${ic('lock')} Tus proyectos privados <span class="nb-group-count">${privados.length}</span></summary>
       <div class="nb-group-body">${privadosBody}</div>
     </details>
     <details class="nb-group" open>
-      <summary>🌐 Proyectos compartidos conmigo <span class="nb-group-count">${publicos.length}</span></summary>
+      <summary>${ic('globe')} Proyectos compartidos conmigo <span class="nb-group-count">${publicos.length}</span></summary>
       <div class="nb-group-body">${publicosBody}</div>
     </details>
   `;
@@ -4043,7 +4584,7 @@ function nbShareHTML(p){
     ${colaboradores.length ? colaboradores.map(c=>`
       <div class="nb-share-row">
         <span class="nb-share-name">${nbEsc(c.nombre)}</span>
-        <span class="role-badge ${c.rol}">${c.rol==='editor'?'✎ Editor':'👁 Solo ver'}</span>
+        <span class="role-badge ${c.rol}">${c.rol==='editor'? ic('edit')+' Editor' : ic('eye')+' Solo ver'}</span>
         <button class="nb-del" onclick="nbRemoveColaborador('${nbEscAttr(c.nombre)}')" title="Quitar autorización">✕</button>
       </div>`).join('') : `<div class="nb-empty" style="padding:12px;">Todavía no autorizaste a nadie. Sos vos, ${nbEsc(p.ownerName||'')}, quien decide con quién compartir este proyecto.</div>`}
   `;
@@ -4109,7 +4650,7 @@ function nbOpenProjectHistorial(){
 function nbProjectHistorialHTML(p){
   const list = p.historial || [];
   if(!list.length){
-    return `<div class="nb-empty"><span class="glyph">👥</span>Todavía no hay actividad registrada en este proyecto.</div>`;
+    return `<div class="nb-empty"><span class="glyph">${ic('users')}</span>Todavía no hay actividad registrada en este proyecto.</div>`;
   }
   return list.map(h=>`
     <div class="nb-hist-item">
@@ -4118,7 +4659,7 @@ function nbProjectHistorialHTML(p){
         <span class="nb-hist-ts">${nbFecha(h.ts)} · ${nbHora(h.ts)}</span>
       </div>
       <div class="nb-hist-detail">${nbEsc(h.detalle||'')}</div>
-      <div class="nb-hist-motivo" style="color:var(--slate-blue);">👤 ${nbEsc(h.usuario||'Sin nombre')}</div>
+      <div class="nb-hist-motivo" style="color:var(--slate-blue);">${ic('user')} ${nbEsc(h.usuario||'Sin nombre')}</div>
       ${h.motivo?`<div class="nb-hist-motivo">Motivo: ${nbEsc(h.motivo)}</div>`:''}
     </div>`).join('');
 }
@@ -4171,9 +4712,54 @@ function nbEditorHTML(n, readOnly){
     </div>`}
     <div id="nbLinksWrap">${nbLinksHTML(n, readOnly)}</div>
 
+    <div class="nb-sec-label">Adjuntos (Word, PDF, etc.)</div>
+    ${readOnly ? '' : `<div class="nb-adjunto-form">
+      <input id="nbAdjuntoNombre" class="login-input" placeholder="Nombre del archivo (ej: Dictamen legal.docx)" style="margin-bottom:6px;">
+      <input id="nbAdjuntoUrl" class="login-input" placeholder="Link al archivo (Drive, Firebase, etc.)">
+      <button class="nb-btn ghost tiny" style="margin-top:8px;" onclick="nbAddAdjunto()">${ic('plus')} Agregar adjunto</button>
+    </div>`}
+    <div id="nbAdjuntosWrap">${nbAdjuntosHTML(n, readOnly)}</div>
+
     <div class="nb-sec-label">Subnotas</div>
     <div id="nbSubsWrap">${nbSubsHTML(n, readOnly)}</div>
   </div>`;
+}
+function nbAdjuntosHTML(n, readOnly){
+  const adjuntos = n.adjuntos||[];
+  if(!adjuntos.length) return `<div class="nb-empty" style="padding:12px;">Sin adjuntos todavía. Sumá acá los Word, PDF u otros archivos de este expediente, para tener todo en un mismo lugar.</div>`;
+  return adjuntos.map(a=>`
+    <div class="nb-link-chip">
+      <div class="lk-ic">${ic('files')}</div>
+      <div class="lk-txt">
+        <div class="lk-t">${nbEsc(a.nombre)}</div>
+        <div class="lk-m">Agregado el ${nbFecha(a.ts)}</div>
+      </div>
+      <a href="${nbEscAttr(a.url)}" target="_blank" rel="noopener" class="nb-btn ghost tiny" style="text-decoration:none;" onclick="event.stopPropagation();">${ic('download')} Descargar</a>
+      ${readOnly?'':`<button class="nb-del" onclick="event.stopPropagation();nbRemoveAdjunto('${a.id}')" title="Quitar adjunto">✕</button>`}
+    </div>`).join('');
+}
+function nbAddAdjunto(){
+  const n = nbActiveNote(); if(!n) return;
+  const nombre = document.getElementById('nbAdjuntoNombre').value.trim();
+  const url = document.getElementById('nbAdjuntoUrl').value.trim();
+  if(!nombre || !url){ nbToast('Completá el nombre y el link del archivo.'); return; }
+  n.adjuntos = n.adjuntos||[];
+  n.adjuntos.push({ id:nbUid(), nombre, url, ts:nbNow() });
+  nbLogEvent('Adjuntó archivo', 'Nota', `${nombre} → "${n.titulo||'Nota sin título'}"`);
+  nbTouch('Adjunto agregado');
+  document.getElementById('nbAdjuntosWrap').innerHTML = nbAdjuntosHTML(n);
+  document.getElementById('nbAdjuntoNombre').value = '';
+  document.getElementById('nbAdjuntoUrl').value = '';
+}
+function nbRemoveAdjunto(id){
+  const n = nbActiveNote(); if(!n) return;
+  const a = (n.adjuntos||[]).find(x=>x.id===id); if(!a) return;
+  nbConfirm('¿Quitar este adjunto?', `Se va a quitar "${a.nombre}" de esta nota. ¿Confirmás?`, ()=>{
+    n.adjuntos = (n.adjuntos||[]).filter(x=>x.id!==id);
+    nbLogEvent('Quitó adjunto', 'Nota', `${a.nombre} — "${n.titulo||'Nota sin título'}"`);
+    nbTouch();
+    document.getElementById('nbAdjuntosWrap').innerHTML = nbAdjuntosHTML(n);
+  }, 'Sí, quitar', 'No, cancelar');
 }
 function nbLinksHTML(n, readOnly){
   const links = n.links||[];
@@ -4307,6 +4893,8 @@ const ICONS = {
   trash: '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/>',
   edit: '<path d="M4 20l4-1 11-11-3-3L5 16z"/>',
   chevronDown: '<polyline points="6 9 12 15 18 9"/>',
+  x: '<line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>',
+  sync: '<polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.5 9A9 9 0 0 0 5 5.6L1 10m22 4l-4 4.4A9 9 0 0 1 3.5 15"/>',
   logOut: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
   compass: '<circle cx="12" cy="12" r="9"/><polygon points="14.5 9.5 12 12 9.5 14.5 12 12 14.5 9.5"/>',
   lifeBuoy: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><line x1="4.9" y1="4.9" x2="8.8" y2="8.8"/><line x1="15.2" y1="15.2" x2="19.1" y2="19.1"/><line x1="19.1" y1="4.9" x2="15.2" y2="8.8"/><line x1="8.8" y1="15.2" x2="4.9" y2="19.1"/>',
@@ -4593,7 +5181,7 @@ function nbRenderLinkResults(q){
     return `
     <div class="r ${ok?'':'locked'}" onclick="${ok?`nbAddLink('${r.muniKey}','${r.n.nro}_${r.n.anio}')`:`nbBlockedLinkClick()`}">
       <span class="${ok?'':'blur-me'}"><b>${nbEsc(r.n.tipoNorma)} N° ${nbEsc(r.n.nro)}/${r.n.anio}</b>
-      <span class="nb-link-loc">📍 ${nbEsc(m.nombre)}, ${nbEsc(m.provincia)}, ${nbEsc(m.pais)}</span>
+      <span class="nb-link-loc">${ic('pin')} ${nbEsc(m.nombre)}, ${nbEsc(m.provincia)}, ${nbEsc(m.pais)}</span>
       <span>${nbEsc(r.n.tema.slice(0,80))}${r.n.tema.length>80?'…':''}</span></span>
       ${ok?'':'<span class="lock-badge">'+ic('lock')+' Fuera de tu plan</span>'}
     </div>`;
@@ -5009,10 +5597,11 @@ function nbImportBackup(ev){
 /* ============ LOGIN ============ */
 const CARGOS = ['Concejal', 'Asesor/a', 'Secretario/a de Concejo', 'Intendente/a', 'Director/a de área', 'Equipo Consultora', 'Otro'];
 const DEMO_ACCOUNTS = {
-  'admin':  { password:'1234', plan:'mundo',  nombre:'Ana Rodríguez',    municipioKey:'centenario',  partido:'Bloque A', rol:'consultora', cargo:'Equipo Consultora', label:'Acceso completo al digesto' },
-  'admin1': { password:'1234', plan:'propio', nombre:'Bruno Fernández', municipioKey:'bahiaBlanca', partido:'Bloque B', rol:'usuario',    cargo:'Concejal',          label:'Solo tu municipio' },
-  'admin2': { password:'1234', plan:'propio', nombre:'Carla Sánchez',   municipioKey:null, municipioPendiente:'Villa La Angostura', municipioPendienteProvincia:'Neuquén', municipioPendientePais:'Argentina', partido:'Bloque A', rol:'usuario', cargo:'Asesor/a', label:'Digesto en proceso de carga' },
-  'admin3': { password:'1234', plan:'propio', nombre:'Diego Martínez',  municipioKey:'centenario', partido:'Bloque B', rol:'usuario', cargo:'Concejal', suspendida:true, referente:'Secretaría de Hacienda de Centenario', label:'Cuenta suspendida por falta de pago (demo)' }
+  'admin':  { password:'1234', plan:'mundo',  nombre:'Ana Rodríguez',    municipioKey:'centenario',  partido:'Bloque A', rol:'consultora', consultoraSubRol:'administrador', userId:'100000001', cargo:'Equipo Consultora', label:'Acceso completo al digesto' },
+  'admin1': { password:'1234', plan:'propio', nombre:'Bruno Fernández', municipioKey:'bahiaBlanca', partido:'Bloque B', rol:'usuario',    userId:'342603342', cargo:'Concejal',          label:'Solo tu municipio' },
+  'admin2': { password:'1234', plan:'propio', nombre:'Carla Sánchez',   municipioKey:null, municipioPendiente:'Villa La Angostura', municipioPendienteProvincia:'Neuquén', municipioPendientePais:'Argentina', partido:'Bloque A', rol:'usuario', userId:'118273645', cargo:'Asesor/a', label:'Digesto en proceso de carga' },
+  'admin3': { password:'1234', plan:'propio', nombre:'Diego Martínez',  municipioKey:'centenario', partido:'Bloque B', rol:'usuario', userId:'209384756', cargo:'Concejal', suspendida:true, label:'Cuenta suspendida por falta de pago (demo)' },
+  'admin4': { password:'1234', plan:'mundo',  nombre:'Emilia Torres',   municipioKey:'centenario', partido:'Bloque A', rol:'consultora', consultoraSubRol:'auditor', userId:'100000002', cargo:'Equipo Consultora', label:'Auditora — solo lectura interna (demo)' }
 };
 /* Nombres de prueba precargados en el directorio, para poder probar el buscador de "Compartir" sin pasos extra. */
 const DIRECTORIO_DEMO = ['María González', 'Juan Pérez'];
@@ -5055,19 +5644,30 @@ async function attemptLogin(){
   const errEl = document.getElementById('loginError');
   const user = (userEl.value||'').trim().toLowerCase();
   const pass = passEl.value||'';
-  const account = DEMO_ACCOUNTS[user];
+  let nuevosGuardados = {};
+  try{
+    const res = await window.storage.get('usuarios_nuevos', true);
+    if(res && res.value) nuevosGuardados = JSON.parse(res.value);
+  }catch(e){ /* todavía no hay usuarios nuevos cargados */ }
+  const account = DEMO_ACCOUNTS[user] || nuevosGuardados[user];
   if(!account || account.password !== pass){
     errEl.textContent = 'Usuario o contraseña incorrectos.';
     passEl.value=''; passEl.focus();
     return;
   }
-  if(account.suspendida){
+  let estadoDinamico = null;
+  try{
+    const res = await window.storage.get('usuarios_estado', true);
+    if(res && res.value){ const overrides = JSON.parse(res.value); estadoDinamico = overrides[user] || null; }
+  }catch(e){ /* si falla la lectura, se usa el estado fijo de la cuenta */ }
+  const suspendidaFinal = estadoDinamico ? estadoDinamico.suspendida : account.suspendida;
+  if(suspendidaFinal){
     showSuspendedPopup(account);
     passEl.value='';
     return;
   }
   errEl.textContent = '';
-  currentUserPlan = account.plan;
+  currentUserPlan = (estadoDinamico && estadoDinamico.plan) ? estadoDinamico.plan : account.plan;
   currentUserRol = account.rol || 'usuario';
   if(account.municipioKey && MUNICIPIOS[account.municipioKey]){
     currentMunicipioKey = account.municipioKey;
@@ -5085,6 +5685,8 @@ async function attemptLogin(){
   }
   nbDisplayName = account.nombre; // viene del login: ya no se le pregunta el nombre al usuario
   nbCargo = account.cargo || '';
+  consultoraSubRol = account.consultoraSubRol || '';
+  nbUserId = account.userId || '';
   document.getElementById('loginScreen').style.display = 'none';
   document.querySelectorAll('.consultora-only').forEach(el=>{ el.style.display = currentUserRol==='consultora' ? '' : 'none'; });
   const badgeEl = document.getElementById('headerPlanBadge'); if(badgeEl) badgeEl.textContent = planLabel(currentUserPlan);
@@ -5112,6 +5714,9 @@ const TOUR_STEPS = [
   { selector:'[data-page="digesto"]', title:'Mi Digesto', text:'Acá están todas las normas de tu municipio, siempre disponibles según tu plan.' },
   { selector:'[data-page="pais"]', title:'País', text:'Normas de otros municipios de tu país. El acceso completo depende del plan contratado.' },
   { selector:'[data-page="mundo"]', title:'Mundo', text:'Alcance internacional, para cuando el plan lo incluya.' },
+  { selector:'[data-page="anteproyectos"]', title:'Anteproy. y Proyectos', text:'Modelos reales ya elaborados por el equipo, para que armes el tuyo propio a partir de una base sólida.' },
+  { selector:'[data-page="chatgpt"]', title:'Bots IA', text:'Asistentes de inteligencia artificial para analizar y redactar normativa, según tu plan.' },
+  { selector:'[data-page="educacion"]', title:'Educación', text:'Cursos y capacitaciones sobre técnica legislativa, análisis normativo y estrategia.' },
   { selector:'#aiFab', title:'Asistente del Digesto', text:'Preguntale por un tema o un número de norma y te acerca las opciones más relevantes de todo el digesto.' },
   { selector:'#nbFab', title:'Tu Anotador', text:'Organizá proyectos y notas de trabajo, y guardá accesos directos a las normas que vas usando.' },
   { selector:'.lang-btn', title:'Idioma', text:'Cambiá el idioma de la interfaz cuando lo necesites.' },
@@ -5142,7 +5747,7 @@ function renderTourStep(){
     <h4>${nbEsc(step.title)}</h4>
     <p>${nbEsc(step.text)}</p>
     <div class="tour-actions">
-      <button class="nb-btn ghost tiny" onclick="skipTour()">Omitir recorrido</button>
+      <button class="nb-btn ghost tiny" onclick="skipTour()">No volver a mostrar</button>
       <div class="tour-next-group">
         ${tourStep>0?`<button class="nb-btn ghost tiny" onclick="tourPrev()">← Atrás</button>`:''}
         <button class="nb-btn tiny" onclick="tourNext()">${tourStep===TOUR_STEPS.length-1?'Finalizar':'Siguiente →'}</button>
@@ -5193,7 +5798,7 @@ function closeWellnessPopup(){
 }
 
 function paintNavIcons(){
-  const map = { bicDigesto:'landmark', bicPais:'flag', bicMundo:'globe', bicChatgpt:'cpu', bicEducacion:'cap', bicAnteproyectos:'files', bicConsultora:'briefcase' };
+  const map = { bicDigesto:'landmark', bicPais:'flag', bicMundo:'globe', bicChatgpt:'cpu', bicEducacion:'cap', bicAnteproyectos:'files', bicConsultora:'briefcase', logoutIconBtn:'logOut' };
   Object.entries(map).forEach(([elId, iconName])=>{
     const el = document.getElementById(elId);
     if(el) el.innerHTML = ic(iconName);
@@ -5202,11 +5807,26 @@ function paintNavIcons(){
 function initApp(){
   renderDigesto();
   nbEnsureLoaded().then(()=>{ nbUpdateBadge(); });
-  maybeStartTour();
+  checkConsentGate();
   startWellnessReminders();
   paintNavIcons();
 }
+async function checkConsentGate(){
+  try{
+    const res = await window.storage.get('consentimiento_aceptado', false);
+    if(res && res.value){ maybeStartTour(); return; }
+  }catch(e){ /* si falla la lectura, se muestra igual por las dudas */ }
+  document.getElementById('consentOverlay').classList.add('open');
+}
+function consentToggleCheck(checked){ document.getElementById('consentAcceptBtn').disabled = !checked; }
+async function acceptConsent(){
+  try{ await window.storage.set('consentimiento_aceptado', JSON.stringify({aceptado:true, ts:new Date().toISOString(), usuario:nbDisplayName}), false); }
+  catch(e){ /* no bloqueante */ }
+  document.getElementById('consentOverlay').classList.remove('open');
+  maybeStartTour();
+}
 checkMaintenanceMode();
+loadMunicipiosNuevos();
 </script>
 </body>
 </html>
