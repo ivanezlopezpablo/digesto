@@ -452,17 +452,6 @@
   .nb-adjunto-link-alt summary{ font-size:11px; color:var(--text-muted); cursor:pointer; text-decoration:underline; }
 
   /* ---------- FILTROS Y ETIQUETAS DORADAS (Educación / Bots IA) ---------- */
-  .gold-filter-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
-  .gold-filter-chip{
-    background:#fff; border:1.5px solid #a9752f; color:#8a5e22; font-size:11.5px; font-weight:700;
-    padding:5px 15px; border-radius:16px; cursor:pointer; transition:.15s ease; letter-spacing:.2px;
-  }
-  .gold-filter-chip:hover{ background:var(--bronze-soft); }
-  .gold-filter-chip.color-green{ border-color:#2f7350; color:#2f7350; }
-  .gold-filter-chip.color-green:hover{ background:#e8f3ec; }
-  .gold-filter-chip.color-bronze{ border-color:#a9752f; color:#8a5e22; }
-  .gold-filter-chip.color-ink{ border-color:var(--ink-soft); color:var(--ink); }
-  .gold-filter-chip.color-ink:hover{ background:#e9edf1; }
   .navy-filter-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
   .navy-filter-chip{
     background:#fff; border:1.5px solid var(--ink); color:var(--ink); font-size:11.5px; font-weight:700;
@@ -474,13 +463,8 @@
     box-shadow:0 4px 14px rgba(19,34,52,.35);
   }
   .service-card-badges{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:2px; }
-  .gold-tag-overlay{
-    position:absolute; top:6px; right:6px; background:linear-gradient(135deg,#a9752f,#7a5019); color:#fff;
-    font-size:8.5px; font-weight:800; padding:3px 8px; border-radius:10px; letter-spacing:.3px; text-transform:uppercase;
-    box-shadow:0 2px 6px rgba(0,0,0,.25); z-index:1;
-  }
   .gold-tag{
-    display:inline-block; background:linear-gradient(90deg,#c99a52 0%,#c99a52 80%,#7a5019 100%); color:#fff; font-size:9.5px; font-weight:800;
+    display:inline-block; background:linear-gradient(90deg,#c99a52 0%,#c99a52 50%,#7a5019 100%); color:#fff; font-size:9.5px; font-weight:800;
     padding:3px 10px; border-radius:12px; letter-spacing:.4px; text-transform:uppercase; box-shadow:0 2px 6px rgba(122,80,25,.35);
   }
   .nivel-chip{
@@ -1237,9 +1221,9 @@
     <button data-page="mundo" data-i18n="nav_mundo">Mundo</button>
     <span class="tabs-divider"></span>
     <button data-page="anteproyectos">Anteproy. y Proyectos</button>
-    <button data-page="chatgpt">Bots IA</button>
-    <span class="tabs-divider"></span>
-    <button data-page="educacion" data-i18n="nav_educacion">Educación</button>
+    <button data-page="chatgpt" id="navBotsIA">Bots IA</button>
+    <span class="tabs-divider" id="navDivEducacion"></span>
+    <button data-page="educacion" id="navEducacion" data-i18n="nav_educacion">Educación</button>
     <span class="tabs-divider consultora-only" style="display:none;"></span>
     <button data-page="consultora" class="consultora-only" style="display:none;">Consultora</button>
   </nav>
@@ -1494,8 +1478,8 @@
   <button data-page="pais"><span class="bic" id="bicPais">🇦🇷</span><span data-i18n="nav_pais">País</span></button>
   <button data-page="mundo"><span class="bic" id="bicMundo">🌐</span><span data-i18n="nav_mundo">Mundo</span></button>
   <button data-page="anteproyectos"><span class="bic" id="bicAnteproyectos">📑</span><span>Modelos</span></button>
-  <button data-page="chatgpt"><span class="bic" id="bicChatgpt">◈</span><span>Bots IA</span></button>
-  <button data-page="educacion"><span class="bic" id="bicEducacion">✎</span><span data-i18n="nav_educacion_short">Educ.</span></button>
+  <button data-page="chatgpt" id="navBotsIAMobile"><span class="bic" id="bicChatgpt">◈</span><span>Bots IA</span></button>
+  <button data-page="educacion" id="navEducacionMobile"><span class="bic" id="bicEducacion">✎</span><span data-i18n="nav_educacion_short">Educ.</span></button>
   <button data-page="consultora" class="consultora-only" style="display:none;"><span class="bic" id="bicConsultora">🏢</span><span>Consultora</span></button>
 </div>
 
@@ -2485,6 +2469,44 @@ async function loadMunicipiosNuevos(){
     if(res && res.value){ Object.assign(MUNICIPIOS, JSON.parse(res.value)); }
   }catch(e){ /* todavía no hay municipios nuevos dados de alta */ }
 }
+
+/* ============ ACTIVAR / DESACTIVAR SECCIONES (Bots IA, Educación) — solo Administrador ============ */
+/* Regla de los divisores del menú: el separador que va justo antes de "Educación" se
+   oculta automáticamente cuando Educación está desactivada (sin importar el estado de
+   Bots IA) — es el que queda "huérfano" separando de la nada. El separador anterior
+   (después de Mundo) se mantiene siempre, porque "Anteproy. y Proyectos" sigue teniendo
+   contenido aunque Bots IA esté apagado. Esto cubre también el caso de que ambas
+   secciones estén desactivadas al mismo tiempo. */
+let seccionesVisibles = { botsIA:true, educacion:true };
+async function fetchSeccionesVisibles(){
+  try{
+    const res = await window.storage.get('secciones_visibles', true);
+    if(res && res.value) return { botsIA:true, educacion:true, ...JSON.parse(res.value) };
+  }catch(e){ /* todavía no se configuró nada, quedan ambas activas por defecto */ }
+  return { botsIA:true, educacion:true };
+}
+async function saveSeccionesVisibles(obj){
+  try{ await window.storage.set('secciones_visibles', JSON.stringify(obj), true); }
+  catch(e){ nbToast('No se pudo guardar. Probá de nuevo.'); }
+}
+function aplicarSeccionesVisibles(){
+  const dEl = (id)=>document.getElementById(id);
+  [dEl('navBotsIA'), dEl('navBotsIAMobile')].forEach(el=>{ if(el) el.style.display = seccionesVisibles.botsIA ? '' : 'none'; });
+  [dEl('navEducacion'), dEl('navEducacionMobile')].forEach(el=>{ if(el) el.style.display = seccionesVisibles.educacion ? '' : 'none'; });
+  const div = dEl('navDivEducacion'); if(div) div.style.display = seccionesVisibles.educacion ? '' : 'none';
+}
+async function initSeccionesVisibles(){
+  seccionesVisibles = await fetchSeccionesVisibles();
+  aplicarSeccionesVisibles();
+}
+async function toggleSeccionVisible(seccion){
+  if(!isConsultoraAdmin()){ nbToast('Solo el rol Administrador puede activar o desactivar esta sección.'); return; }
+  seccionesVisibles[seccion] = !seccionesVisibles[seccion];
+  await saveSeccionesVisibles(seccionesVisibles);
+  aplicarSeccionesVisibles();
+  nbToast(seccionesVisibles[seccion] ? 'Sección activada' : 'Sección desactivada');
+  if(seccion==='botsIA') renderChatgptPage(); else renderEducacionPage();
+}
 async function submitMunicipioNuevo(){
   const nombre = document.getElementById('muniNuevoNombre').value.trim();
   const provincia = document.getElementById('muniNuevoProvincia').value.trim();
@@ -2737,18 +2759,25 @@ async function saveCursos(list){
 }
 async function renderEducacionPage(){
   const root = document.getElementById('educacionRoot');
+  const isAdmin0 = isConsultoraAdmin();
+  if(!seccionesVisibles.educacion && !isAdmin0){
+    root.innerHTML = `<div class="nb-empty" style="padding:40px 20px;"><span class="glyph">${ic('eyeOff')}</span>Esta sección está temporalmente desactivada.</div>`;
+    return;
+  }
   cursosList = await fetchCursos();
-  const isAdmin = isConsultoraAdmin();
+  const isAdmin = isAdmin0;
   const list = cursosList.filter(c=>!educacionFiltroNivel || c.nivel===educacionFiltroNivel);
   root.innerHTML = `
     <div class="section-eyebrow">Capacitación</div>
+    ${!seccionesVisibles.educacion?`<div class="perfil-incompleto-aviso" style="margin-bottom:12px;">Esta página está desactivada para el resto de los usuarios — solo vos, como Administrador, podés seguir viéndola y editándola.</div>`:''}
     <div class="section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
       <span>Cursos certificados</span>
-      ${isAdmin?`<button class="nb-btn tiny" onclick="openCursoForm()">${ic('plus')} Nuevo curso</button>`:''}
+      ${isAdmin?`<button class="nb-btn tiny" onclick="openCursoForm()">${ic('plus')} Nuevo curso</button>
+      <button class="btn-secondary" style="${seccionesVisibles.educacion?'':'color:var(--danger);'}" onclick="toggleSeccionVisible('educacion')">${seccionesVisibles.educacion?ic('eyeOff')+' Desactivar página':ic('eye')+' Activar página'}</button>`:''}
     </div>
-    <div class="gold-filter-row">
-      <button class="gold-filter-chip ${!educacionFiltroNivel?'active':''}" onclick="educacionSetFiltroNivel('')">Todas</button>
-      ${NIVELES_CAPACITACION.map(n=>`<button class="gold-filter-chip color-${n.color} ${educacionFiltroNivel===n.id?'active':''}" onclick="educacionSetFiltroNivel('${n.id}')">${n.label}</button>`).join('')}
+    <div class="navy-filter-row">
+      <button class="navy-filter-chip ${!educacionFiltroNivel?'active':''}" onclick="educacionSetFiltroNivel('')">Todas</button>
+      ${NIVELES_CAPACITACION.map(n=>`<button class="navy-filter-chip ${educacionFiltroNivel===n.id?'active':''}" onclick="educacionSetFiltroNivel('${n.id}')">${n.label}</button>`).join('')}
     </div>
     ${list.map((c,idx)=>`
       <div class="service-card" ${isAdmin?`draggable="true" ondragstart="nbDragStart(event,'cursos',${idx})" ondragover="nbDragOver(event)" ondrop="nbDrop(event,'cursos',${idx})" ondragend="nbDragEnd(event)"`:''}>
@@ -2855,14 +2884,21 @@ async function saveBots(list){
 }
 async function renderChatgptPage(){
   const root = document.getElementById('chatgptRoot');
+  const isAdmin0 = isConsultoraAdmin();
+  if(!seccionesVisibles.botsIA && !isAdmin0){
+    root.innerHTML = `<div class="nb-empty" style="padding:40px 20px;"><span class="glyph">${ic('eyeOff')}</span>Esta sección está temporalmente desactivada.</div>`;
+    return;
+  }
   botsList = await fetchBots();
-  const isAdmin = isConsultoraAdmin();
+  const isAdmin = isAdmin0;
   const list = botsList.filter(b=>!botsFiltroMotor || b.motor===botsFiltroMotor);
   root.innerHTML = `
     <div class="section-eyebrow">Inteligencia Artificial Especializada</div>
+    ${!seccionesVisibles.botsIA?`<div class="perfil-incompleto-aviso" style="margin-bottom:12px;">Esta página está desactivada para el resto de los usuarios — solo vos, como Administrador, podés seguir viéndola y editándola.</div>`:''}
     <div class="section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
       <span>Asistentes de análisis y redacción normativa</span>
-      ${isAdmin?`<button class="nb-btn tiny" onclick="openBotForm()">${ic('plus')} Nuevo bot</button>`:''}
+      ${isAdmin?`<button class="nb-btn tiny" onclick="openBotForm()">${ic('plus')} Nuevo bot</button>
+      <button class="btn-secondary" style="${seccionesVisibles.botsIA?'':'color:var(--danger);'}" onclick="toggleSeccionVisible('botsIA')">${seccionesVisibles.botsIA?ic('eyeOff')+' Desactivar página':ic('eye')+' Activar página'}</button>`:''}
     </div>
     <div class="navy-filter-row">
       <button class="navy-filter-chip ${!botsFiltroMotor?'active':''}" onclick="botsSetFiltroMotor('')">Todos</button>
@@ -6582,6 +6618,7 @@ function toggleLoginPassVisibility(){
 }
 checkMaintenanceMode();
 loadMunicipiosNuevos();
+initSeccionesVisibles();
 paintLoginIcons();
 runWelcomeScreen();
 </script>
