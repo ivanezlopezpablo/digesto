@@ -148,6 +148,9 @@
     border-radius:8px; margin-bottom:12px;
   }
   .tabs-divider{ width:1px; align-self:stretch; margin:9px 6px; background:linear-gradient(180deg,transparent,var(--bronze),transparent); opacity:.65; }
+  .nav-disabled-ic{ display:none; align-items:center; color:#e6a35a; margin-left:-8px; margin-right:4px; }
+  .nav-disabled-ic.show{ display:inline-flex; }
+  .nav-disabled-ic .ic{ width:12px; height:12px; }
   nav.tabs{display:flex; gap:2px; align-items:stretch;}
   nav.tabs button{
     background:none;border:none;color:#c9d3da;font-family:'IBM Plex Sans';
@@ -1221,9 +1224,9 @@
     <button data-page="mundo" data-i18n="nav_mundo">Mundo</button>
     <span class="tabs-divider"></span>
     <button data-page="anteproyectos">Anteproy. y Proyectos</button>
-    <button data-page="chatgpt" id="navBotsIA">Bots IA</button>
+    <button data-page="chatgpt" id="navBotsIA">Bots IA</button><span class="nav-disabled-ic" id="navBotsIAIcon" title="Desactivada para el resto de los usuarios"></span>
     <span class="tabs-divider" id="navDivEducacion"></span>
-    <button data-page="educacion" id="navEducacion" data-i18n="nav_educacion">Educación</button>
+    <button data-page="educacion" id="navEducacion" data-i18n="nav_educacion">Educación</button><span class="nav-disabled-ic" id="navEducacionIcon" title="Desactivada para el resto de los usuarios"></span>
     <span class="tabs-divider consultora-only" style="display:none;"></span>
     <button data-page="consultora" class="consultora-only" style="display:none;">Consultora</button>
   </nav>
@@ -2491,9 +2494,17 @@ async function saveSeccionesVisibles(obj){
 }
 function aplicarSeccionesVisibles(){
   const dEl = (id)=>document.getElementById(id);
-  [dEl('navBotsIA'), dEl('navBotsIAMobile')].forEach(el=>{ if(el) el.style.display = seccionesVisibles.botsIA ? '' : 'none'; });
-  [dEl('navEducacion'), dEl('navEducacionMobile')].forEach(el=>{ if(el) el.style.display = seccionesVisibles.educacion ? '' : 'none'; });
-  const div = dEl('navDivEducacion'); if(div) div.style.display = seccionesVisibles.educacion ? '' : 'none';
+  const isAdmin = isConsultoraAdmin();
+  const iconBotsIA = dEl('navBotsIAIcon'); if(iconBotsIA && !iconBotsIA.innerHTML) iconBotsIA.innerHTML = ic('eyeOff');
+  const iconEducacion = dEl('navEducacionIcon'); if(iconEducacion && !iconEducacion.innerHTML) iconEducacion.innerHTML = ic('eyeOff');
+  // Bots IA: visible si está activa, o si soy Administrador (con el ícono de aviso).
+  [dEl('navBotsIA'), dEl('navBotsIAMobile')].forEach(el=>{ if(el) el.style.display = (seccionesVisibles.botsIA || isAdmin) ? '' : 'none'; });
+  if(iconBotsIA) iconBotsIA.classList.toggle('show', isAdmin && !seccionesVisibles.botsIA);
+  // Educación: mismo criterio.
+  [dEl('navEducacion'), dEl('navEducacionMobile')].forEach(el=>{ if(el) el.style.display = (seccionesVisibles.educacion || isAdmin) ? '' : 'none'; });
+  if(iconEducacion) iconEducacion.classList.toggle('show', isAdmin && !seccionesVisibles.educacion);
+  // El divisor sigue la visibilidad EFECTIVA de Educación para quien está mirando (no el estado "real").
+  const div = dEl('navDivEducacion'); if(div) div.style.display = (seccionesVisibles.educacion || isAdmin) ? '' : 'none';
 }
 async function initSeccionesVisibles(){
   seccionesVisibles = await fetchSeccionesVisibles();
@@ -6403,6 +6414,7 @@ async function attemptLogin(){
   nbUserId = account.userId || '';
   document.getElementById('loginScreen').style.display = 'none';
   document.querySelectorAll('.consultora-only').forEach(el=>{ el.style.display = currentUserRol==='consultora' ? '' : 'none'; });
+  aplicarSeccionesVisibles();
   const badgeEl = document.getElementById('headerPlanBadge'); if(badgeEl) badgeEl.textContent = planLabel(currentUserPlan);
   try{ await window.storage.set('perfil_nombre', nbDisplayName, false); }catch(e){ /* no bloqueante */ }
   await nbSeedDirectorio(nbDisplayName);
