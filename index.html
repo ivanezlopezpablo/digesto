@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  MODERNIZACIÓN URBANA — PROTOTIPO EN UN SOLO ARCHIVO
+  Este archivo es la herramienta de iteración rápida, no la arquitectura final.
+  Ver "modernizacion-urbana-roadmap.md" para el plan de fragmentación profesional
+  (estructura de carpetas, buenas prácticas de agencia, orden de migración).
+  Antes de que este archivo siga creciendo mucho más, conviene retomar ese plan.
+-->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -87,6 +94,20 @@
     font-family:inherit; outline:none; margin-bottom:14px; background:var(--paper);
   }
   .login-input:focus{border-color:var(--bronze); background:#fff;}
+  .login-input-wrap{ position:relative; }
+  .login-input.with-icon{ padding-left:38px; }
+  .login-input.with-eye{ padding-right:38px; }
+  .login-input-icon{
+    position:absolute; left:12px; top:0; bottom:14px; display:flex; align-items:center; color:var(--text-muted); pointer-events:none;
+  }
+  .login-input-icon .ic{ width:16px; height:16px; }
+  .login-eye-btn{
+    position:absolute; right:10px; top:0; bottom:14px; display:flex; align-items:center; background:none; border:none;
+    color:var(--text-muted); cursor:pointer; padding:0 4px;
+  }
+  .login-eye-btn:hover{ color:var(--bronze); }
+  .login-eye-btn .ic{ width:17px; height:17px; }
+  .susp-ic{ flex-shrink:0; margin-top:2px; color:var(--danger); width:15px; height:15px; }
   .login-error{color:var(--danger); font-size:12px; font-weight:600; min-height:16px; margin-bottom:6px;}
   .login-btn{
     width:100%; background:var(--ink); color:#fff; border:none; padding:12px; border-radius:10px;
@@ -154,7 +175,7 @@
   /* ---------- PANTALLA DE CIERRE DE SESIÓN ---------- */
   .logout-screen{
     position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center;
-    background:linear-gradient(160deg,var(--slate-blue),#1f3a52);
+    background:linear-gradient(160deg,var(--ink),var(--ink-soft));
   }
   .logout-screen.open{ display:flex; }
   .logout-screen-card{ text-align:center; color:#fff; }
@@ -167,6 +188,17 @@
   @keyframes iosSpinFade{ 0%{opacity:1;} 100%{opacity:.2;} }
   .logout-screen-card h2{ font-family:'Lora',serif; font-size:21px; margin-bottom:10px; }
   .logout-screen-card p{ font-size:13px; color:#cfe0ea; min-height:18px; transition:opacity .3s ease; }
+  .logout-progress-track{
+    width:220px; height:5px; background:rgba(255,255,255,.15); border-radius:6px; margin:18px auto 6px; overflow:hidden;
+  }
+  .logout-progress-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,#c99a52,#e0ab4a); border-radius:6px; transition:width .3s linear;
+  }
+  .logout-progress-pct{ font-family:'IBM Plex Mono'; font-size:11px; color:#c99a52; font-weight:700; letter-spacing:.5px; }
+  .logout-brand-lockup{ display:flex; align-items:center; justify-content:center; gap:9px; margin-top:26px; }
+  .logout-brand-lockup .brand-mark{ cursor:default; }
+  .logout-brand-lockup .brand-name{ color:#fff; }
+  .logout-brand-lockup .brand-name span{ color:#c99a52; }
 
   .more-menu{
     position:absolute; right:0; top:44px; background:#fff; color:var(--text-main);
@@ -317,7 +349,7 @@
 
   .service-card{
     background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px;
-    display:flex; flex-direction:row; align-items:stretch; gap:16px; margin-bottom:16px;
+    display:flex; flex-direction:row; align-items:flex-start; gap:16px; margin-bottom:16px;
     transition:opacity .15s ease;
   }
   .service-card.dragging{ opacity:.4; }
@@ -328,8 +360,8 @@
     display:flex;align-items:center;justify-content:center; font-size:22px;
   }
   .service-card-img{
-    width:96px; flex-shrink:0; min-height:96px; border-radius:12px; overflow:hidden; background:var(--paper);
-    display:flex; align-items:center; justify-content:center;
+    position:relative; width:150px; height:104px; flex-shrink:0; border-radius:12px; overflow:hidden; background:var(--paper);
+    display:flex; align-items:center; justify-content:center; align-self:flex-start;
   }
   .service-card-img img{ width:100%; height:100%; object-fit:cover; display:block; }
   .service-card-content{ flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; justify-content:center; }
@@ -418,6 +450,46 @@
   .nb-adjunto-filepicker:hover{ border-color:var(--bronze); color:var(--bronze); background:var(--bronze-soft); }
   .nb-adjunto-link-alt{ margin-top:8px; }
   .nb-adjunto-link-alt summary{ font-size:11px; color:var(--text-muted); cursor:pointer; text-decoration:underline; }
+
+  /* ---------- FILTROS Y ETIQUETAS DORADAS (Educación / Bots IA) ---------- */
+  .gold-filter-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .gold-filter-chip{
+    background:#fff; border:1.5px solid #a9752f; color:#8a5e22; font-size:11.5px; font-weight:700;
+    padding:5px 15px; border-radius:16px; cursor:pointer; transition:.15s ease; letter-spacing:.2px;
+  }
+  .gold-filter-chip:hover{ background:var(--bronze-soft); }
+  .gold-filter-chip.color-green{ border-color:#2f7350; color:#2f7350; }
+  .gold-filter-chip.color-green:hover{ background:#e8f3ec; }
+  .gold-filter-chip.color-bronze{ border-color:#a9752f; color:#8a5e22; }
+  .gold-filter-chip.color-ink{ border-color:var(--ink-soft); color:var(--ink); }
+  .gold-filter-chip.color-ink:hover{ background:#e9edf1; }
+  .navy-filter-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .navy-filter-chip{
+    background:#fff; border:1.5px solid var(--ink); color:var(--ink); font-size:11.5px; font-weight:700;
+    padding:5px 15px; border-radius:16px; cursor:pointer; transition:.15s ease; letter-spacing:.2px;
+  }
+  .navy-filter-chip:hover{ background:var(--paper); border-color:var(--ink-soft); }
+  .navy-filter-chip.active{
+    background:linear-gradient(135deg,var(--ink),var(--ink-soft)); border-color:transparent; color:#fff;
+    box-shadow:0 4px 14px rgba(19,34,52,.35);
+  }
+  .service-card-badges{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:2px; }
+  .gold-tag-overlay{
+    position:absolute; top:6px; right:6px; background:linear-gradient(135deg,#a9752f,#7a5019); color:#fff;
+    font-size:8.5px; font-weight:800; padding:3px 8px; border-radius:10px; letter-spacing:.3px; text-transform:uppercase;
+    box-shadow:0 2px 6px rgba(0,0,0,.25); z-index:1;
+  }
+  .gold-tag{
+    display:inline-block; background:linear-gradient(90deg,#c99a52 0%,#c99a52 80%,#7a5019 100%); color:#fff; font-size:9.5px; font-weight:800;
+    padding:3px 10px; border-radius:12px; letter-spacing:.4px; text-transform:uppercase; box-shadow:0 2px 6px rgba(122,80,25,.35);
+  }
+  .nivel-chip{
+    display:inline-block; background:var(--paper); border:1px solid #d9b876; color:var(--bronze); font-size:9.5px; font-weight:700;
+    padding:3px 10px; border-radius:12px; letter-spacing:.3px; text-transform:uppercase;
+  }
+  .nivel-chip.color-green{ background:#e8f3ec; border-color:#4a9b6e; color:#2f7350; }
+  .nivel-chip.color-bronze{ background:var(--paper); border-color:#d9b876; color:var(--bronze); }
+  .nivel-chip.color-ink{ background:#e9edf1; border-color:var(--ink-soft); color:var(--ink); }
 
   /* ---------- GESTIÓN DE USUARIOS ---------- */
   .user-mgmt-bulkbar{
@@ -683,7 +755,7 @@
   .plan-lock-fomo-title{ font-family:'IBM Plex Mono'; font-size:10.5px; font-weight:700; color:var(--bronze); text-transform:uppercase; letter-spacing:.5px; margin-bottom:9px; }
   .plan-lock-fomo ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px; }
   .plan-lock-fomo li{ font-size:13px; color:var(--text-main); display:flex; align-items:flex-start; gap:8px; line-height:1.45; }
-  .plan-lock-fomo li::before{ content:"✨"; flex-shrink:0; }
+  .plan-lock-fomo li .ic{ flex-shrink:0; margin-top:2px; color:var(--bronze); width:14px; height:14px; }
   .plan-lock-actions{ display:flex; flex-direction:column; align-items:stretch; gap:10px; margin-bottom:14px; }
   .plan-lock-actions .btn-whatsapp-plan{ justify-content:center; }
   .plan-lock-actions .nb-btn{ width:100%; padding:11px; border-radius:10px; }
@@ -1073,6 +1145,14 @@
     <div class="logout-spinner" id="logoutSpinner"></div>
     <h2 id="logoutScreenTitle">Cerrando sesión</h2>
     <p id="logoutStatusMsg">Cerrando sesión…</p>
+    <div class="logout-progress-track">
+      <div class="logout-progress-fill" id="logoutProgressFill"></div>
+    </div>
+    <div class="logout-progress-pct" id="logoutProgressPct">0%</div>
+    <div class="logout-brand-lockup" id="logoutBrandLockup" style="display:none;">
+      <div class="brand-mark">MU</div>
+      <div class="brand-name">Modernización <span>Urbana</span></div>
+    </div>
   </div>
 </div>
 
@@ -1100,9 +1180,9 @@
       <div class="plan-lock-fomo" style="text-align:left;">
         <div class="plan-lock-fomo-title">Importante</div>
         <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px;">
-          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>💾</span><span>Tus sesiones, notas y proyectos quedan <b>resguardados sin cambios</b> — no se borra nada.</span></li>
-          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>🔓</span><span>Vas a poder acceder a todo con normalidad apenas se regularice el pago.</span></li>
-          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span>👤</span><span>Comunicate con <b id="suspendedReferente">el área a cargo de abonar el servicio</b> en tu municipio, o escribinos directamente a nosotros.</span></li>
+          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span class="susp-ic" id="suspIc1"></span><span><b>Tus sesiones, notas y proyectos quedan resguardados sin cambios</b> — no se borra nada.</span></li>
+          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span class="susp-ic" id="suspIc2"></span><span>Vas a poder acceder a todo con normalidad apenas se regularice el pago.</span></li>
+          <li style="font-size:13px; color:var(--text-main); display:flex; gap:8px; align-items:flex-start;"><span class="susp-ic" id="suspIc3"></span><span>Comunicate con <b id="suspendedReferente">el área a cargo de abonar el servicio</b> en tu municipio, o escribinos directamente a nosotros.</span></li>
         </ul>
       </div>
       <div class="plan-lock-actions">
@@ -1126,9 +1206,16 @@
     <h1 class="serif login-title">Ingresá a tu cuenta</h1>
     <p class="login-sub">Accedé con tu usuario para ver tu digesto normativo.</p>
     <label class="login-label">Usuario</label>
-    <input type="text" id="loginUser" class="login-input" placeholder="Ej: admin" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+    <div class="login-input-wrap">
+      <span class="login-input-icon" id="loginUserIcon"></span>
+      <input type="text" id="loginUser" class="login-input with-icon" placeholder="Ej: admin" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+    </div>
     <label class="login-label">Contraseña</label>
-    <input type="password" id="loginPass" class="login-input" placeholder="••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()">
+    <div class="login-input-wrap">
+      <span class="login-input-icon" id="loginPassIcon"></span>
+      <input type="password" id="loginPass" class="login-input with-icon with-eye" placeholder="••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')attemptLogin()">
+      <button type="button" class="login-eye-btn" id="loginEyeBtn" onclick="toggleLoginPassVisibility()" title="Mostrar/ocultar contraseña"></button>
+    </div>
     <div class="login-error" id="loginError"></div>
     <button class="login-btn" onclick="attemptLogin()">Ingresar</button>
     <a href="#" onclick="event.preventDefault(); openRecuperoPopup();" style="display:block; text-align:center; margin-top:12px; font-size:11.5px; color:var(--slate-blue); text-decoration:underline;">¿Olvidaste tu usuario o tu contraseña?</a>
@@ -1282,6 +1369,10 @@
     <textarea id="cursoDescripcion" class="nb-textarea" style="min-height:80px;" placeholder="De qué se trata el curso..."></textarea>
     <label class="login-label">Imagen de muestra (URL)</label>
     <input id="cursoImagen" class="login-input" placeholder="https://... (foto de portada del curso)">
+    <label class="login-label">Nivel — para el filtro</label>
+    <select id="cursoNivel" class="nb-reason-select"></select>
+    <label class="login-label">Etiqueta destacada — se muestra junto al nivel (solo una)</label>
+    <select id="cursoEtiqueta" class="nb-reason-select"></select>
     <label class="login-label">Link "Ir al Curso"</label>
     <input id="cursoLinkCurso" class="login-input" placeholder="https://...">
     <label class="login-label">Link "Acerca del Curso" (opcional)</label>
@@ -1305,6 +1396,10 @@
     <textarea id="botDescripcion" class="nb-textarea" style="min-height:80px;" placeholder="Qué hace este asistente..."></textarea>
     <label class="login-label">Imagen de muestra (URL, opcional)</label>
     <input id="botImagen" class="login-input" placeholder="https://...">
+    <label class="login-label">Motor de IA — para el filtro</label>
+    <select id="botMotor" class="nb-reason-select"></select>
+    <label class="login-label">Etiqueta destacada — se muestra sobre el título (solo una)</label>
+    <select id="botEtiqueta" class="nb-reason-select"></select>
     <label class="login-label">Link "Ir al Bot"</label>
     <input id="botLinkBot" class="login-input" placeholder="https://...">
     <label class="login-label">Link "Saber más" (opcional)</label>
@@ -1610,7 +1705,7 @@ function openPlanLockPopup(scope){
   const iconEl = document.getElementById('planLockIconEl'); if(iconEl) iconEl.innerHTML = ic('lock');
   document.getElementById('planLockIntro').innerHTML = `Estás en <b>${nbEsc(planLabel(currentUserPlan))}</b>. Para acceder a esta sección necesitás mejorar tu plan.`;
   const list = document.getElementById('planLockList');
-  list.innerHTML = (PLAN_LOCK_FOMO[scope]||[]).map(t=>`<li>${nbEsc(t)}</li>`).join('');
+  list.innerHTML = (PLAN_LOCK_FOMO[scope]||[]).map(t=>`<li>${ic('check')}<span>${nbEsc(t)}</span></li>`).join('');
   const wa = document.getElementById('planLockWa');
   const msg = `Hola, quiero consultar sobre mejorar mi plan (estoy en ${planLabel(currentUserPlan)}) para acceder a la sección ${scope==='pais'?'País':'Mundo'}.`;
   wa.href = `https://wa.me/${CONSULTORA_WHATSAPP}?text=${encodeURIComponent(msg)}`;
@@ -1881,6 +1976,19 @@ const LOGOUT_MESSAGES = [
   'Verificando que todo esté guardado…',
   'Listo. ¡Hasta la próxima!'
 ];
+function animateProgress(durationMs, onTick){
+  const fill = document.getElementById('logoutProgressFill');
+  const pct = document.getElementById('logoutProgressPct');
+  const start = Date.now();
+  const iv = setInterval(()=>{
+    const elapsed = Date.now() - start;
+    const pctVal = Math.min(100, Math.round((elapsed/durationMs)*100));
+    fill.style.width = pctVal + '%';
+    pct.textContent = pctVal + '%';
+    if(pctVal >= 100) clearInterval(iv);
+  }, 60);
+  return iv;
+}
 function runWelcomeScreen(){
   const screen = document.getElementById('logoutScreen');
   const spinner = document.getElementById('logoutSpinner');
@@ -1888,10 +1996,14 @@ function runWelcomeScreen(){
   const msgEl = document.getElementById('logoutStatusMsg');
   spinner.innerHTML = iosSpinnerHTML();
   titleEl.textContent = 'Bienvenido/a';
-  msgEl.textContent = 'Bienvenido al Digesto más Avanzado — Modernización Urbana';
+  msgEl.textContent = 'al Digesto más Avanzado';
   msgEl.style.opacity = '1';
+  document.getElementById('logoutBrandLockup').style.display = 'flex';
+  document.getElementById('logoutProgressFill').style.width = '0%';
+  document.getElementById('logoutProgressPct').textContent = '0%';
   screen.classList.add('open');
-  setTimeout(()=>{ screen.classList.remove('open'); }, 3000);
+  animateProgress(3000);
+  setTimeout(()=>{ screen.classList.remove('open'); document.getElementById('logoutBrandLockup').style.display = 'none'; }, 3000);
 }
 function runLoadingScreen(mode, onDone){
   const screen = document.getElementById('logoutScreen');
@@ -1900,9 +2012,13 @@ function runLoadingScreen(mode, onDone){
   const msgEl = document.getElementById('logoutStatusMsg');
   spinner.innerHTML = iosSpinnerHTML();
   titleEl.textContent = mode==='boot' ? 'Cargando' : 'Cerrando sesión';
+  document.getElementById('logoutBrandLockup').style.display = 'none';
+  document.getElementById('logoutProgressFill').style.width = '0%';
+  document.getElementById('logoutProgressPct').textContent = '0%';
   screen.classList.add('open');
   const mensajes = mode==='boot' ? BOOT_MESSAGES : LOGOUT_MESSAGES;
   const totalMs = 5000;
+  animateProgress(totalMs);
   const stepMs = totalMs / mensajes.length;
   let i = 0;
   msgEl.textContent = mensajes[0];
@@ -2230,7 +2346,7 @@ function userMgmtRenderList(){
     <div class="search-row" style="margin-bottom:10px;">
       <div class="search-box">
         <span class="ic search-ic">${ic('search')}</span>
-        <input type="text" placeholder="Buscar por nombre, usuario o N° de usuario..." value="${nbEscAttr(userMgmtFilter.q)}" oninput="userMgmtFilter.q=this.value; userMgmtRenderList();">
+        <input type="text" id="userMgmtSearchInput" placeholder="Buscar por nombre, usuario o N° de usuario..." value="${nbEscAttr(userMgmtFilter.q)}" oninput="userMgmtOnSearch(this.value)">
       </div>
       <select class="nb-reason-select" style="max-width:170px;" onchange="userMgmtFilter.municipio=this.value; userMgmtRenderList();">
         <option value="">Toda localidad</option>
@@ -2287,6 +2403,12 @@ function userMgmtRenderList(){
       }).join('') || '<div class="nb-empty">Sin resultados con esos filtros.</div>'}
     </div>
   `;
+}
+function userMgmtOnSearch(v){
+  userMgmtFilter.q = v;
+  userMgmtRenderList();
+  const el = document.getElementById('userMgmtSearchInput');
+  if(el){ el.focus(); el.setSelectionRange(v.length, v.length); }
 }
 function userMgmtToggleOne(user, checked){ if(checked) userMgmtSeleccion.add(user); else userMgmtSeleccion.delete(user); userMgmtRenderList(); }
 function userMgmtToggleAll(checked){
@@ -2578,11 +2700,28 @@ async function nbDrop(e, listName, idx){
   }
 }
 
+/* Clasificación para filtrar (nivel) y para lucir en la tarjeta (etiquetas destacadas). */
+function capBadge(id, taxonomy, baseClass){
+  const item = taxonomy.find(x=>x.id===id);
+  if(!item) return '';
+  return `<span class="${baseClass} color-${item.color}">${nbEsc(item.label)}</span>`;
+}
+const NIVELES_CAPACITACION = [
+  { id:'inicial', label:'Inicial', color:'green' },
+  { id:'intermedio', label:'Intermedio', color:'bronze' },
+  { id:'avanzado', label:'Avanzado', color:'ink' }
+];
+const ETIQUETAS_CAPACITACION = [
+  { id:'recomendada', label:'Recomendada', color:'bronze' },
+  { id:'nueva', label:'Nueva', color:'green' },
+  { id:'sugerido', label:'Sugerido', color:'slate' },
+  { id:'popular', label:'Popular', color:'danger' }
+];
 const CURSOS_SEED = [
-  { id:'c1', titulo:'IA de Análisis y Redacción Normativa', descripcion:'Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.', imagenUrl:'https://static.vecteezy.com/system/resources/previews/000/660/676/non_2x/vector-computer-courses-logo.jpg', linkCurso:'', linkInfo:'' },
-  { id:'c2', titulo:'Técnica Legislativa Municipal', descripcion:'Cómo estructurar un VISTO, un CONSIDERANDO y un articulado sólido; errores frecuentes que invalidan una ordenanza; y buenas prácticas de redacción normativa a nivel municipal.', imagenUrl:'', linkCurso:'', linkInfo:'' },
-  { id:'c3', titulo:'Análisis de Impacto Normativo', descripcion:'Metodología para evaluar el impacto económico, social y urbanístico de una norma antes de sancionarla, y cómo presentar esos hallazgos al Concejo Deliberante.', imagenUrl:'', linkCurso:'', linkInfo:'' },
-  { id:'c4', titulo:'Estrategia y Gestión Legislativa', descripcion:'Cómo priorizar una agenda legislativa, construir consensos entre bloques, y planificar la implementación de una norma una vez sancionada.', imagenUrl:'', linkCurso:'', linkInfo:'' }
+  { id:'c1', titulo:'IA de Análisis y Redacción Normativa', descripcion:'Curso certificado sobre el uso de inteligencia artificial para el análisis técnico de normativas y la elaboración de proyectos legislativos.', imagenUrl:'https://static.vecteezy.com/system/resources/previews/000/660/676/non_2x/vector-computer-courses-logo.jpg', linkCurso:'', linkInfo:'', nivel:'avanzado', etiqueta:'recomendada' },
+  { id:'c2', titulo:'Técnica Legislativa Municipal', descripcion:'Cómo estructurar un VISTO, un CONSIDERANDO y un articulado sólido; errores frecuentes que invalidan una ordenanza; y buenas prácticas de redacción normativa a nivel municipal.', imagenUrl:'', linkCurso:'', linkInfo:'', nivel:'inicial', etiqueta:'nueva' },
+  { id:'c3', titulo:'Análisis de Impacto Normativo', descripcion:'Metodología para evaluar el impacto económico, social y urbanístico de una norma antes de sancionarla, y cómo presentar esos hallazgos al Concejo Deliberante.', imagenUrl:'', linkCurso:'', linkInfo:'', nivel:'intermedio', etiqueta:'popular' },
+  { id:'c4', titulo:'Estrategia y Gestión Legislativa', descripcion:'Cómo priorizar una agenda legislativa, construir consensos entre bloques, y planificar la implementación de una norma una vez sancionada.', imagenUrl:'', linkCurso:'', linkInfo:'', nivel:'avanzado', etiqueta:'sugerido' }
 ];
 let cursosList = [];
 async function fetchCursos(){
@@ -2600,17 +2739,28 @@ async function renderEducacionPage(){
   const root = document.getElementById('educacionRoot');
   cursosList = await fetchCursos();
   const isAdmin = isConsultoraAdmin();
+  const list = cursosList.filter(c=>!educacionFiltroNivel || c.nivel===educacionFiltroNivel);
   root.innerHTML = `
     <div class="section-eyebrow">Capacitación</div>
     <div class="section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
       <span>Cursos certificados</span>
       ${isAdmin?`<button class="nb-btn tiny" onclick="openCursoForm()">${ic('plus')} Nuevo curso</button>`:''}
     </div>
-    ${cursosList.map((c,idx)=>`
+    <div class="gold-filter-row">
+      <button class="gold-filter-chip ${!educacionFiltroNivel?'active':''}" onclick="educacionSetFiltroNivel('')">Todas</button>
+      ${NIVELES_CAPACITACION.map(n=>`<button class="gold-filter-chip color-${n.color} ${educacionFiltroNivel===n.id?'active':''}" onclick="educacionSetFiltroNivel('${n.id}')">${n.label}</button>`).join('')}
+    </div>
+    ${list.map((c,idx)=>`
       <div class="service-card" ${isAdmin?`draggable="true" ondragstart="nbDragStart(event,'cursos',${idx})" ondragover="nbDragOver(event)" ondrop="nbDrop(event,'cursos',${idx})" ondragend="nbDragEnd(event)"`:''}>
         ${isAdmin?`<span class="drag-handle" title="Arrastrar para reordenar">⠿</span>`:''}
-        <div class="service-card-img">${c.imagenUrl?`<img src="${nbEscAttr(c.imagenUrl)}" alt="${nbEscAttr(c.titulo)}">`:`<div class="icon-box">${ic('cap')}</div>`}</div>
+        <div class="service-card-img">
+          ${c.imagenUrl?`<img src="${nbEscAttr(c.imagenUrl)}" alt="${nbEscAttr(c.titulo)}">`:`<div class="icon-box">${ic('cap')}</div>`}
+        </div>
         <div class="service-card-content">
+          <div class="service-card-badges">
+            ${c.nivel?capBadge(c.nivel, NIVELES_CAPACITACION, 'nivel-chip'):''}
+            ${c.etiqueta?capBadge(c.etiqueta, ETIQUETAS_CAPACITACION, 'gold-tag'):''}
+          </div>
           <h3>${nbEsc(c.titulo)}</h3>
           <p>${nbEsc(c.descripcion||'')}</p>
           <div class="btn-row">
@@ -2621,9 +2771,11 @@ async function renderEducacionPage(){
           </div>
         </div>
       </div>
-    `).join('')}
+    `).join('') || `<div class="empty-state"><div class="glyph">🎓</div>No hay cursos con ese filtro.</div>`}
   `;
 }
+let educacionFiltroNivel = '';
+function educacionSetFiltroNivel(nivel){ educacionFiltroNivel = nivel; renderEducacionPage(); }
 function openCursoInfoPopup(cursoId){
   const c = cursosList.find(x=>x.id===cursoId); if(!c) return;
   nbInfoPromptPopup(c.titulo, 'info', c.infoDetalle||c.descripcion, c.linkInfo, null);
@@ -2638,6 +2790,10 @@ function openCursoForm(editId){
   document.getElementById('cursoLinkCurso').value = editing ? (editing.linkCurso||'') : '';
   document.getElementById('cursoLinkInfo').value = editing ? (editing.linkInfo||'') : '';
   document.getElementById('cursoInfoDetalle').value = editing ? (editing.infoDetalle||'') : '';
+  document.getElementById('cursoNivel').innerHTML = `<option value="">Sin especificar</option>` +
+    NIVELES_CAPACITACION.map(n=>`<option value="${n.id}" ${editing&&editing.nivel===n.id?'selected':''}>${n.label}</option>`).join('');
+  document.getElementById('cursoEtiqueta').innerHTML = `<option value="">Sin etiqueta</option>` +
+    ETIQUETAS_CAPACITACION.map(e=>`<option value="${e.id}" ${editing&&editing.etiqueta===e.id?'selected':''}>${e.label}</option>`).join('');
   document.getElementById('cursoFormOverlay').dataset.editId = editId || '';
   document.getElementById('cursoFormOverlay').classList.add('open');
 }
@@ -2652,7 +2808,9 @@ async function submitCurso(){
     imagenUrl: document.getElementById('cursoImagen').value.trim(),
     linkCurso: document.getElementById('cursoLinkCurso').value.trim(),
     linkInfo: document.getElementById('cursoLinkInfo').value.trim(),
-    infoDetalle: document.getElementById('cursoInfoDetalle').value.trim()
+    infoDetalle: document.getElementById('cursoInfoDetalle').value.trim(),
+    nivel: document.getElementById('cursoNivel').value,
+    etiqueta: document.getElementById('cursoEtiqueta').value
   };
   if(editId){ cursosList = cursosList.map(x=>x.id===editId?item:x); }
   else{ cursosList = [item, ...cursosList]; }
@@ -2673,9 +2831,15 @@ function deleteCurso(id){
 }
 
 /* ============ BOTS DE IA (ChatGPT) — editable por consultora ============ */
+const MOTORES_IA = [
+  { id:'claude', label:'Claude' },
+  { id:'gemini', label:'Gemini' },
+  { id:'chatgpt', label:'ChatGPT' },
+  { id:'otros', label:'Otros' }
+];
 const BOTS_SEED = [
-  { id:'b1', nombre:'IA de Análisis y Redacción Normativa', descripcion:'Asistente especializado en el análisis técnico de las normas de tu digesto y en la elaboración de nuevos proyectos legislativos a partir de normas existentes.', imagenUrl:'https://media.designrush.com/inspiration_images/1066358/conversions/2_1105ae18477a-mobile-webp.webp', linkBot:'', linkInfo:'', planMinimo:'propio' },
-  { id:'b2', nombre:'IA de Análisis Normativo Técnico', descripcion:'Buscá documentos específicos entre las normas cargadas de tu municipio, con respuestas trazables a la ordenanza de origen.', imagenUrl:'', linkBot:'', linkInfo:'', planMinimo:'propio' }
+  { id:'b1', nombre:'IA de Análisis y Redacción Normativa', descripcion:'Asistente especializado en el análisis técnico de las normas de tu digesto y en la elaboración de nuevos proyectos legislativos a partir de normas existentes.', imagenUrl:'https://media.designrush.com/inspiration_images/1066358/conversions/2_1105ae18477a-mobile-webp.webp', linkBot:'', linkInfo:'', planMinimo:'propio', motor:'claude', etiqueta:'recomendada' },
+  { id:'b2', nombre:'IA de Análisis Normativo Técnico', descripcion:'Buscá documentos específicos entre las normas cargadas de tu municipio, con respuestas trazables a la ordenanza de origen.', imagenUrl:'', linkBot:'', linkInfo:'', planMinimo:'propio', motor:'chatgpt', etiqueta:'nueva' }
 ];
 let botsList = [];
 async function fetchBots(){
@@ -2693,19 +2857,29 @@ async function renderChatgptPage(){
   const root = document.getElementById('chatgptRoot');
   botsList = await fetchBots();
   const isAdmin = isConsultoraAdmin();
+  const list = botsList.filter(b=>!botsFiltroMotor || b.motor===botsFiltroMotor);
   root.innerHTML = `
     <div class="section-eyebrow">Inteligencia Artificial Especializada</div>
     <div class="section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
       <span>Asistentes de análisis y redacción normativa</span>
       ${isAdmin?`<button class="nb-btn tiny" onclick="openBotForm()">${ic('plus')} Nuevo bot</button>`:''}
     </div>
-    ${botsList.map((b,idx)=>{
+    <div class="navy-filter-row">
+      <button class="navy-filter-chip ${!botsFiltroMotor?'active':''}" onclick="botsSetFiltroMotor('')">Todos</button>
+      ${MOTORES_IA.map(m=>`<button class="navy-filter-chip ${botsFiltroMotor===m.id?'active':''}" onclick="botsSetFiltroMotor('${m.id}')">${m.label}</button>`).join('')}
+    </div>
+    ${list.map((b,idx)=>{
       const bloqueado = !scopeUnlockedForPlan(b.planMinimo||'propio');
       return `
       <div class="service-card" ${isAdmin?`draggable="true" ondragstart="nbDragStart(event,'bots',${idx})" ondragover="nbDragOver(event)" ondrop="nbDrop(event,'bots',${idx})" ondragend="nbDragEnd(event)"`:''}>
         ${isAdmin?`<span class="drag-handle" title="Arrastrar para reordenar">⠿</span>`:''}
-        <div class="service-card-img">${b.imagenUrl?`<img src="${nbEscAttr(b.imagenUrl)}" alt="${nbEscAttr(b.nombre)}">`:`<div class="icon-box">${ic('cpu')}</div>`}</div>
+        <div class="service-card-img">
+          ${b.imagenUrl?`<img src="${nbEscAttr(b.imagenUrl)}" alt="${nbEscAttr(b.nombre)}">`:`<div class="icon-box">${ic('cpu')}</div>`}
+        </div>
         <div class="service-card-content">
+          <div class="service-card-badges">
+            ${b.etiqueta?capBadge(b.etiqueta, ETIQUETAS_CAPACITACION, 'gold-tag'):''}
+          </div>
           <h3>${nbEsc(b.nombre)} ${bloqueado?'<span class="lock-badge">'+ic('lock')+' '+planLabel(b.planMinimo)+' o superior</span>':''}</h3>
           <p>${nbEsc(b.descripcion||'')}</p>
           <div class="btn-row">
@@ -2717,9 +2891,11 @@ async function renderChatgptPage(){
           </div>
         </div>
       </div>`;
-    }).join('')}
+    }).join('') || `<div class="empty-state"><div class="glyph">🤖</div>No hay bots con ese filtro.</div>`}
   `;
 }
+let botsFiltroMotor = '';
+function botsSetFiltroMotor(motor){ botsFiltroMotor = motor; renderChatgptPage(); }
 const PROMPT_SUGERENCIAS_DEFAULT = [
   'Ayudame a armar un anteproyecto de ordenanza sobre [tema], con VISTO, CONSIDERANDO y articulado.',
   'Analizá esta norma y decime si tiene contradicciones con otra que te voy a pasar.',
@@ -2768,6 +2944,9 @@ function openBotForm(editId){
   document.getElementById('botNombre').value = editing ? editing.nombre : '';
   document.getElementById('botDescripcion').value = editing ? (editing.descripcion||'') : '';
   document.getElementById('botImagen').value = editing ? (editing.imagenUrl||'') : '';
+  document.getElementById('botMotor').innerHTML = MOTORES_IA.map(m=>`<option value="${m.id}" ${editing&&editing.motor===m.id?'selected':''}>${m.label}</option>`).join('');
+  document.getElementById('botEtiqueta').innerHTML = `<option value="">Sin etiqueta</option>` +
+    ETIQUETAS_CAPACITACION.map(e=>`<option value="${e.id}" ${editing&&editing.etiqueta===e.id?'selected':''}>${e.label}</option>`).join('');
   document.getElementById('botLinkBot').value = editing ? (editing.linkBot||'') : '';
   document.getElementById('botLinkInfo').value = editing ? (editing.linkInfo||'') : '';
   document.getElementById('botInfoDetalle').value = editing ? (editing.infoDetalle||'') : '';
@@ -2789,7 +2968,9 @@ async function submitBot(){
     linkInfo: document.getElementById('botLinkInfo').value.trim(),
     infoDetalle: document.getElementById('botInfoDetalle').value.trim(),
     promptSugerencias: document.getElementById('botPrompts').value.split('\n').map(s=>s.trim()).filter(Boolean),
-    planMinimo: document.getElementById('botPlanMinimo').value
+    planMinimo: document.getElementById('botPlanMinimo').value,
+    motor: document.getElementById('botMotor').value,
+    etiqueta: document.getElementById('botEtiqueta').value
   };
   if(editId){ botsList = botsList.map(x=>x.id===editId?item:x); }
   else{ botsList = [item, ...botsList]; }
@@ -5405,6 +5586,7 @@ const ICONS = {
   download: '<path d="M12 3v12"/><polyline points="7 11 12 16 17 11"/><path d="M4 20h16"/>',
   eyeOff: '<path d="M3 3l18 18"/><path d="M10.6 5.1A10.4 10.4 0 0 1 12 5c6 0 10 7 10 7a17.3 17.3 0 0 1-3.4 4.1M6.6 6.6C4 8.3 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/><path d="M9.5 9.5a3 3 0 0 0 4.2 4.2"/>',
   info: '<circle cx="12" cy="12" r="9"/><line x1="12" y1="7" x2="12" y2="13"/><line x1="12" y1="16" x2="12" y2="16.01"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
   monitor: '<rect x="3" y="4" width="18" height="12" rx="1.5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/>',
   glyph: '<circle cx="12" cy="12" r="9"/>'
 };
@@ -6383,8 +6565,24 @@ async function submitRegistroObligatorio(){
   nbToast('Registro completado');
   maybeStartTour();
 }
+function paintLoginIcons(){
+  const userIcon = document.getElementById('loginUserIcon'); if(userIcon) userIcon.innerHTML = ic('mail');
+  const passIcon = document.getElementById('loginPassIcon'); if(passIcon) passIcon.innerHTML = ic('lock');
+  const eyeBtn = document.getElementById('loginEyeBtn'); if(eyeBtn) eyeBtn.innerHTML = ic('eyeOff');
+  const s1 = document.getElementById('suspIc1'); if(s1) s1.innerHTML = ic('files');
+  const s2 = document.getElementById('suspIc2'); if(s2) s2.innerHTML = ic('lockOpen');
+  const s3 = document.getElementById('suspIc3'); if(s3) s3.innerHTML = ic('user');
+}
+function toggleLoginPassVisibility(){
+  const input = document.getElementById('loginPass');
+  const eyeBtn = document.getElementById('loginEyeBtn');
+  const oculto = input.type === 'password';
+  input.type = oculto ? 'text' : 'password';
+  eyeBtn.innerHTML = oculto ? ic('eye') : ic('eyeOff');
+}
 checkMaintenanceMode();
 loadMunicipiosNuevos();
+paintLoginIcons();
 runWelcomeScreen();
 </script>
 </body>
